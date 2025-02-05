@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <?php
 require_once './funciones.inc.php';
 $error = "";
@@ -34,7 +34,7 @@ if (filter_has_var(INPUT_POST, "enviar")) {
         }
 
         // Si no hay errores, verificamos si el usuario existe
-        if (empty($error)) {
+        if (!isset($error)) {
             if ($fila !== false) {
                 // Ciframos la contraseña ingresada por el usuario
                 $passwordCifrada = hash('sha256', $password); 
@@ -70,7 +70,7 @@ if (filter_has_var(INPUT_POST, "enviar")) {
         <form action='' method='post'>
             <fieldset>
                 <legend>Login</legend>
-                <div><span class='error'><?php echo $error; ?></span></div><!-- Espacio para mensajes de error -->
+                <div><span class='error'><?php if(isset($error)) echo $error; ?></span></div><!-- Espacio para mensajes de error -->
                 <div class='campo'>
                     <label for='usuario'>Usuario: </label><br/>
                     <input type='text' name='usuario' id='usuario' maxlength="50" /><br/>
