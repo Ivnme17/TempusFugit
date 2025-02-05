@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  mysql:
+      image: mysql:8
+      container_name: mysql
+      environment:
+        MYSQL_DATABASE: tempus fugit
+        MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      volumes:
+        - ./mysql-data:/var/lib/mysql
+
+
+
+      ports:
+        - "3306:3306"
+      
+      networks:
+        - app-network
+    
+  php:
+    image: php:8.0-apache
+    container_name: php
+    volumes:
+      - ./src:/var/www/html
+
+    ports:
+      - "8080:80"
+
+
+    networks:
+      - app-network
+    
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: mysql
+    ports:
+      - "8081:80"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
