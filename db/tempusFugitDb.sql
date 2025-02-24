@@ -68,3 +68,61 @@ CREATE TABLE Gestion (
     CONSTRAINT fk_gestion_idEmpleado FOREIGN KEY (ID_Empleado) REFERENCES Empleados(ID_Empleado) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_gestion_idReloj FOREIGN KEY (ID_reloj) REFERENCES Relojes(ID_reloj) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+
+/*REGISTROS PARA CADA TABLA*/
+
+INSERT INTO Roles (ID_rol, tipo) VALUES
+(1, 'Administrador'),
+(2, 'Empleado'),
+(3, 'Cliente'),
+(4, 'Supervisor');
+
+
+INSERT INTO Usuarios (ID_Usuario, nombre, apellidos, contrasena, ID_rol) VALUES
+('U001', 'Juan', 'Pérez García', 'password123', 1),
+('U002', 'Ana', 'López Martínez', 'password456', 2),
+('U003', 'Carlos', 'Sánchez Fernández', 'password789', 3),
+('U004', 'María', 'Gómez Ruiz', 'password101', 2),
+('U005', 'Luis', 'Martín Díaz', 'password202', 3),
+('U006', 'Elena', 'Torres Vázquez', 'password303', 3);
+
+INSERT INTO Clientes (ID_Cliente, telefono, correo, direccion, IBAN) VALUES
+('U003', '600123456', 'carlos.sanchez@example.com', 'Calle Falsa 123, Madrid', 'ES9121000418450200051332'),
+('U005', '611234567', 'luis.martin@example.com', 'Avenida Real 45, Barcelona', 'ES7621000418450200056789'),
+('U006', '622345678', 'elena.torres@example.com', 'Plaza Mayor 67, Valencia', 'ES4521000418450200059876');
+
+INSERT INTO Empleados (ID_Empleado, DNI, NSS) VALUES
+('U002', '12345678A', '281234567890'),
+('U004', '87654321B', '289876543210');
+
+INSERT INTO Relojes (ID_reloj, marca, modelo, precio, tipo, disponibilidad, ID_Usuario) VALUES
+(1, 'Rolex', 'Submariner', 8500.00, 'analógico', TRUE, 'U003'),
+(2, 'Casio', 'G-Shock', 150.00, 'digital', TRUE, NULL),
+(3, 'Omega', 'Speedmaster', 5000.00, 'analógico', FALSE, 'U005'),
+(4, 'Seiko', 'Presage', 1200.00, 'analógico', TRUE, NULL),
+(5, 'Apple', 'Watch Series 8', 400.00, 'digital', TRUE, 'U006');
+
+INSERT INTO Servicios (tipo_servicio, precio_base) VALUES
+('mantenimiento', 50.00),
+('reparación', 100.00),
+('cambio de batería', 20.00),
+('pulido', 30.00),
+('ajuste de correa', 15.00);
+
+
+INSERT INTO Ordenes_Servicio (ID_Cliente, ID_servicio, fecha_orden, estado, costo_total) VALUES
+('U003', 1, '2023-10-01 10:00:00', 'pendiente', 50.00),
+('U003', 2, '2023-10-02 11:00:00', 'en progreso', 100.00),
+('U005', 3, '2023-10-03 12:00:00', 'completado', 20.00),
+('U006', 4, '2023-10-04 13:00:00', 'pendiente', 30.00),
+('U005', 5, '2023-10-05 14:00:00', 'en progreso', 15.00);
+
+
+
+INSERT INTO Gestion (ID_Cliente, ID_Empleado, ID_reloj) VALUES
+('U003', 'U002', 1),
+('U005', 'U004', 3),
+('U006', 'U002', 5),
+('U003', 'U004', 2),
+('U005', 'U002', 4);
