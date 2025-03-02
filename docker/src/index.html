@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad1-UD3</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <div id="header">
+        <div id="logoEmpresa">
+            <a href="index.html"><img src="logoEmpresa/TEMPUS-removebg-preview.png" alt="Logo de Tempus Fugit"></a>
+        </div>
+        <div id="authButtons">
+            <button onclick="location.href='./Vista/registro.html'">Registro</button>
+            <button onclick="location.href='./Vista/login.html'">Iniciar Sesión</button>
+        </div>
+    </div>
+    
+    <div id="nombreEmpresa">
+        <h1>Tempus Fugit</h1>
+    </div>
+
+    <div id="migasDePan">
+        <fieldset>
+            <ul class="migas">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#mantenimientosDeRelojes">Atención Al Cliente</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#zona4">Formulario</a></li>
+            </ul>
+        </fieldset>
+    </div>
+
+    <div id="mantenimientosDeRelojes">
+        <h1>MANTENIMIENTOS DE LOS PRODUCTOS - ATENCIÓN AL CLIENTE</h1>
+        <p>Nuestra empresa además de vender relojes, tiene una sección de ayuda al cliente y mantenimiento de estos dispositivos.</p>
+    </div>
+    
+    <div id="productos">
+        <h2>SELECCIÓN DE NUESTROS RELOJEROS</h2>
+        <fieldset class="producto">
+            <legend>Reloj Lotus</legend>
+            <img src="imagenProductos/l18812_3.png" alt="Reloj Lotus Multifunction">
+            <p>RELOJ DE HOMBRE LOTUS MULTIFUNCTION CON ESFERA NEGRA 18812/3 - 89,00 €</p>
+        </fieldset>
+        <fieldset class="producto">
+            <legend>Reloj Casio G-Shock</legend>
+            <img src="https://www.baroli.es/wp-content/uploads/2015/12/GA-120BB-1AER.jpg" alt="Reloj Casio G-Shock">
+            <p>CASIO G-SHOCK RESISTENTE AL AGUA Y GOLPES - 120,00 €</p>
+        </fieldset>
+        <fieldset class="producto">
+            <legend>Reloj Rolex Submariner</legend>
+            <img src="https://www.rabat.net/media/catalog/product/r/o/rolex-submariner-m126610ln-0001.png" alt="Reloj Rolex Submariner">
+            <p>ROLEX SUBMARINER ACERO INOXIDABLE - 8.500,00 €</p>
+        </fieldset>
+    </div>
+    
+    <div id="Asociados">
+        <h1>EMPRESAS ASOCIADAS</h1>
+        <img src="imagenProductos/descarga.png" alt="Logo Empresa 1">
+        <img src="imagenProductos/patek-philippe-sa-1.png" alt="Logo Patek Philippe">
+    </div>
+
+    <div id="zona4">
+        <form>
+            <label for="ConociendoEmpresa">¿Cómo has conocido nuestra empresa?</label>
+            <input type="text" id="ConociendoEmpresa" name="ConociendoEmpresa" required>
+            <br>
+            <label for="mensaje">¿Qué desea comunicar a la empresa?</label>
+            <textarea id="mensaje" name="mensaje" required></textarea>
+            <br>
+            <input type="submit" value="Enviar">
+            <input type="button" value="Cancelar">
+        </form>
+    </div>
+
+    <div id="pieDePagina">
+        <footer>
+            <pre>Iván Martínez Estrada - 2ºDAW</pre>
+        </footer>
+    </div>
+</body>
+</html>

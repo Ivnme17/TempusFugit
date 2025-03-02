@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualización Web</title>
+    <style>
+        body {
+            background-image: url(imagenBackground/istockphoto-1291142873-612x612.png); 
+            color: #FFD700; 
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 20px;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        iframe {
+            width: 100%;
+            height: 600px; 
+            border: none;
+        }
+        #migasDePan {
+            margin: 10px 0;
+        }
+        ul.migas {
+            padding: 10px 16px;
+            list-style: none;
+            background-color: #4E3B31;
+            text-align: center; 
+        }
+        ul.migas li {
+            display: inline;
+            font-size: 18px;
+        }
+        ul.migas li+li:before {
+            padding: 8px;
+            color: FFD700;
+            content: ">\00a0";
+        }
+        ul.migas li a {
+            color: #FFD700;
+            text-decoration: none;
+        }
+        ul.migas li a:hover {
+            color: darkgoldenrod;
+            text-decoration: underline;
+        }
+        fieldset {
+            border-color: #FFD700;
+        }
+    </style>
+</head>
+<body>
+    <h1>Visualización de Páginas Web</h1>
+    <div id="migasDePan">
+        <fieldset>
+            <ul class="migas">
+                <li>
+                    <a href="index.html">Inicio</a>
+                </li>
+                <li>
+                    <a href="#lotus">Lotus</a>
+                </li>
+                <li>
+                    <a href="#casio">Casio</a>
+                </li>
+                <li>
+                    <a href="#rolex">Rolex</a>
+                </li>
+            </ul>
+        </fieldset>
+    </div>
+
+    <div id="lotus">
+    <h2>Lotus</h2>    
+    <iframe src="lotus.html"></iframe>
+    </div>
+    <div id="casio">
+    <h2>Casio</h2>
+    <iframe src="casio.html"></iframe>
+    </div>
+    <div id="rolex">
+    <h3>Rolex</h3>
+    <iframe src="rolex.html"></iframe>
+    </div>
+</body>
+</html>

@@ -1,0 +1,152 @@
+body {
+    background-image: url(imagenBackground/istockphoto-1291142873-612x612.png); 
+    color: #FFD700; 
+    font-family: 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 20px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center; 
+}
+
+#logoEmpresa img {
+    width: 200px;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center; 
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+a {
+    color: #FFD700; 
+    text-decoration: none; 
+}
+
+a:hover {
+    text-decoration: underline; 
+}
+
+#migasDePan {
+    margin: 10px 0;
+}
+
+ul.migas {
+    padding: 10px 16px;
+    list-style: none;
+    background-color: #4E3B31;
+    text-align: center; 
+}
+
+ul.migas li {
+    display: inline;
+    font-size: 18px;
+}
+
+ul.migas li+li:before {
+    padding: 8px;
+    color: #FFD700;
+    content: ">\00a0";
+}
+
+ul.migas li a {
+    color: #FFD700;
+    text-decoration: none;
+}
+
+ul.migas li a:hover {
+    color: darkgoldenrod;
+    text-decoration: underline;
+}
+
+#pieDePagina {
+    margin-top: 20px;
+    text-align: center;
+}
+
+form {
+    background-color: rgba(255, 215, 0, 0.1); 
+    padding: 20px; 
+    border-radius: 5px;
+    max-width: 600px; 
+    margin: auto; 
+}
+
+input[type="text"], textarea {
+    width: calc(100% - 22px); 
+    padding: 10px;
+    margin: 5px 0 15px 0;
+    border: 1px solid #FFD700; 
+    border-radius: 5px;
+    background-color: #fff; 
+    color: #000;
+}
+
+input[type="submit"], input[type="button"] {
+    background-color: #FFD700; 
+    color: #000; 
+    border: none;
+    padding: 10px 20px; 
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px; 
+}
+
+input[type="submit"]:hover, input[type="button"]:hover {
+    background-color: #FFC300;
+}
+
+#mantenimientosDeRelojes, #productos, #Asociados {
+    margin: 20px 0; 
+    text-align: center; 
+}
+
+#productos img, #Asociados img {
+    max-width: 200px; 
+    height: auto; 
+    margin: 10px; 
+}
+
+fieldset {
+    border-color: #d1a103;
+    margin: auto; 
+    padding: 20px; 
+    max-width: 500px; 
+    width: 100%; 
+}
+
+.producto {
+    text-align: center; 
+}
+
+ol {
+    padding: 0;
+    margin: 0; 
+    display: inline-block; 
+    text-align: left; 
+    margin-left: 20px; 
+    padding-top: 5px; 
+}
+
+ol li {
+    margin-top: 5px; 
+}
+button {
+    background-color: yellow;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: gold;
+}
