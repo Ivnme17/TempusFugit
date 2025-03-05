@@ -138,7 +138,7 @@ ol li {
     margin-top: 5px; 
 }
 button {
-    background-color: yellow;
+    background-color: #FFD700; 
     color: black;
     border: none;
     padding: 10px 20px;
@@ -148,5 +148,5 @@ button {
 }
 
 button:hover {
-    background-color: gold;
+    background-color: #FFC300;
 }
