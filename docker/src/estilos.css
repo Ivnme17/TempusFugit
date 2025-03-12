@@ -18,12 +18,12 @@ body {
 }
 
 .nav-link{
-    color: #fff;
+    color: rgb(71, 71, 71);
     transition: color 0.3s;
 }
 
 .nav-link:hover {
-    color: yellow;
+    color: black;
 }
 
 form.d-flex {
@@ -60,8 +60,15 @@ form.d-flex .btn .fa-magnifying-glass {
     color: #000;
 }
 
-
-
+form.d-flex {
+    background-color: transparent;
+}
+nav ul {
+    border: 2px solid #FFD700;
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: #FFD700;
+}
 nav ul {
     list-style-type: none;
     padding: 0;
