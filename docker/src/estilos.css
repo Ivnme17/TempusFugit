@@ -1,7 +1,7 @@
 body {
     background-image: url(imagenBackground/istockphoto-1291142873-612x612.png); 
     color: #FFD700; 
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 20px;
     background-repeat: no-repeat;
@@ -9,10 +9,66 @@ body {
     text-align: center; 
 }
 
-#logoEmpresa img {
-    width: 200px;
+.navbar-brand{
+    color: #fff;
 }
 
+.navbar-brand:hover{
+    color: yellow;
+}
+
+.nav-link{
+    color: rgb(71, 71, 71);
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: black;
+}
+
+form.d-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+form.d-flex .form-control {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #FFD700;
+    border-radius: 5px;
+    margin-right: 10px;
+    background-color: #fff;
+    color: #000;
+}
+
+form.d-flex .btn {
+    background-color: #FFD700;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form.d-flex .btn:hover {
+    background-color: #FFC300;
+}
+
+form.d-flex .btn .fa-magnifying-glass {
+    color: #000;
+}
+
+form.d-flex {
+    background-color: transparent;
+}
+nav ul {
+    border: 2px solid #FFD700;
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: #FFD700;
+}
 nav ul {
     list-style-type: none;
     padding: 0;
@@ -138,7 +194,7 @@ ol li {
     margin-top: 5px; 
 }
 button {
-    background-color: yellow;
+    background-color: #FFD700; 
     color: black;
     border: none;
     padding: 10px 20px;
@@ -148,5 +204,5 @@ button {
 }
 
 button:hover {
-    background-color: gold;
+    background-color: #FFC300;
 }

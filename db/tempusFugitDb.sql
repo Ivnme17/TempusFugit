@@ -75,8 +75,7 @@ CREATE TABLE Gestion (
 INSERT INTO Roles (ID_rol, tipo) VALUES
 (1, 'Administrador'),
 (2, 'Empleado'),
-(3, 'Cliente'),
-(4, 'Supervisor');
+(3, 'Cliente');
 
 
 INSERT INTO Usuarios (ID_Usuario, nombre, apellidos, contrasena, ID_rol) VALUES

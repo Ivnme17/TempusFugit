@@ -3,35 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>TempusFugit</title>
+=======
+    <title>Página Principal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+>>>>>>> 6e269a7c0b302046ae2e1966dad0edae57fd0f98
     <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-    <div id="header">
-        <div id="logoEmpresa">
-            <a href="index.html"><img src="logoEmpresa/TEMPUS-removebg-preview.png" alt="Logo de Tempus Fugit"></a>
-        </div>
-        <div id="authButtons">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <nav class="navbar navbar-expand-xl navbar-light" style="background-color: #4E3B31;">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLight" aria-controls="navbarLight" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse show" id="navbarLight">
+          <ul class="navbar-nav me-auto mb-2 mb-xl-0">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="#inicio">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#mantenimientosDeRelojes">Atención Al Cliente</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Vista/productos.html" tabindex="-1" aria-disabled="true">Productos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#formulario">Formulario</a>
+            </li>
+          </ul>
+          <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Search">
+            <button class="btn btn-outline-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+          </form>
+          <div id="botonesDeRegistro">
             <button onclick="location.href='./Vista/registro.html'">Registro</button>
             <button onclick="location.href='./Vista/login.html'">Iniciar Sesión</button>
         </div>
     </div>
     
-    <div id="nombreEmpresa">
-        <h1>Tempus Fugit</h1>
-    </div>
-
-    <div id="migasDePan">
-        <fieldset>
-            <ul class="migas">
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#mantenimientosDeRelojes">Atención Al Cliente</a></li>
-                <li><a href="#productos">Productos</a></li>
-                <li><a href="#zona4">Formulario</a></li>
-            </ul>
-        </fieldset>
-    </div>
-
+        </div>
+      </div>
+    </nav>
+    <div id="header">
+        <div id="logoEmpresa">
+            <a href="index.html"><img src="logoEmpresa/TEMPUS-removebg-preview.png" alt="Logo de Tempus Fugit"></a>
+        </div>
     <div id="mantenimientosDeRelojes">
         <h1>MANTENIMIENTOS DE LOS PRODUCTOS - ATENCIÓN AL CLIENTE</h1>
         <p>Nuestra empresa además de vender relojes, tiene una sección de ayuda al cliente y mantenimiento de estos dispositivos.</p>
@@ -41,7 +60,7 @@
         <h2>SELECCIÓN DE NUESTROS RELOJEROS</h2>
         <fieldset class="producto">
             <legend>Reloj Lotus</legend>
-            <img src="imagenProductos/l18812_3.png" alt="Reloj Lotus Multifunction">
+            <img src="https://static6.festinagroup.com/product/lotus/watches/detail/big/l18812_3.webp" alt="Reloj Lotus Multifunction">
             <p>RELOJ DE HOMBRE LOTUS MULTIFUNCTION CON ESFERA NEGRA 18812/3 - 89,00 €</p>
         </fieldset>
         <fieldset class="producto">
@@ -58,11 +77,12 @@
     
     <div id="Asociados">
         <h1>EMPRESAS ASOCIADAS</h1>
-        <img src="imagenProductos/descarga.png" alt="Logo Empresa 1">
-        <img src="imagenProductos/patek-philippe-sa-1.png" alt="Logo Patek Philippe">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/Logo_da_Rolex.png" alt="Logo Empresa 1">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Lotus_Watches_logo.svg/1200px-Lotus_Watches_logo.svg.png" alt="Logo Lotus">
+        <img src="https://cdn.worldvectorlogo.com/logos/casio-logo.svg" alt="Logo Casio">
     </div>
 
-    <div id="zona4">
+    <div id="formulario">
         <form>
             <label for="ConociendoEmpresa">¿Cómo has conocido nuestra empresa?</label>
             <input type="text" id="ConociendoEmpresa" name="ConociendoEmpresa" required>
@@ -74,11 +94,11 @@
             <input type="button" value="Cancelar">
         </form>
     </div>
-
     <div id="pieDePagina">
         <footer>
             <pre>Iván Martínez Estrada - 2ºDAW</pre>
         </footer>
     </div>
+    
 </body>
 </html>

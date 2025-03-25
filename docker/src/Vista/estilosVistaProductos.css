@@ -1,0 +1,70 @@
+body {
+    background-image: url(https://img.freepik.com/foto-gratis/fondo-papel-tapiz-colorido-borroso-artistico_58702-8292.jpg); 
+    color: #FFD700; 
+    font-family: 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 20px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center; 
+}
+
+#productosLotus img, #productosRolex img, #productosCasio img {
+    max-width: 200px; 
+    height: auto; 
+    margin: 10px; 
+}
+
+fieldset {
+    border-color: #d1a103;
+    margin: auto; 
+    padding: 20px; 
+    max-width: 500px; 
+    width: 100%; 
+}
+
+button {
+    background-color: #FFD700; 
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #FFC300;
+}
+
+#migasDePan {
+    margin: 10px 0;
+}
+
+ul.migas {
+    padding: 10px 16px;
+    list-style: none;
+    background-color: transparent;
+    text-align: center; 
+}
+
+ul.migas li {
+    display: inline;
+    font-size: 18px;
+}
+
+ul.migas li+li:before {
+    padding: 8px;
+    color: #FFD700;
+    content: ">\00a0";
+}
+
+ul.migas li a {
+    color: #FFD700;
+    text-decoration: none;
+}
+
+ul.migas li a:hover {
+    color: darkgoldenrod;
+    text-decoration: underline;
+}
