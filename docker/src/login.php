@@ -17,11 +17,11 @@ if (filter_has_var(INPUT_POST, "iniciar")) {
         $_SESSION["rol"] = $usuario->getId_rol();
         
         switch ($_SESSION['rol']) {
-            case "1": // Empleado Y Administrador
+            case "1": case "2": // Empleado Y Administrador
                 include_once './Vista/vista-empleado.html';
                 break;
                 
-            case "2": // Cliente
+            case "3": // Cliente
                 include_once './Vista/vista-cliente.html';
                 break;
                 
