@@ -7,11 +7,12 @@ CREATE TABLE Roles (
 );
 
 CREATE TABLE Usuarios (
-    login VARCHAR(50) PRIMARY KEY,  -- Changed from ID_Usuario to login
-    clave VARCHAR(255),             -- Changed from contrasena to clave, keeping space for SHA-512 hash
-    id_rol INT,                     -- Kept the same as in original schema
-    nombre VARCHAR(50),             -- Kept from original schema
-    apellidos VARCHAR(100),         -- Kept from original schema
+    ID_Usuario INT AUTO_INCREMENT PRIMARY KEY,  -- Added auto-incrementing ID
+    login VARCHAR(50) UNIQUE NOT NULL,          -- Kept login as unique
+    clave VARCHAR(255) NOT NULL,                -- Password
+    id_rol INT,                                 -- Role reference
+    nombre VARCHAR(50),                         -- First name
+    apellidos VARCHAR(100),                     -- Last name
     CONSTRAINT fk_usuarios_idRol FOREIGN KEY (id_rol) REFERENCES Roles(ID_rol) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
