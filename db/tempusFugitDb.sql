@@ -57,6 +57,16 @@ CREATE TABLE Relojes (
         ON UPDATE CASCADE
 );
 
+CREATE TABLE Servicios (
+    ID_servicio INT AUTO_INCREMENT PRIMARY KEY,
+    tipo_servicio ENUM('mantenimiento', 'reparación', 'cambio de batería') NOT NULL,
+    descripcion VARCHAR(255),
+    precio_base DECIMAL(10, 2) NOT NULL,
+    duracion_estimada INT,
+    requiere_repuestos BOOLEAN DEFAULT FALSE
+);
+
+
 CREATE TABLE Ordenes_Servicio (
     ID_Orden INT AUTO_INCREMENT PRIMARY KEY,
     ID_Cliente INT,
@@ -122,13 +132,12 @@ INSERT INTO Relojes (ID_reloj, marca, modelo, precio, tipo, disponibilidad, ID_U
 (4, 'Seiko', 'Presage', 1200.00, 'analógico', TRUE, NULL),
 (5, 'Apple', 'Watch Series 8', 400.00, 'digital', TRUE, (SELECT ID_Usuario FROM Usuarios WHERE login = 'elena.torres'));
 
-INSERT INTO Servicios (tipo_servicio, precio_base) VALUES
-('mantenimiento', 50.00),
-('reparación', 100.00),
-('cambio de batería', 20.00),
-('reparación', 30.00),
-('reparación', 15.00);
-
+INSERT INTO Servicios (tipo_servicio, descripcion, precio_base, duracion_estimada, requiere_repuestos) VALUES
+('mantenimiento', 'Revisión general y limpieza del reloj', 50.00, 60, FALSE),
+('reparación', 'Reparación de mecanismo básico', 100.00, 120, TRUE),
+('cambio de batería', 'Reemplazo de batería en relojes digitales', 20.00, 30, TRUE),
+('reparación', 'Reparación de daños superficiales', 30.00, 90, FALSE),
+('reparación', 'Reparación de correa o brazalete', 15.00, 45, TRUE);
 INSERT INTO Ordenes_Servicio (ID_Cliente, ID_servicio, fecha_orden, estado, costo_total) VALUES
 ((SELECT ID_Cliente FROM Clientes WHERE ID_Usuario = (SELECT ID_Usuario FROM Usuarios WHERE login = 'carlos.sanchez')), 1, '2023-10-01 10:00:00', 'pendiente', 50.00),
 ((SELECT ID_Cliente FROM Clientes WHERE ID_Usuario = (SELECT ID_Usuario FROM Usuarios WHERE login = 'carlos.sanchez')), 2, '2023-10-02 11:00:00', 'en progreso', 100.00),
