@@ -1,65 +1,54 @@
-version: '3.8'
 services:
   mysql:
-      image: mysql:8
-      container_name: mysql
-      environment:
-        MYSQL_DATABASE: tempus fugit
-        MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-      volumes:
-        - ./mysql-data:/var/lib/mysql
-
-
-
-      ports:
-        - "3306:3306"
-      
-      networks:
-        - app-network
-    
+    image: mysql:8
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: tempus_fugit
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+   
   php:
     image: php:8.0-apache
     container_name: php
     volumes:
       - ./src:/var/www/html
-
     ports:
       - "8080:80"
-
-
     networks:
       - app-network
-    
+    depends_on:
+      - mysql
+   
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
     environment:
       PMA_HOST: mysql
+      PMA_PORT: 3306
     ports:
       - "8081:80"
     networks:
       - app-network
+    depends_on:
+      - mysql
 
-  tailscale-nginx:
-    image: tailscale/tailscale:latest
-    hostname: tailscale-nginx
-    environment:
-      - TS_AUTHKEY=tskey-client-notAReal-OAuthClientSecret1Atawk
-      - TS_EXTRA_ARGS=--advertise-tags=tag:container
-      - TS_STATE_DIR=/var/lib/tailscale
-      - TS_USERSPACE=false
-    volumes:
-      - ${PWD}/tailscale-nginx/state:/var/lib/tailscale
-    devices:
-      - /dev/net/tun:/dev/net/tun
-    cap_add:
-      - net_admin
-    restart: unless-stopped
   nginx:
     image: nginx
+    container_name: nginx
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - "80:80"
+    networks:
+      - app-network
     depends_on:
-      - tailscale-nginx
-    network_mode: service:tailscale-nginx
+      - php
 
 networks:
   app-network:

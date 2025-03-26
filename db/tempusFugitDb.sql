@@ -106,8 +106,8 @@ INSERT INTO Servicios (tipo_servicio, precio_base) VALUES
 ('mantenimiento', 50.00),
 ('reparación', 100.00),
 ('cambio de batería', 20.00),
-('pulido', 30.00),
-('ajuste de correa', 15.00);
+('reparación', 30.00),
+('reparación', 15.00);
 
 
 INSERT INTO Ordenes_Servicio (ID_Cliente, ID_servicio, fecha_orden, estado, costo_total) VALUES
