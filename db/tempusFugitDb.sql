@@ -7,12 +7,12 @@ CREATE TABLE Roles (
 );
 
 CREATE TABLE Usuarios (
-    ID_Usuario CHAR(9) PRIMARY KEY,
-    nombre VARCHAR(50),
-    apellidos VARCHAR(100),
-    contrasena VARCHAR(255),
-    ID_rol INT,
-    CONSTRAINT fk_usuarios_idRol FOREIGN KEY (ID_rol) REFERENCES Roles(ID_rol) ON DELETE SET NULL ON UPDATE CASCADE
+    login VARCHAR(50) PRIMARY KEY,  -- Changed from ID_Usuario to login
+    clave VARCHAR(255),             -- Changed from contrasena to clave, keeping space for SHA-512 hash
+    id_rol INT,                     -- Kept the same as in original schema
+    nombre VARCHAR(50),             -- Kept from original schema
+    apellidos VARCHAR(100),         -- Kept from original schema
+    CONSTRAINT fk_usuarios_idRol FOREIGN KEY (id_rol) REFERENCES Roles(ID_rol) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE Clientes (
@@ -78,13 +78,14 @@ INSERT INTO Roles (ID_rol, tipo) VALUES
 (3, 'Cliente');
 
 
-INSERT INTO Usuarios (ID_Usuario, nombre, apellidos, contrasena, ID_rol) VALUES
-('U001', 'Juan', 'Pérez García', 'password123', 1),
-('U002', 'Ana', 'López Martínez', 'password456', 2),
-('U003', 'Carlos', 'Sánchez Fernández', 'password789', 3),
-('U004', 'María', 'Gómez Ruiz', 'password101', 2),
-('U005', 'Luis', 'Martín Díaz', 'password202', 3),
-('U006', 'Elena', 'Torres Vázquez', 'password303', 3);
+-- Sample users with hashed passwords using SHA-512
+INSERT INTO Usuarios (login, clave, id_rol, nombre, apellidos) VALUES
+('juan.perez', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 1, 'Juan', 'Pérez García'),
+('ana.lopez', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 2, 'Ana', 'López Martínez'),
+('carlos.sanchez', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', 3, 'Carlos', 'Sánchez Fernández'),
+('maria.gomez', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 2, 'María', 'Gómez Ruiz'),
+('luis.martin', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 3, 'Luis', 'Martín Díaz'),
+('elena.torres', '5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5', 3, 'Elena', 'Torres Vázquez');
 
 INSERT INTO Clientes (ID_Cliente, telefono, correo, direccion, IBAN) VALUES
 ('U003', '600123456', 'carlos.sanchez@example.com', 'Calle Falsa 123, Madrid', 'ES9121000418450200051332'),
