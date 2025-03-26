@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación de Empleado - Tempus Fugit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../estilos.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .verificacion-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn-custom {
+            background-color: #FFD700;
+            color: #4E3B31;
+        }
+        .btn-custom:hover {
+            background-color: #FFC300;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+    <nav class="navbar navbar-expand-xl navbar-light" style="background-color: #4E3B31;">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse show" id="navbarLight">
+                <ul class="navbar-nav me-auto mb-2 mb-xl-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="../index.html">Inicio</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="verificacion-container">
+        <div id="logoEmpresa" class="text-center mb-4">
+            <a href="../index.html"><img src="../logoEmpresa/TEMPUS-removebg-preview.png" alt="Logo de Tempus Fugit" style="max-width: 200px;"></a>
+        </div>
+
+        <form action="verificar_empleado.php" method="POST">
+            <h2 class="text-center mb-4">Verificación de Empleado</h2>
+            
+            <div class="mb-3">
+                <label for="nss" class="form-label">Número de Seguridad Social (NSS):</label>
+                <input type="text" class="form-control" id="nss" name="nss" required placeholder="Introduce tu NSS">
+                <div class="form-text">Tu NSS es necesario para verificar tu condición de empleado.</div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="loginUsuario" class="form-label">Nombre de Usuario:</label>
+                <input type="text" class="form-control" id="loginUsuario" name="loginUsuario" required placeholder="Introduce tu nombre de usuario">
+            </div>
+            
+            <div class="d-grid">
+                <button type="submit" class="btn btn-custom">Verificar</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="pieDePagina" class="text-center mt-4">
+        <footer>
+            <pre>Iván Martínez Estrada - 2ºDAW</pre>
+        </footer>
+    </div>
+</body>
+</html>
