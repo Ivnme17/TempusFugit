@@ -14,7 +14,9 @@ services:
       - app-network
    
   php:
-    image: php:8.0-apache
+    build: 
+      context: .
+      dockerfile: Dockerfile
     container_name: php
     volumes:
       - ./src:/var/www/html
@@ -37,7 +39,6 @@ services:
       - app-network
     depends_on:
       - mysql
-
   nginx:
     image: nginx
     container_name: nginx
@@ -49,7 +50,6 @@ services:
       - app-network
     depends_on:
       - php
-
 networks:
   app-network:
     driver: bridge
