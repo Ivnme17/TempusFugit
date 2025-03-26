@@ -21,7 +21,7 @@ if (filter_has_var(INPUT_POST, "iniciar")) {
                 include_once './Vista/vista-empleado.html';
                 break;
                 
-            case "3": // Cliente
+            case "3":case "4": // Cliente Y Por Defecto
                 include_once './Vista/vista-cliente.html';
                 break;
                 
