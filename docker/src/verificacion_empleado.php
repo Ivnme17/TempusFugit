@@ -43,8 +43,8 @@ if ($_SESSION['rol'] == '1' || $_SESSION['rol'] == '2') {
 </head>
 <body>
     <div class="verificacion-container">
-        <div class="text-center mb-4">
-            <img src="../logoEmpresa/TEMPUS-removebg-preview.png" alt="Logo de Tempus Fugit" style="max-width: 200px;">
+    <div id="logoEmpresa">
+            <a href="index.html"><img src=".logoEmpresa/TEMPUS-removebg-preview.png"></a>
         </div>
 
         <?php
