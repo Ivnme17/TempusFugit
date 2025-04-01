@@ -47,4 +47,21 @@ button {
 
 button:hover {
     background-color: #FFC300;
+    transform: scale(1.05);
+}
+
+input[type="button"] {
+    padding: 10px 20px;
+    background-color: #FFD700; 
+    color: #4E3B31; 
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+input[type="button"]:hover {
+    background-color: #FFC300; 
+    transform: scale(1.05);
 }
