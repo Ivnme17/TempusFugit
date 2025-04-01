@@ -51,11 +51,13 @@ CREATE TABLE Relojes (
     tipo ENUM('digital', 'analógico'),
     disponibilidad BOOLEAN DEFAULT TRUE,
     ID_Usuario INT,
+    url_imagen VARCHAR(255),
     CONSTRAINT fk_relojes_idUsuario FOREIGN KEY (ID_Usuario) 
         REFERENCES Usuarios(ID_Usuario) 
         ON DELETE SET NULL 
         ON UPDATE CASCADE
 );
+
 
 CREATE TABLE Servicios (
     ID_servicio INT AUTO_INCREMENT PRIMARY KEY,
@@ -125,12 +127,12 @@ INSERT INTO Empleados (ID_Usuario, DNI, NSS) VALUES
 ((SELECT ID_Usuario FROM Usuarios WHERE login = 'ana.lopez'), '12345678A', '281234567890'),
 ((SELECT ID_Usuario FROM Usuarios WHERE login = 'maria.gomez'), '87654321B', '289876543210');
 
-INSERT INTO Relojes (ID_reloj, marca, modelo, precio, tipo, disponibilidad, ID_Usuario) VALUES
-(1, 'Rolex', 'Submariner', 8500.00, 'analógico', TRUE, (SELECT ID_Usuario FROM Usuarios WHERE login = 'carlos.sanchez')),
-(2, 'Casio', 'G-Shock', 150.00, 'digital', TRUE, NULL),
-(3, 'Omega', 'Speedmaster', 5000.00, 'analógico', FALSE, (SELECT ID_Usuario FROM Usuarios WHERE login = 'luis.martin')),
-(4, 'Seiko', 'Presage', 1200.00, 'analógico', TRUE, NULL),
-(5, 'Apple', 'Watch Series 8', 400.00, 'digital', TRUE, (SELECT ID_Usuario FROM Usuarios WHERE login = 'elena.torres'));
+INSERT INTO Relojes (ID_reloj, marca, modelo, precio, tipo, disponibilidad, ID_Usuario, url_imagen) VALUES
+(1, 'Rolex', 'Submariner', 8500.00, 'analógico', TRUE, (SELECT ID_Usuario FROM Usuarios WHERE login = 'carlos.sanchez'), 'https://ejemplo.com/imagenes/rolex_submariner.jpg'),
+(2, 'Casio', 'G-Shock', 150.00, 'digital', TRUE, NULL, 'https://ejemplo.com/imagenes/casio_gshock.jpg'),
+(3, 'Rolex', 'Datejust', 7200.00, 'analógico', FALSE, (SELECT ID_Usuario FROM Usuarios WHERE login = 'luis.martin'), 'https://ejemplo.com/imagenes/rolex_datejust.jpg'),
+(4, 'Lotus', 'Minimalist', 220.00, 'analógico', TRUE, NULL, 'https://ejemplo.com/imagenes/lotus_minimalist.jpg'),
+(5, 'Casio', 'Edifice', 180.00, 'digital', TRUE, (SELECT ID_Usuario FROM Usuarios WHERE login = 'elena.torres'), 'https://ejemplo.com/imagenes/casio_edifice.jpg');
 
 INSERT INTO Servicios (tipo_servicio, descripcion, precio_base, duracion_estimada, requiere_repuestos) VALUES
 ('mantenimiento', 'Revisión general y limpieza del reloj', 50.00, 60, FALSE),
