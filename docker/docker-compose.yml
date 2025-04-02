@@ -1,13 +1,14 @@
+version: '3'
+
 services:
-mysql:
+  mysql:
     image: mysql:8
     container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root  
-      MYSQL_DATABASE: tempus_fugit
-      MYSQL_PASSWORD: 
+      MYSQL_DATABASE: tempus-fugit
+      MYSQL_PASSWORD:
       MYSQL_ALLOW_EMPTY_PASSWORD: "no"
-
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
@@ -15,8 +16,9 @@ mysql:
     networks:
       - app-network
     restart: always
-php:
-    build: 
+  
+  php:
+    build:
       context: .
       dockerfile: Dockerfile
     container_name: php
@@ -29,7 +31,7 @@ php:
     depends_on:
       - mysql
    
-phpmyadmin:
+  phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
     environment:
@@ -41,7 +43,8 @@ phpmyadmin:
       - app-network
     depends_on:
       - mysql
-nginx:
+  
+  nginx:
     image: nginx
     container_name: nginx
     volumes:
@@ -52,6 +55,10 @@ nginx:
       - app-network
     depends_on:
       - php
+
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  mysql_data:
