@@ -35,13 +35,13 @@ foreach ($relojes as $reloj) {
     
     <h1>Catálogo de Relojes</h1>
     
-    <?php if (empty($relojes)): ?>
+    <?php if (empty($relojes)){ ?>
         <p>No hay relojes disponibles en este momento.</p>
-    <?php else: ?>
-        <?php foreach ($relojesPorMarca as $marca => $relojesMarca): ?>
+    <?php }else{ ?>
+        <?php foreach ($relojesPorMarca as $marca => $relojesMarca){ ?>
             <h2><?= htmlspecialchars($marca); ?></h2>
             <div id="productos<?= htmlspecialchars($marca); ?>" class="productos-container">
-                <?php foreach ($relojesMarca as $reloj): ?>
+                <?php foreach ($relojesMarca as $reloj){ ?>
                     <fieldset class="producto">
                         <legend>Reloj <?= htmlspecialchars($reloj->getNombreCompleto()); ?></legend>
                         <img src="<?= htmlspecialchars($reloj->getUrlImagen()); ?>" 
@@ -50,16 +50,16 @@ foreach ($relojes as $reloj) {
                             <?= htmlspecialchars(strtoupper($reloj->getNombreCompleto())); ?> 
                             - <?= htmlspecialchars($reloj->getPrecioFormateado()); ?>
                         </p>
-                        <?php if ($reloj->getDisponibilidad()): ?>
+                        <?php if ($reloj->getDisponibilidad()){ ?>
                             <button name="comprar" data-id="<?= htmlspecialchars($reloj->getId()); ?>">Comprar</button>
-                        <?php else: ?>
+                        <?php }else{ ?>
                             <p class="no-disponible">No disponible</p>
-                        <?php endif; ?>
+                        <?php } ?>
                     </fieldset>
-                <?php endforeach; ?>
+                <?php } ?>
             </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
+        <?php } ?>
+    <?php } ?>
     
     <script>
     document.addEventListener('DOMContentLoaded', function() {

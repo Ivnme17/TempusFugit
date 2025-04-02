@@ -3,66 +3,108 @@
  * Clase que representa un reloj en el sistema
  */
 class Reloj {
-    private $id_reloj;
-    private $marca;
-    private $modelo;
-    private $precio;
-    private $tipo;
-    private $disponibilidad;
-    private $id_usuario;
-    private $url_imagen;
+    // Using typed properties (PHP 7.4+)
+    private ?int $id_reloj;
+    private string $marca;
+    private string $modelo;
+    private float $precio;
+    private string $tipo;
+    private bool $disponibilidad;
+    private ?int $id_usuario;
+    private string $url_imagen;
     
     /**
      * Constructor de la clase Reloj
      * 
-     * @param array $datos Datos del reloj (opcional)
+     * @param array|null $datos Datos del reloj (opcional)
      */
-    public function __construct($datos = null) {
+    public function __construct(?array $datos = null) {
+        // Using null coalescing operator and type casting where appropriate
         if ($datos) {
-            $this->id_reloj = isset($datos['ID_reloj']) ? $datos['ID_reloj'] : null;
-            $this->marca = isset($datos['marca']) ? $datos['marca'] : '';
-            $this->modelo = isset($datos['modelo']) ? $datos['modelo'] : '';
-            $this->precio = isset($datos['precio']) ? $datos['precio'] : 0.00;
-            $this->tipo = isset($datos['tipo']) ? $datos['tipo'] : 'analógico';
-            $this->disponibilidad = isset($datos['disponibilidad']) ? (bool)$datos['disponibilidad'] : true;
-            $this->id_usuario = isset($datos['ID_Usuario']) ? $datos['ID_Usuario'] : null;
-            $this->url_imagen = isset($datos['url_imagen']) ? $datos['url_imagen'] : 'img/no-image.jpg';
+            $this->id_reloj = $datos['ID_reloj'] ?? null;
+            $this->marca = $datos['marca'] ?? '';
+            $this->modelo = $datos['modelo'] ?? '';
+            $this->precio = (float)($datos['precio'] ?? 0.00);
+            $this->tipo = $datos['tipo'] ?? 'analógico';
+            $this->disponibilidad = (bool)($datos['disponibilidad'] ?? true);
+            $this->id_usuario = $datos['ID_Usuario'] ?? null;
+            $this->url_imagen = $datos['url_imagen'] ?? 'img/no-image.jpg';
+        } else {
+            // Initialize properties when no data is provided
+            $this->id_reloj = null;
+            $this->marca = '';
+            $this->modelo = '';
+            $this->precio = 0.00;
+            $this->tipo = 'analógico';
+            $this->disponibilidad = true;
+            $this->id_usuario = null;
+            $this->url_imagen = 'img/no-image.jpg';
         }
     }
     
-    // Getters
-    public function getId() { return $this->id_reloj; }
-    public function getMarca() { return $this->marca; }
-    public function getModelo() { return $this->modelo; }
-    public function getPrecio() { return $this->precio; }
-    public function getTipo() { return $this->tipo; }
-    public function getDisponibilidad() { return $this->disponibilidad; }
-    public function getIdUsuario() { return $this->id_usuario; }
-    public function getUrlImagen() { return $this->url_imagen; }
+    // Getters without return type declarations
+    public function getId() { 
+        return $this->id_reloj; 
+    }
     
-    // Setters
-    public function setId($id) { 
+    public function getMarca() { 
+        return $this->marca; 
+    }
+    
+    public function getModelo() { 
+        return $this->modelo; 
+    }
+    
+    public function getPrecio() {
+        return $this->precio; 
+    }
+    
+    public function getTipo() { 
+        return $this->tipo; 
+    }
+    
+    public function getDisponibilidad() {
+        return $this->disponibilidad;
+    }
+    
+    public function getIdUsuario() { 
+        return $this->id_usuario; 
+    }
+    
+    public function getUrlImagen() { 
+        return $this->url_imagen; 
+    }
+    
+    // Setters with void return type declarations
+    public function setId(?int $id): void { 
         $this->id_reloj = $id; 
     }
-    public function setMarca($marca) { 
+    
+    public function setMarca(string $marca): void { 
         $this->marca = $marca; 
     }
-    public function setModelo($modelo) { 
+    
+    public function setModelo(string $modelo): void { 
         $this->modelo = $modelo; 
     }
-    public function setPrecio($precio) { 
+    
+    public function setPrecio(float $precio): void { 
         $this->precio = $precio;
-     }
-    public function setTipo($tipo) { 
-        $this->tipo = $tipo;
-     }
-    public function setDisponibilidad($disponibilidad) { 
-        $this->disponibilidad = (bool)$disponibilidad; 
     }
-    public function setIdUsuario($id_usuario) { 
+    
+    public function setTipo(string $tipo): void { 
+        $this->tipo = $tipo;
+    }
+    
+    public function setDisponibilidad(bool $disponibilidad): void { 
+        $this->disponibilidad = $disponibilidad; 
+    }
+    
+    public function setIdUsuario(?int $id_usuario): void { 
         $this->id_usuario = $id_usuario; 
     }
-    public function setUrlImagen($url_imagen) { 
+    
+    public function setUrlImagen(string $url_imagen): void { 
         $this->url_imagen = $url_imagen; 
     }
     
@@ -87,133 +129,118 @@ class Reloj {
     /**
      * Guarda o actualiza un reloj en la base de datos
      * 
-     * @return boolean
+     * @return bool
+     * @throws PDOException
      */
     public function guardar() {
-        try {
-            $conn = Db::getConexion();
-            
-            // Si tiene ID, actualiza; si no, inserta
-            if ($this->id_reloj) {
-                $sql = "UPDATE Relojes SET 
-                        marca = :marca,
-                        modelo = :modelo,
-                        precio = :precio,
-                        tipo = :tipo,
-                        disponibilidad = :disponibilidad,
-                        ID_Usuario = :id_usuario,
-                        url_imagen = :url_imagen
-                        WHERE ID_reloj = :id_reloj";
-                
-                $stmt = $conn->prepare($sql);
-                $stmt->bindParam(':id_reloj', $this->id_reloj, PDO::PARAM_INT);
-            } else {
-                $sql = "INSERT INTO Relojes 
-                        (marca, modelo, precio, tipo, disponibilidad, ID_Usuario, url_imagen) 
-                        VALUES 
-                        (:marca, :modelo, :precio, :tipo, :disponibilidad, :id_usuario, :url_imagen)";
-                
-                $stmt = $conn->prepare($sql);
-            }
-            
-            // Bind de parámetros comunes
-            $stmt->bindParam(':marca', $this->marca, PDO::PARAM_STR);
-            $stmt->bindParam(':modelo', $this->modelo, PDO::PARAM_STR);
-            $stmt->bindParam(':precio', $this->precio);
-            $stmt->bindParam(':tipo', $this->tipo, PDO::PARAM_STR);
-            $disponibilidad = $this->disponibilidad ? 1 : 0;
-            $stmt->bindParam(':disponibilidad', $disponibilidad, PDO::PARAM_INT);
-            $stmt->bindParam(':id_usuario', $this->id_usuario, PDO::PARAM_INT);
-            $stmt->bindParam(':url_imagen', $this->url_imagen, PDO::PARAM_STR);
-            
-            $resultado = $stmt->execute();
-            
-            // Si es una inserción, obtenemos el ID generado
-            if (!$this->id_reloj && $resultado) {
-                $this->id_reloj = $conn->lastInsertId();
-            }
-            
-            return $resultado;
-        } catch (PDOException $e) {
-            error_log("Error al guardar reloj: " . $e->getMessage());
-            return false;
+        $conn = Db::getConexion();
+        
+        // Using match expression (PHP 8.0+) for more concise conditional logic
+        $sql = match(true) {
+            $this->id_reloj !== null => "UPDATE Relojes SET 
+                    marca = :marca,
+                    modelo = :modelo,
+                    precio = :precio,
+                    tipo = :tipo,
+                    disponibilidad = :disponibilidad,
+                    ID_Usuario = :id_usuario,
+                    url_imagen = :url_imagen
+                    WHERE ID_reloj = :id_reloj",
+            default => "INSERT INTO Relojes 
+                    (marca, modelo, precio, tipo, disponibilidad, ID_Usuario, url_imagen) 
+                    VALUES 
+                    (:marca, :modelo, :precio, :tipo, :disponibilidad, :id_usuario, :url_imagen)"
+        };
+        
+        $stmt = $conn->prepare($sql);
+        
+        // Bind parameters conditionally
+        if ($this->id_reloj !== null) {
+            $stmt->bindParam(':id_reloj', $this->id_reloj, PDO::PARAM_INT);
         }
+        
+        // Using named arguments (PHP 8.0+) for parameter binding
+        $disponibilidad = (int)$this->disponibilidad;
+        $stmt->bindParam(param: ':marca', var: $this->marca, type: PDO::PARAM_STR);
+        $stmt->bindParam(param: ':modelo', var: $this->modelo, type: PDO::PARAM_STR);
+        $stmt->bindParam(param: ':precio', var: $this->precio);
+        $stmt->bindParam(param: ':tipo', var: $this->tipo, type: PDO::PARAM_STR);
+        $stmt->bindParam(param: ':disponibilidad', var: $disponibilidad, type: PDO::PARAM_INT);
+        $stmt->bindParam(param: ':id_usuario', var: $this->id_usuario, type: PDO::PARAM_INT);
+        $stmt->bindParam(param: ':url_imagen', var: $this->url_imagen, type: PDO::PARAM_STR);
+        
+        $resultado = $stmt->execute();
+        
+        // Update ID if it was an insertion
+        if ($this->id_reloj === null && $resultado) {
+            $this->id_reloj = (int)$conn->lastInsertId();
+        }
+        
+        return $resultado;
     }
     
     /**
      * Elimina un reloj de la base de datos
      * 
-     * @return boolean
+     * @return bool
+     * @throws PDOException
      */
     public function eliminar() {
-        if (!$this->id_reloj) {
+        if ($this->id_reloj === null) {
             return false;
         }
         
-        try {
-            $conn = Db::getConexion();
-            $sql = "DELETE FROM Relojes WHERE ID_reloj = :id_reloj";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':id_reloj', $this->id_reloj, PDO::PARAM_INT);
-            return $stmt->execute();
-        } catch (PDOException $e) {
-            error_log("Error al eliminar reloj: " . $e->getMessage());
-            return false;
-        }
+        $conn = Db::getConexion();
+        $sql = "DELETE FROM Relojes WHERE ID_reloj = :id_reloj";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':id_reloj', $this->id_reloj, PDO::PARAM_INT);
+        return $stmt->execute();
     }
     
     /**
      * Obtiene todos los relojes de la base de datos
      * 
-     * @return array
+     * @return array<Reloj>
+     * @throws PDOException
      */
     public static function obtenerTodos() {
-        try {
-            $conn = Db::getConexion();
-            $sql = "SELECT * FROM Relojes ORDER BY marca, modelo";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute();
-            
-            $relojes = [];
-            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
-            foreach ($resultados as $fila) {
-                $relojes[] = new Reloj($fila);
-            }
-            
-            return $relojes;
-        } catch (PDOException $e) {
-            error_log("Error al obtener relojes: " . $e->getMessage());
-            return [];
+        $conn = Db::getConexion();
+        $sql = "SELECT * FROM Relojes ORDER BY marca, modelo";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        
+        $relojes = [];
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        foreach ($resultados as $fila) {
+            $relojes[] = new Reloj($fila);
         }
+        
+        return $relojes;
     }
     
     /**
      * Obtiene relojes por marca
      * 
      * @param string $marca
-     * @return array
+     * @return array<Reloj>
+     * @throws PDOException
      */
-    public static function obtenerPorMarca($marca) {
-        try {
-            $conn = Db::getConexion();
-            $sql = "SELECT * FROM Relojes WHERE marca = :marca ORDER BY modelo";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':marca', $marca, PDO::PARAM_STR);
-            $stmt->execute();
-            
-            $relojes = [];
-            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
-            foreach ($resultados as $fila) {
-                $relojes[] = new Reloj($fila);
-            }
-            
-            return $relojes;
-        } catch (PDOException $e) {
-            error_log("Error al obtener relojes por marca: " . $e->getMessage());
-            return [];
+    public static function obtenerPorMarca(string $marca) {
+        $conn = Db::getConexion();
+        $sql = "SELECT * FROM Relojes WHERE marca = :marca ORDER BY modelo";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':marca', $marca, PDO::PARAM_STR);
+        $stmt->execute();
+        
+        $relojes = [];
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        foreach ($resultados as $fila) {
+            $relojes[] = new Reloj($fila);
         }
+        
+        return $relojes;
     }
     
     /**
@@ -221,45 +248,32 @@ class Reloj {
      * 
      * @param int $id
      * @return Reloj|null
+     * @throws PDOException
      */
-    public static function obtenerPorId($id) {
-        try {
-            $conn = Db::getConexion();
-            $sql = "SELECT * FROM Relojes WHERE ID_reloj = :id";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
-            
-            $fila = $stmt->fetch(PDO::FETCH_ASSOC);
-            
-            if ($fila) {
-                return new Reloj($fila);
-            } else {
-                return null;
-            }
-        } catch (PDOException $e) {
-            error_log("Error al obtener reloj por ID: " . $e->getMessage());
-            return null;
-        }
+    public static function obtenerPorId(int $id) {
+        $conn = Db::getConexion();
+        $sql = "SELECT * FROM Relojes WHERE ID_reloj = :id";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $fila ? new Reloj($fila) : null;
     }
     
     /**
      * Obtiene las marcas disponibles
      * 
-     * @return array
+     * @return array<string>
+     * @throws PDOException
      */
     public static function obtenerMarcas() {
-        try {
-            $conn = Db::getConexion();
-            $sql = "SELECT DISTINCT marca FROM Relojes ORDER BY marca";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute();
-            
-            return $stmt->fetchAll(PDO::FETCH_COLUMN);
-        } catch (PDOException $e) {
-            error_log("Error al obtener marcas: " . $e->getMessage());
-            return [];
-        }
+        $conn = Db::getConexion();
+        $sql = "SELECT DISTINCT marca FROM Relojes ORDER BY marca";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 }
-?>

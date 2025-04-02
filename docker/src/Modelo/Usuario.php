@@ -14,7 +14,6 @@ class Usuario{
     
     
     
-    //No sé si debería hacer getters y setters
     public function getLogin() {
         return $this->login;
     }
