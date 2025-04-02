@@ -1,5 +1,4 @@
 <?php
-// Vista/catalogo.php
 ?>
 <!DOCTYPE html>
 <html lang="es">
