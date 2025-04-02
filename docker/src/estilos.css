@@ -206,3 +206,11 @@ button {
 button:hover {
     background-color: #FFC300;
 }
+
+#botonCarrito a {
+    color: #FFD700; 
+    text-decoration: none; 
+}
+#botonCarrito a:hover {
+    text-decoration: underline; 
+} 
