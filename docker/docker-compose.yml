@@ -1,10 +1,12 @@
+version: '3'
+
 services:
   mysql:
     image: mysql:8
     container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root  
-      MYSQL_DATABASE: tempus-fugit
+      MYSQL_DATABASE: tempus_fugit
       MYSQL_PASSWORD:
       MYSQL_ALLOW_EMPTY_PASSWORD: "no"
     volumes:
@@ -41,3 +43,22 @@ services:
       - app-network
     depends_on:
       - mysql
+  
+  nginx:
+    image: nginx
+    container_name: nginx
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+    depends_on:
+      - php
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
