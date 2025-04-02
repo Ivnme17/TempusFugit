@@ -1,19 +1,5 @@
 <?php
-//Dividir Controlador y Vista
-require_once './Servicio/Db.php';
-require_once './Modelo/Reloj.php';
-
-if (isset($_GET['marca'])) {
-    $relojes = Reloj::obtenerPorMarca($_GET['marca']);
-} else {
-    $relojes = Reloj::obtenerTodos();
-}
-
-// Relojes por marca
-$relojesPorMarca = [];
-foreach ($relojes as $reloj) {
-    $relojesPorMarca[$reloj->getMarca()][] = $reloj;
-}
+// Vista/catalogo.php
 ?>
 <!DOCTYPE html>
 <html lang="es">

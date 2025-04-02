@@ -1,0 +1,30 @@
+<?php
+// CatalogoController.php
+
+require_once './Servicio/Db.php';
+require_once './Modelo/Reloj.php';
+
+class CatalogoController {
+    public function mostrarCatalogo() {
+        // Obtener datos según el parámetro de marca
+        if (isset($_GET['marca'])) {
+            $relojes = Reloj::obtenerPorMarca($_GET['marca']);
+        } else {
+            $relojes = Reloj::obtenerTodos();
+        }
+
+        // Agrupar relojes por marca
+        $relojesPorMarca = [];
+        foreach ($relojes as $reloj) {
+            $relojesPorMarca[$reloj->getMarca()][] = $reloj;
+        }
+
+        // Cargar vista con los datos
+        require_once './Vista/catalogo.php';
+    }
+}
+
+// Inicializar y ejecutar el controlador
+$controller = new CatalogoController();
+$controller->mostrarCatalogo();
+?>
