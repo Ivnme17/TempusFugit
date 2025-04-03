@@ -1,5 +1,5 @@
 CREATE DATABASE IF NOT EXISTS `tempus_fugit`;
-USE `tempus-fugit`;
+USE `tempus_fugit`;
 
 CREATE TABLE Roles (
     ID_rol INT PRIMARY KEY,
