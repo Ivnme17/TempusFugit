@@ -23,7 +23,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             </form>
 
         <div id="error" style="color: red; font-weight: bold; text-align: center;"> 
-            <p></p>
+            <p><?php $mensajeError ?></p>
         </div>
     </body>
 </html>
