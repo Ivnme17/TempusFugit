@@ -1,0 +1,1 @@
+<!-- fichero que si se encuentra una session activa la elimina y redirige al usuario a la página principal    !>
