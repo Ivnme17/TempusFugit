@@ -6,7 +6,7 @@ class Db{
    
    public static function getConexion(){
        if(self::$conn == null){
-           self::$conn = new PDO('mysql:host=mysql;dbname=tempus-fugit', 'root', 'root');
+           self::$conn = new PDO('mysql:host=mysql;dbname=tempus_fugit', 'root', 'root');
        }
        return self::$conn;
    }
