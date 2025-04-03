@@ -21,7 +21,7 @@ if (filter_has_var(INPUT_POST, "iniciar")) {
     
     $usuario = Usuario::autenticarUsuario($login, $clave);
     
-    if ($usuario) {
+    if (!empty($usuario)) {
         $_SESSION["usuario"] = $usuario->getLogin(); 
         $_SESSION["rol"] = $usuario->getId_rol();
         
