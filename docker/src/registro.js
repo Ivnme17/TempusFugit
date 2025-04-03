@@ -86,5 +86,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Mantener las funciones auxiliares existentes (mostrarError, limpiarErrores, verificarLoginUnico, hashSHA512)
 });
