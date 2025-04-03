@@ -7,8 +7,8 @@ $mensaje = "";
 $mensajeError = "";
 
 if (filter_has_var(INPUT_POST, "iniciar")) {
-    $login = filter_input(INPUT_POST, "loginUsuario", FILTER_SANITIZE_STRING);
-    $clave = filter_input(INPUT_POST, "claveUsuario", FILTER_SANITIZE_STRING);
+    $login = filter_input(INPUT_POST, "loginUsuario");
+    $clave = filter_input(INPUT_POST, "claveUsuario");
     
     $usuario = Usuario::autenticarUsuario($login, $clave);
     

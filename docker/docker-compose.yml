@@ -49,3 +49,4 @@ networks:
 
 volumes:
   mysql_data:
+    driver: local
