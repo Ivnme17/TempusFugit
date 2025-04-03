@@ -18,11 +18,11 @@ if (filter_has_var(INPUT_POST, "iniciar")) {
         
         switch ($_SESSION['rol']) {
             case "1": case "2": // Empleado Y Administrador
-                include_once './Vista/vista-empleado.html';
+                include_once './Vista/vistaEmpleado.html';
                 break;
                 
             case "3":case "4": // Cliente Y Por Defecto
-                include_once './Vista/vista-cliente.html';
+                include_once './Vista/vistaCliente.html';
                 break;
                 
             default:

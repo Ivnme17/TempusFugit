@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Login</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="estilosFormulario.css">
+    </head>
+    <body>
+        
+        <h1>Formulario de inicio de sesion de usuarios</h1>
+        <form action="../login.php" method="post">
+                <label>Introduce un login</label><br><br>
+                <input type="text" name="loginUsuario" value=""><br><br>
+                <label>Introduce una contraseña</label><br><br>
+                <input type="password" name="claveUsuario" value=""><br><br>
+                <button type="submit" name="iniciar">Iniciar Sesión</button>
+                <input id="cancelar" type="button" value="Cancelar" onclick="location.href='../index.html'">
+            </form>
+
+        <div id="error" style="color: red; font-weight: bold; text-align: center;"> 
+            <p></p>
+        </div>
+    </body>
+</html>
