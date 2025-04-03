@@ -2,7 +2,16 @@
 session_start();
 require_once './Modelo/Usuario.php';
 require_once './Servicio/Db.php';
+$usuarios = [];
+$conexion = Db::getConexion();
+$consulta = "SELECT * FROM usuarios";
+$resultado = $conexion->query($consulta);
 
+if ($resultado) {
+    while ($fila = $resultado->fetch(PDO::FETCH_ASSOC)) {
+        $usuarios[] = $fila;
+    }
+}
 $mensaje = "";
 $mensajeError = "";
 
@@ -18,7 +27,7 @@ if (filter_has_var(INPUT_POST, "iniciar")) {
         
         switch ($_SESSION['rol']) {
             case "1": case "2": // Empleado Y Administrador
-                include_once './Vista/vistaEmpleado.html';
+                include_once './Vista/vistaEmpleado.php';
                 break;
                 
             case "3":case "4": // Cliente Y Por Defecto
