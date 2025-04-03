@@ -4,7 +4,7 @@ require_once './Modelo/Usuario.php';
 require_once './Servicio/Db.php';
 $usuarios = [];
 $conexion = Db::getConexion();
-$consulta = "SELECT * FROM usuarios";
+$consulta = "SELECT * FROM clientes";
 $resultado = $conexion->query($consulta);
 
 if ($resultado) {

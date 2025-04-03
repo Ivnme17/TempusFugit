@@ -214,3 +214,13 @@ button:hover {
 #botonCarrito a:hover {
     text-decoration: underline; 
 } 
+
+#gestionClientes button{
+    background-color: #FFD700; 
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}

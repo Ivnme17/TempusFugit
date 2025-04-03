@@ -51,33 +51,33 @@
     <div id="gestionClientes">
         <h1>GESTIÓN DE CLIENTES</h1>
         <p>Aquí podrás administrar y realizar seguimiento de los clientes de Tempus Fugit.</p>
-        <table class="table table-striped">
+        <table class="table table-striped table-bordered table-hover">
             <thead>
-                <tr>
-                    <th>ID Cliente</th>
-                    <th>ID Usuario</th>
-                    <th>Telefono</th>
-                    <th>Correo</th>
-                    <th>Dirección</th>
-                    <th>IBAN</th>
-                </tr>
+          <tr>
+              <th>ID Cliente</th>
+              <th>ID Usuario</th>
+              <th>Telefono</th>
+              <th>Correo</th>
+              <th>Dirección</th>
+              <th>IBAN</th>
+              <th>Acciones</th>
+          </tr>
             </thead>
             <tbody>
-                <tr>
-                    <?php foreach($usuarios as $usuario){ ?>
-                    <td><?= $usuario['id_cliente']; ?></td>
-                    <td><?= $usuario['id_usuario']; ?></td>
-                    <td><?= $usuario['telefono']; ?></td>
-                    <td><?= $usuario['correo']; ?></td>
-                    <td><?= $usuario['direccion']; ?></td>
-                    <td><?= $usuario['iban']; ?></td>
-                    <td><?php } ?>
-                    </td>
-                    <td>
-                        <button>Ver Detalles</button>
-                        <button>Editar</button>
-                    </td>
-                </tr>
+            <?php foreach($usuarios as $usuario){ ?>
+          <tr>
+              <td><?= $usuario['id_cliente']; ?></td>
+              <td><?= $usuario['id_usuario']; ?></td>
+              <td><?= $usuario['telefono']; ?></td>
+              <td><?= $usuario['correo']; ?></td>
+              <td><?= $usuario['direccion']; ?></td>
+              <td><?= $usuario['iban']; ?></td>
+              <td>
+            <button>Ver Detalles</button>
+            <button>Editar</button>
+              </td>
+          </tr>
+            <?php } ?>
             </tbody>
         </table>
     </div>
