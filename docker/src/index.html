@@ -48,36 +48,51 @@
         <div id="logoEmpresa">
             <a href="index.html"><img src="logoEmpresa/TEMPUS-removebg-preview.png" alt="Logo de Tempus Fugit"></a>
         </div>
-    <div id="mantenimientosDeRelojes">
-        <h1>MANTENIMIENTOS DE LOS PRODUCTOS - ATENCIÓN AL CLIENTE</h1>
-        <p>Nuestra empresa además de vender relojes, tiene una sección de ayuda al cliente y mantenimiento de estos dispositivos.</p>
     </div>
+    <div id="inicio">
+        <h1>BIENVENIDO A TEMPUS FUGIT</h1>
+        <p>La tienda de relojes más completa y moderna del mercado.</p>
+        <p>Encuentra el reloj perfecto para ti o para regalar.</p>
     
-    <div id="productos">
-        <h2>SELECCIÓN DE NUESTROS RELOJEROS</h2>
-        <fieldset class="producto">
+    <div id="productos" class="carousel slide" data-bs-ride="carousel">
+      <h2>SELECCIÓN DE NUESTROS RELOJEROS</h2>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <fieldset class="producto">
             <legend>Reloj Lotus</legend>
             <img src="https://static6.festinagroup.com/product/lotus/watches/detail/big/l18812_3.webp" alt="Reloj Lotus Multifunction">
             <p>RELOJ DE HOMBRE LOTUS MULTIFUNCTION CON ESFERA NEGRA 18812/3 <br> 89,00 €</p>
-        </fieldset>
-        <fieldset class="producto">
+          </fieldset>
+        </div>
+        <div class="carousel-item">
+          <fieldset class="producto"></fieldset>
             <legend>Reloj Casio G-Shock</legend>
             <img src="https://www.baroli.es/wp-content/uploads/2015/12/GA-120BB-1AER.jpg" alt="Reloj Casio G-Shock">
             <p>CASIO G-SHOCK RESISTENTE AL AGUA Y GOLPES <br> 120,00 €</p>
-        </fieldset>
-        <fieldset class="producto">
+          </fieldset>
+        </div>
+        <div class="carousel-item">
+          <fieldset class="producto">
             <legend>Reloj Rolex Submariner</legend>
             <img src="https://www.rabat.net/media/catalog/product/r/o/rolex-submariner-m126610ln-0001.png" alt="Reloj Rolex Submariner">
             <p>ROLEX SUBMARINER ACERO INOXIDABLE <br> 8.500,00 €</p>
-        </fieldset>
+          </fieldset>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#productos" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#productos" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
     </div>
     
-    <div id="Asociados">
-        <h1>EMPRESAS ASOCIADAS</h1>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/Logo_da_Rolex.png" alt="Logo Empresa 1">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Lotus_Watches_logo.svg/1200px-Lotus_Watches_logo.svg.png" alt="Logo Lotus">
-        <img src="https://cdn.worldvectorlogo.com/logos/casio-logo.svg" alt="Logo Casio">
-    </div>
+    <div id="mantenimientosDeRelojes">
+      <h1>MANTENIMIENTOS DE LOS PRODUCTOS - ATENCIÓN AL CLIENTE</h1>
+      <p>Nuestra empresa además de vender relojes, tiene una sección de <a href="Vista/atencionAlCliente.html">ayuda al cliente y mantenimiento de estos dispositivos.</a></p>
+  </div>
 
     <div id="formulario">
         <form>
@@ -91,11 +106,19 @@
             <input type="button" value="Cancelar">
         </form>
     </div>
-    <div id="pieDePagina">
-        <footer>
-            <pre>Iván Martínez Estrada - 2ºDAW</pre>
-        </footer>
-    </div>
+    <div id="pieDePagina"></div>
+    <footer style="display: flex; justify-content: space-between; align-items: center;">
+      <pre>Iván Martínez Estrada - 2ºDAW</pre>
+      <div id="Asociados">
+        <h4>Empresas Asociadas</h4>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/Logo_da_Rolex.png" alt="Logo Empresa 1" style="height: 30px;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Lotus_Watches_logo.svg/1200px-Lotus_Watches_logo.svg.png" alt="Logo Lotus" style="height: 30px;">
+          <img src="https://cdn.worldvectorlogo.com/logos/casio-logo.svg" alt="Logo Casio" style="height: 30px;">
+        </div>
+      </div>
+    </footer>
+  </div>
     
 </body>
 </html>
