@@ -224,3 +224,13 @@ button:hover {
     font-size: 16px;
     border-radius: 5px;
 }
+
+#formulario input[type="reset"]{
+    background-color: #FFD700; 
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
