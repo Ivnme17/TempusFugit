@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../Servicio/Db.php';
+require_once './Servicio/Db.php';
 
 // Verificar si el usuario está logueado
 if (!isset($_SESSION['usuario'])) {
@@ -64,7 +64,7 @@ if ($_SESSION['rol'] == '1' || $_SESSION['rol'] == '2') {
         }
         ?>
 
-        <form action="../verificar_empleado.php" method="POST">
+        <form action="../verificacion_empleado.php" method="POST">
             <h2 class="text-center mb-4">Verificación de Empleado</h2>
            
             <div class="mb-3">
