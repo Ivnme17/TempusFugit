@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Si todo es válido, enviar el formulario
         if (esValido) {
-            document.getElementById('claveHash').value = hashSHA256(clave);
+            document.getElementById('claveHash').value = hashSHA512(clave);
             
             formularioRegistro.submit();
         }
@@ -178,11 +178,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Función simulada de hash SHA-256
-    function hashSHA256(texto) {
-        return 'hashed_' + texto;
+    // Función simulada de hash SHA-512
+    function hashSHA512(texto) {
+        return 'hashed512_' + texto;
     }
-    
     const selectorRol = document.getElementById('rol');
     if (selectorRol) {
         selectorRol.addEventListener('change', function() {
