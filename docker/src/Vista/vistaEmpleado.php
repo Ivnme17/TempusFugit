@@ -64,17 +64,20 @@
           </tr>
             </thead>
             <tbody>
-            <?php foreach($usuarios as $usuario){ ?>
+            <?php foreach($clientes as $cliente){ ?>
           <tr>
-              <td><?= $usuario['id_cliente']; ?></td>
-              <td><?= $usuario['id_usuario']; ?></td>
-              <td><?= $usuario['telefono']; ?></td>
-              <td><?= $usuario['correo']; ?></td>
-              <td><?= $usuario['direccion']; ?></td>
-              <td><?= $usuario['iban']; ?></td>
+              <td><?= $cliente['id_cliente']; ?></td>
+              <td><?= $cliente['id_usuario']; ?></td>
+              <td><?= $cliente['telefono']; ?></td>
+              <td><?= $cliente['correo']; ?></td>
+              <td><?= $cliente['direccion']; ?></td>
+              <td><?= $cliente['iban']; ?></td>
               <td>
-            <button>Ver Detalles</button>
-            <button>Editar</button>
+                <a href="controladorEmpleado.php? action=editar&id_cliente=<?= $cliente['id_cliente']; ?>">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <input type="button" value="Ver Detalles" class="btn btn-secondary">
+                  <input type="button" value="Editar" class="btn btn-primary">
+                </a>
               </td>
           </tr>
             <?php } ?>
@@ -84,19 +87,81 @@
     
     <div id="gestionInventario">
         <h1>INVENTARIO DE RELOJES</h1>
-        <fieldset class="producto">
-            <legend>Stock de Relojes</legend>
-            <p>Total de Relojes: 150</p>
-            <p>Marcas: Rolex (50), Casio (40), Lotus (60)</p>
-        </fieldset>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+          <tr>
+              <th>ID Reloj</th>
+              <th>Marca</th>
+              <th>Modelo</th>
+              <th>Precio</th>
+              <th>Tipo</th>
+              <th>Disponibilidad</th>
+              <th>Id_usuario</th>
+              <th>URL Imagen</th>
+              <th>Acciones</th>
+          </tr>
+            </thead>
+            <tbody>
+            <?php foreach($relojes as $reloj){ ?>
+          <tr>
+              <td><?= $reloj['id_reloj']; ?></td>
+              <td><?= $reloj['marca']; ?></td>
+              <td><?= $reloj['modelo']; ?></td>
+              <td><?= $reloj['precio']; ?></td>
+              <td><?= $reloj['tipo']; ?></td>
+              <td><?= $reloj['disponibilidad']; ?></td>
+              <td><?= $reloj['id_usuario']; ?></td>
+              <td><?= $reloj['url_imagen']; ?></td>
+              <td>
+                <a href="controladorEmpleado.php? action=editar&id_reloj=<?= $reloj['id_reloj']; ?>">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <input type="button" value="Ver Detalles" class="btn btn-secondary">
+                  <input type="button" value="Editar" class="btn btn-primary">
+                </a>
+              </td>
+          </tr>
+            <?php } ?>
+            </tbody>
+        </table>
     </div>
 
     <div id="informes">
         <h1>INFORMES Y ESTADÍSTICAS</h1>
+        <h1>Productos más vendidos (Orden Asc)</h1>
         <div>
-            <h2>Ventas Mensuales</h2>
-            <p>Total Ventas: 45,000 €</p>
-            <p>Reloj más vendido: Lotus Multifunction</p>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+          <tr>
+              <th>ID Reloj</th>
+              <th>Marca</th>
+              <th>Modelo</th>
+              <th>Precio</th>
+              <th>Tipo</th>
+              <th>Disponibilidad</th>
+              <th>Acciones</th>
+          </tr>
+            </thead>
+            <tbody>
+            <?php foreach($masVendidos as $masvendido){ ?>
+          <tr>
+              <td><?= $masvendido['id_reloj']; ?></td>
+              <td><?= $masvendido['marca']; ?></td>
+              <td><?= $masvendido['modelo']; ?></td>
+              <td><?= $masvendido['precio']; ?></td>
+              <td><?= $masvendido['tipo']; ?></td>
+              <td><?= $masvendido['disponibilidad']; ?></td>
+              <td>
+                <a href="controladorEmpleado.php? action=editar&id_reloj=<?= $masvendido['id_reloj']; ?>">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <input type="button" value="Ver Detalles" class="btn btn-secondary">
+                  <input type="button" value="Editar" class="btn btn-primary">
+                </a>
+              </td>
+          </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+        <h3> Precio Total de articulos: <?= $totalPrecio?> €</h3>
         </div>
     </div>
 
