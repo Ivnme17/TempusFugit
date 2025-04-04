@@ -43,20 +43,20 @@ if (filter_has_var(INPUT_POST, "registrar")) {
                     exit();
                 } else {
                     $mensajeError = "Error al registrar el usuario";
-                    include_once './Vista/registro.php';
+                    include_once './Vista/registroIncorrecto.php';
                 }
             } else {
                 $mensajeError = "El usuario o email ya existe";
-                include_once './Vista/registro.php';
+                include_once './Vista/registroIncorrecto.php';
             }
         } catch (PDOException $e) {
             $mensajeError = "Error en la base de datos: " . $e->getMessage();
-            include_once './Vista/registro.php';
+            include_once './Vista/registroIncorrecto.php';
         }
     } else {
         $mensajeError = "Todos los campos son obligatorios";
-        include_once './Vista/registro.php';
+        include_once './Vista/registroIncorrecto.php';
     }
 } else {
-    include_once './Vista/registro.php';
+    include_once './Vista/registroIncorrecto.php';
 }

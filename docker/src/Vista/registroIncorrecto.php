@@ -146,6 +146,7 @@ color: #FFD700;
             <input type="submit" value="Registrarse">
             <input type="button" value="Cancelar" onclick="location.href='../index.html'">
         </form>
+        <p id="mensajeError" style="color: red; display: none;"><?= $mensajeError?></p>
     </div>
 
     <div id="pieDePagina">
