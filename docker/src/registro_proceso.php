@@ -28,11 +28,11 @@ if (filter_has_var(INPUT_POST, "registrar")) {
                 $claveHash = password_hash($clave, PASSWORD_DEFAULT);
                 
                 // Insertar nuevo usuario
-                $consulta = "INSERT INTO usuarios (login, password, nombre, apellidos, email, id_rol) 
-                            VALUES (:login, :password, :nombre, :apellidos, :email, 3)";
+                $consulta = "INSERT INTO usuarios (login, clave, nombre, apellidos, email, id_rol) 
+                            VALUES (:login, :clave, :nombre, :apellidos, :email, 3)";
                 $stmt = $conexion->prepare($consulta);
                 $stmt->bindParam(':login', $login);
-                $stmt->bindParam(':password', $claveHash);
+                $stmt->bindParam(':clave', $claveHash);
                 $stmt->bindParam(':nombre', $nombre);
                 $stmt->bindParam(':apellidos', $apellidos);
                 $stmt->bindParam(':email', $email);
