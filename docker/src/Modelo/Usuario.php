@@ -24,6 +24,53 @@ class Usuario {
         $this->apellidos = trim($apellidos);
     }
 
+    public function getId_rol() {
+        return $this->id_rol;
+    }
+
+    public function setId_rol($id_rol): void {
+        $this->id_rol = $id_rol;
+    }
+
+    public function getNombre() {
+        return $this->nombre;
+    }
+    public function setNombre($nombre): void {
+        $this->nombre = trim($nombre);
+    }
+    public function getLogin() {
+        return $this->login;
+    }
+    public function setLogin($login): void {
+        $this->login = trim($login);
+    }
+
+    public function getClave() {
+        return $this->clave;
+    }
+
+    public function setClave($clave): void {
+        $this->clave = trim($clave);
+    }
+    public function getEmail() {
+        return $this->email;
+    }
+    public function setEmail($email): void {
+        $this->email = trim($email);
+    }
+    public function getFecha_registro() {
+        return $this->fecha_registro;
+    }
+    public function setFecha_registro($fecha_registro): void {
+        $this->fecha_registro = $fecha_registro;
+    }
+    public function getActivo() {
+        return $this->activo;
+    }
+    public function setActivo($activo): void {
+        $this->activo = $activo;
+    }
+
     public static function obtenerUsuarioPorId($id) {
         $conexion = Db::getConexion();
         $stmt = $conexion->prepare('SELECT * FROM usuarios WHERE id = :id');
