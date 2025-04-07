@@ -161,4 +161,36 @@ class Usuario {
         
         return $resultado;
     }
+
+    public function eliminarUsuario() {
+        $conexion = Db::getConexion();
+        $resultado = false;
+        try {
+            $conexion->beginTransaction();
+            
+            $sql = 'DELETE FROM usuarios WHERE login = :login';
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindParam(':login', $this->login);
+            
+            $resultado = $stmt->execute();
+            $conexion->commit();
+            
+        } catch (PDOException $e) {
+            $conexion->rollBack();
+        }
+        return $resultado;
+    }
+
+    public static function autenticarUsuario($login, $clave) {
+        $conexion = Db::getConexion();
+        $stmt = $conexion->prepare('SELECT * FROM usuarios WHERE login = :login AND clave = :clave AND activo = true');
+        
+        $claveCifrada = hash('sha512', $clave);
+        $stmt->bindParam(':login', $login);
+        $stmt->bindParam(':clave', $claveCifrada);
+        
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Usuario');
+        return $stmt->fetch();
+    }
 }
