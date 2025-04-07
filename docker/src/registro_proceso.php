@@ -55,5 +55,5 @@ if (filter_has_var(INPUT_POST, "registrar")) {
         include_once '../Vista/registroIncorrecto.php';
     }
 } else {
-    include_once '../Vista/registroIncorrecto.php';
+    include_once '../Vista/registro.php';
 }
