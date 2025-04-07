@@ -23,16 +23,22 @@ if (filter_has_var(INPUT_POST, "registrar")) {
             $stmt->execute();
             
             if ($stmt->fetchColumn() == 0) {
-                $claveHash = hash('sha512', $clave);
+                $usuario = new Usuario();
+                $usuario->setLogin($login);
+                $usuario->setClave($clave);
+                $usuario->setNombre($nombre);
+                $usuario->setApellidos($apellidos);
+                $usuario->setEmail($email);
+                $usuario->setIdRol(3);
                 
-                $consulta = "INSERT INTO usuarios (login, clave, nombre, apellidos, email, id_rol) 
-                            VALUES (:login, :clave, :nombre, :apellidos, :email, 3)";
-                $stmt = $conexion->prepare($consulta);
-                $stmt->bindParam(':login', $login);
-                $stmt->bindParam(':clave', $claveHash);
-                $stmt->bindParam(':nombre', $nombre);
-                $stmt->bindParam(':apellidos', $apellidos);
-                $stmt->bindParam(':email', $email);
+                if ($usuario->añadirUsuario()) {
+                    $stmt = new stdClass(); // Dummy object to maintain compatibility
+                    $stmt->execute = function() { return true; }; // Dummy method
+                } else {
+                    $mensajeError = "El usuario ya existe";
+                    include_once '../Vista/registroIncorrecto.php';
+                    exit();
+                }
                 
                 if ($stmt->execute()) {//En este caso reenvio al usuario con header Location:
                     $mensaje = "Usuario registrado correctamente";
@@ -55,5 +61,5 @@ if (filter_has_var(INPUT_POST, "registrar")) {
         include_once '../Vista/registroIncorrecto.php';
     }
 } else {
-    include_once '../Vista/registro.php';
+    include_once './Vista/registro.php';
 }

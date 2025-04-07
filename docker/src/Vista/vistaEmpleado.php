@@ -127,7 +127,7 @@ if ($resultado) {
               <td>
                 <a href="controladorEmpleado.php? action=editar&id_cliente=<?= $cliente['id_cliente']; ?>">
                     <i class="fa-solid fa-pen-to-square"></i>
-                    <input type="button" value="Ver Detalles" class="btn btn-secondary">
+                    <input type="button" value="Eliminar" class="btn btn-secondary">
                   <input type="button" value="Editar" class="btn btn-primary">
                 </a>
               </td>
@@ -167,7 +167,7 @@ if ($resultado) {
               <td>
                 <a href="controladorEmpleado.php? action=editar&id_reloj=<?= $reloj['id_reloj']; ?>">
                     <i class="fa-solid fa-pen-to-square"></i>
-                    <input type="button" value="Ver Detalles" class="btn btn-secondary">
+                    <input type="button" value="Eliminar" class="btn btn-secondary">
                   <input type="button" value="Editar" class="btn btn-primary">
                 </a>
               </td>
@@ -205,7 +205,7 @@ if ($resultado) {
               <td>
                 <a href="controladorEmpleado.php? action=editar&id_reloj=<?= $masvendido['id_reloj']; ?>">
                     <i class="fa-solid fa-pen-to-square"></i>
-                    <input type="button" value="Ver Detalles" class="btn btn-secondary">
+                    <input type="button" value="Eliminar" class="btn btn-secondary">
                   <input type="button" value="Editar" class="btn btn-primary">
                 </a>
               </td>

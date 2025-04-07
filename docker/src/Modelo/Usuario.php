@@ -1,150 +1,180 @@
 <?php
 require_once './Servicio/Db.php';
 
-class Usuario{
-
+class Usuario {
     private $login;
     private $clave;
     private $id_rol;
-    
+    private $nombre;
+    private $email;
+    private $fecha_registro;
+    private $activo;
     
     public function __construct() {
-
+        $this->fecha_registro = date('Y-m-d H:i:s');
+        $this->activo = true;
     }
     
-    
-    
-    public function getLogin() {
-        return $this->login;
+    // Getters
+    public function getLogin() { 
+        return $this->login; 
     }
-
-    public function getClave() {
-        return $this->clave;
+    public function getClave() { 
+        return $this->clave; 
     }
-
-    public function getId_rol() {
-        return $this->id_rol;
+    public function getId_rol() { 
+        return $this->id_rol; 
     }
-
-    public function setLogin($login): void {
-        $this->login = $login;
-    }
-
-    public function setClave($nuevaClave): void {
-        $this->clave = $nuevaClave;
-    }
-
-    public function setId_rol($id_rol): void {
-        $this->id_rol = $id_rol;
-    }
-
-
-    public function añadirUsuario(){
-        $conexion = Db::getConexion();
-        $esInsertado = false;
-        $clave = $this->clave;
-        $claveCifrada = hash('sha512',$clave);
-        $login = $this->login;
-        $stmt = $conexion->prepare('SELECT * FROM usuarios WHERE login = :login');
-        $stmt->bindParam(':login',$login);
-        $stmt->execute();
-        $r = $stmt->fetchColumn();
-        
-        if(!$r){
-            $stmt = $conexion->prepare('INSERT INTO usuarios (login,clave,id_rol) VALUES (:login,:clave,:id_rol)');
-            $idRol = $this->id_rol;
-            $stmt->bindParam(':login',$login);
-            $stmt->bindParam(':clave',$claveCifrada);
-            $stmt->bindParam(':id_rol',$idRol);
-            $stmt->execute();
-            $esInsertado = true;
-        }else{
-            $esInsertado = false;
+    public function getNombre() {
+         return $this->nombre; 
         }
-        return $esInsertado;
+    public function getEmail() { 
+        return $this->email;
+     }
+    public function getFechaRegistro() { 
+        return $this->fecha_registro; 
     }
-    
-    
-    public function actualizarUsuario(){
+    public function getActivo() { 
+        return $this->activo; 
+    }
+
+    // Setters
+    public function setLogin($login): void { 
+        $this->login = trim($login); 
+    }
+    public function setClave($nuevaClave): void { 
+        $this->clave = $nuevaClave; 
+    }
+    public function setId_rol($id_rol): void { 
+        $this->id_rol = $id_rol; 
+    }
+    public function setNombre($nombre): void { 
+        $this->nombre = trim($nombre); 
+    }
+    public function setEmail($email): void { 
+        $this->email = trim($email); 
+    }
+    public function setActivo($activo): void { 
+        $this->activo = $activo; 
+    }
+
+    public function añadirUsuario() {
         $conexion = Db::getConexion();
-        $esActualizado = false;
-        $clave = $this->clave;
-        $claveEncriptada = hash('sha512',$clave);
-        $login = $this->login;
-        $stmt = $conexion->prepare('SELECT login FROM usuarios WHERE login = :login');
-        $stmt->bindParam(':login',$login);
-        $stmt->execute();
-        $r = $stmt->fetchColumn();
+        $exito = false;
         
-        if($r){
-            $stmt = $conexion->prepare('UPDATE usuarios SET clave = :clave, id_rol = :id_rol');
-            $idRol = $this->id_rol;
-            $stmt->bindParam(':clave',$claveEncriptada);
-            $stmt->bindParam('id_rol',$idRol);
-            $stmt->execute();
-            $stmt->closeCursor();
-            $esActualizado = true;
-        }else{
-            $esActualizado = false;
-        }
-        return $esActualizado;
-    }
-    
-    
-    public static function eliminarUsuario($login){
-        $conexion = Db::getConexion();
-        $stmt = $conexion->prepare('DELETE FROM usuario WHERE login = :login');
-        $stmt->bindParam(':login',$login);
-        $stmt->execute();
-        $esEliminado = true;
-        
-        return $esEliminado;
-    }
-    
-    public static function verUsuario($login) {
         try {
-            $conexion = Db::getConexion(); // Conectar a la base de datos
-            $consulta = $conexion->prepare("SELECT * FROM usuarios WHERE login = :login");
-            $consulta->bindParam(":login", $login, PDO::PARAM_STR);
-            $consulta->execute();
-
-            $usuario = $consulta->fetchObject(self::class);
-            $consulta->closeCursor();
-
-        } catch (PDOException $e) {
-            $usuario = false;
-        }
-        return $usuario;
-    }
-    
-    public static function listarUsuarios() {
-        try {
-            $conexion = Db::getConexion();
-            $stmt = $conexion->prepare("SELECT * FROM usuarios");
+            $conexion->beginTransaction();
+            
+            $stmt = $conexion->prepare('SELECT COUNT(*) FROM usuarios WHERE login = :login OR email = :email');
+            $stmt->bindParam(':login', $this->login);
+            $stmt->bindParam(':email', $this->email);
             $stmt->execute();
-            $usuarios = $stmt->fetchAll(PDO::FETCH_CLASS,self::class);
-            $stmt->closeCursor();
+            
+            if ($stmt->fetchColumn() == 0) {
+                $stmt = $conexion->prepare('INSERT INTO usuarios (login, clave, id_rol, nombre, email, fecha_registro, activo) 
+                                          VALUES (:login, :clave, :id_rol, :nombre, :email, :fecha_registro, :activo)');
+                
+                $claveCifrada = hash('sha512', $this->clave);
+                $stmt->bindParam(':login', $this->login);
+                $stmt->bindParam(':clave', $claveCifrada);
+                $stmt->bindParam(':id_rol', $this->id_rol);
+                $stmt->bindParam(':nombre', $this->nombre);
+                $stmt->bindParam(':email', $this->email);
+                $stmt->bindParam(':fecha_registro', $this->fecha_registro);
+                $stmt->bindParam(':activo', $this->activo);
+                
+                $exito = $stmt->execute();
+                $conexion->commit();
+            }
+            
         } catch (PDOException $e) {
-            $usuarios = false;
+            $conexion->rollBack();
         }
+        
+        return $exito;
+    }
+
+    public function actualizarUsuario() {
+        $conexion = Db::getConexion();
+        $resultado = false;
+        
+        try {
+            $conexion->beginTransaction();
+            
+            $sql = 'UPDATE usuarios SET 
+                    clave = :clave,
+                    id_rol = :id_rol,
+                    nombre = :nombre,
+                    email = :email,
+                    activo = :activo
+                    WHERE login = :login';
+            
+            $stmt = $conexion->prepare($sql);
+            
+            $claveCifrada = hash('sha512', $this->clave);
+            $stmt->bindParam(':clave', $claveCifrada);
+            $stmt->bindParam(':id_rol', $this->id_rol);
+            $stmt->bindParam(':nombre', $this->nombre);
+            $stmt->bindParam(':email', $this->email);
+            $stmt->bindParam(':activo', $this->activo);
+            $stmt->bindParam(':login', $this->login);
+            
+            $resultado = $stmt->execute();
+            $conexion->commit();
+            
+        } catch (PDOException $e) {
+            $conexion->rollBack();
+        }
+        
+        return $resultado;
+    }
+
+    public function eliminarUsuario() {
+        $conexion = Db::getConexion();
+        $resultado = false;
+        try {
+            $conexion->beginTransaction();
+            $sql = 'DELETE FROM usuarios WHERE login = :login';
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindParam(':login', $this->login);
+            $resultado = $stmt->execute();
+            $conexion->commit();
+        } catch (PDOException $e) {
+            $conexion->rollBack();
+        }
+        return $resultado;
+    }
+
+    public static function obtenerTodosUsuarios() {
+        $conexion = Db::getConexion();
+        $usuarios = [];
+        
+        try {
+            $stmt = $conexion->query('SELECT * FROM usuarios');
+            $usuarios = $stmt->fetchAll(PDO::FETCH_CLASS, 'Usuario');
+        } catch (PDOException $e) {
+            // Manejo de errores
+            echo "Error: " . $e->getMessage();
+        }
+        
         return $usuarios;
     }
-    
-    public static function autenticarUsuario($nombreLogin, $passwd){
+
+    public static function obtenerUsuarioPorId($login) {
         $conexion = Db::getConexion();
-        $clave = hash("sha512", $passwd);
-        // $sql = <<<q1
-        //select login
-        //from usuarios
-        //where login = :login and clave = :clave
-        //q1;
-        $consultaPreparada = $conexion->prepare("SELECT * FROM usuarios WHERE login = :login and clave = :clave");
-        $consultaPreparada->bindParam(":login",$nombreLogin);
-        $consultaPreparada->bindParam(":clave",$clave);
-        $consultaPreparada->execute();
-        $usuario = $consultaPreparada->fetchObject(self::class);
+        $usuario = null;
+        
+        try {
+            $stmt = $conexion->prepare('SELECT * FROM usuarios WHERE login = :login');
+            $stmt->bindParam(':login', $login);
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Usuario');
+            $usuario = $stmt->fetch();
+        } catch (PDOException $e) {
+            // Manejo de errores
+            echo "Error: " . $e->getMessage();
+        }
+        
         return $usuario;
     }
-    
-    
 }

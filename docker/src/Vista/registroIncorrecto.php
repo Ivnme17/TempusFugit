@@ -146,7 +146,16 @@ color: #FFD700;
             <input type="submit" value="Registrarse">
             <input type="button" value="Cancelar" onclick="location.href='../index.html'">
         </form>
-        <p id="mensajeError" style="color: red; display: none;"><?= $mensajeError?></p>
+      
+        <div class="alert alert-danger" role="alert" style="margin-top: 20px;">
+            <?php 
+            if (!empty($mensajeError)) {
+            echo $mensajeError;
+            } else {
+            echo "No hay errores.";
+            }
+            ?>
+        </div>
     </div>
 
     <div id="pieDePagina">
