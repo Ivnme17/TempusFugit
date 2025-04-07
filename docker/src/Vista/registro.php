@@ -143,7 +143,7 @@ color: #FFD700;
             <label for="direccion">Dirección:</label>
             <textarea id="direccion" name="direccion"></textarea>
             
-            <input type="submit" value="registrar">
+            <button type="submit" name="registrar">Registrar</button>
             <input type="button" value="Cancelar" onclick="location.href='../index.html'">
         </form>
     </div>
