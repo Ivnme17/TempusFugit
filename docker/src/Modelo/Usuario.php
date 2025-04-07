@@ -8,6 +8,12 @@ class Usuario {
     private $id_rol;
     private $nombre;
     private $apellidos;
+    private $dni;
+    private $nss;
+    private $telefono;
+    private $correo;
+    private $direccion;
+    private $iban;
     
     public function __construct() {
     }
@@ -59,6 +65,54 @@ class Usuario {
     public function setApellidos($apellidos): void {
         $this->apellidos = trim($apellidos);
     }
+    
+    public function getDni() {
+        return $this->dni;
+    }
+    
+    public function setDni($dni): void {
+        $this->dni = trim($dni);
+    }
+    
+    public function getNss() {
+        return $this->nss;
+    }
+    
+    public function setNss($nss): void {
+        $this->nss = trim($nss);
+    }
+    
+    public function getTelefono() {
+        return $this->telefono;
+    }
+    
+    public function setTelefono($telefono): void {
+        $this->telefono = trim($telefono);
+    }
+    
+    public function getCorreo() {
+        return $this->correo;
+    }
+    
+    public function setCorreo($correo): void {
+        $this->correo = trim($correo);
+    }
+    
+    public function getDireccion() {
+        return $this->direccion;
+    }
+    
+    public function setDireccion($direccion): void {
+        $this->direccion = trim($direccion);
+    }
+    
+    public function getIban() {
+        return $this->iban;
+    }
+    
+    public function setIban($iban): void {
+        $this->iban = trim($iban);
+    }
 
     public static function obtenerUsuarioPorId($id) {
         $conexion = Db::getConexion();
@@ -89,8 +143,8 @@ class Usuario {
             $stmt->execute();
             
             if ($stmt->fetchColumn() == 0) {
-                $stmt = $conexion->prepare('INSERT INTO usuarios (login, clave, id_rol, nombre, apellidos) 
-                                          VALUES (:login, :clave, :id_rol, :nombre, :apellidos)');
+                $stmt = $conexion->prepare('INSERT INTO usuarios (login, clave, id_rol, nombre, apellidos, dni, nss, telefono, correo, direccion, iban) 
+                                          VALUES (:login, :clave, :id_rol, :nombre, :apellidos, :dni, :nss, :telefono, :correo, :direccion, :iban)');
                 
                 $claveCifrada = hash('sha512', $this->clave);
                 $stmt->bindParam(':login', $this->login);
@@ -98,6 +152,12 @@ class Usuario {
                 $stmt->bindParam(':id_rol', $this->id_rol);
                 $stmt->bindParam(':nombre', $this->nombre);
                 $stmt->bindParam(':apellidos', $this->apellidos);
+                $stmt->bindParam(':dni', $this->dni);
+                $stmt->bindParam(':nss', $this->nss);
+                $stmt->bindParam(':telefono', $this->telefono);
+                $stmt->bindParam(':correo', $this->correo);
+                $stmt->bindParam(':direccion', $this->direccion);
+                $stmt->bindParam(':iban', $this->iban);
                 
                 $exito = $stmt->execute();
                 $conexion->commit();
@@ -121,7 +181,13 @@ class Usuario {
                     clave = :clave,
                     id_rol = :id_rol,
                     nombre = :nombre,
-                    apellidos = :apellidos
+                    apellidos = :apellidos,
+                    dni = :dni,
+                    nss = :nss,
+                    telefono = :telefono,
+                    correo = :correo,
+                    direccion = :direccion,
+                    iban = :iban
                     WHERE id_usuario = :id_usuario';
             
             $stmt = $conexion->prepare($sql);
@@ -131,6 +197,12 @@ class Usuario {
             $stmt->bindParam(':id_rol', $this->id_rol);
             $stmt->bindParam(':nombre', $this->nombre);
             $stmt->bindParam(':apellidos', $this->apellidos);
+            $stmt->bindParam(':dni', $this->dni);
+            $stmt->bindParam(':nss', $this->nss);
+            $stmt->bindParam(':telefono', $this->telefono);
+            $stmt->bindParam(':correo', $this->correo);
+            $stmt->bindParam(':direccion', $this->direccion);
+            $stmt->bindParam(':iban', $this->iban);
             $stmt->bindParam(':id_usuario', $this->id_usuario);
             
             $resultado = $stmt->execute();
