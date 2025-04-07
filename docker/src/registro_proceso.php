@@ -29,18 +29,9 @@ if (filter_has_var(INPUT_POST, "registrar")) {
                 $usuario->setNombre($nombre);
                 $usuario->setApellidos($apellidos);
                 $usuario->setEmail($email);
-                $usuario->setIdRol(3);
+                $usuario->setId_rol(3);
                 
                 if ($usuario->añadirUsuario()) {
-                    $stmt = new stdClass(); // Dummy object to maintain compatibility
-                    $stmt->execute = function() { return true; }; // Dummy method
-                } else {
-                    $mensajeError = "El usuario ya existe";
-                    include_once '../Vista/registroIncorrecto.php';
-                    exit();
-                }
-                
-                if ($stmt->execute()) {//En este caso reenvio al usuario con header Location:
                     $mensaje = "Usuario registrado correctamente";
                     header("Location: login.html");
                     exit();
