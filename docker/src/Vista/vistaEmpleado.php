@@ -1,3 +1,50 @@
+<?php
+require_once '../Servicio/Db.php';
+//Clientes
+$clientes = [];
+$conexion = Db::getConexion();
+$consulta = "SELECT * FROM clientes";
+$resultado = $conexion->query($consulta);
+
+if ($resultado) {
+    while ($fila = $resultado->fetch(PDO::FETCH_ASSOC)) {
+        $clientes[] = $fila;
+    }
+}
+//Relojes
+$relojes = [];
+$conexion = Db::getConexion();
+$consulta = "SELECT * FROM relojes";
+$resultado = $conexion->query($consulta);
+
+if ($resultado) {
+    while ($fila = $resultado->fetch(PDO::FETCH_ASSOC)) {
+        $relojes[] = $fila;
+    }
+}
+//Los + vendidos
+$masVendidos = [];
+$conexion = Db::getConexion();
+$consulta = "SELECT * FROM relojes WHERE disponibilidad < 5 ORDER BY disponibilidad ASC LIMIT 5";
+$resultado = $conexion->query($consulta);
+if ($resultado) {
+    while ($fila = $resultado->fetch(PDO::FETCH_ASSOC)) {
+        $masVendidos[] = $fila;
+    }
+}
+
+//TotalPrecio
+$totalPrecio = 0;
+$conexion = Db::getConexion();
+$consulta = "SELECT SUM(precio) as total_precio FROM relojes";
+$resultado = $conexion->query($consulta);
+if ($resultado) {
+    $fila = $resultado->fetch(PDO::FETCH_ASSOC);
+    $totalPrecio = $fila['total_precio'];
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,6 +76,11 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#informes">Informes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../Vista/indexEmpleado.php" tabindex="-1" aria-disabled="true">
+                <i class="fa-solid fa-building"></i>
+              </a>
             </li>
           </ul>
           <form class="d-flex">

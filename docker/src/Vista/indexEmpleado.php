@@ -1,3 +1,7 @@
+<?php
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +11,7 @@
     <title>Página Principal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="../estilos.css">
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
@@ -35,10 +39,10 @@
             <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Search">
             <button class="btn btn-outline-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
           </form>
-          <div id="botonesDeRegistro">
-            <button onclick="location.href='./Vista/registroIncorrecto.php'">Registro</button>
-            <button onclick="location.href='./Vista/login.html'">Iniciar Sesión</button>
-        </div>
+            <a href="./vistaEmpleado.php" class="btn btn-outline-warning ms-2" id="botonPerfil">
+                <i class="fa-solid fa-user-tie"></i>
+            </a>
+          </div> 
     </div>
     
         </div>
@@ -46,7 +50,7 @@
     </nav>
     <div id="header">
         <div id="logoEmpresa">
-            <a href="index.html"><img src="logoEmpresa/TEMPUS-removebg-preview.png" alt="Logo de Tempus Fugit"></a>
+            <a><img src="../logoEmpresa/TEMPUS-removebg-preview.png" alt="Logo de Tempus Fugit"></a>
         </div>
     </div>
     <div id="inicio">
@@ -79,33 +83,20 @@
           </fieldset>
         </div>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#productos" data-bs-slide="prev" style="background: transparent;">
-        <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: brightness(0) invert(1);" onmouseover="this.style.filter='brightness(0) saturate(100%) invert(71%) sepia(98%) saturate(1161%) hue-rotate(359deg) brightness(105%) contrast(105%)'" onmouseout="this.style.filter='brightness(0) invert(1)'"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#productos" data-bs-slide="next" style="background: transparent;">
-        <span class="carousel-control-next-icon" aria-hidden="true" style="filter: brightness(0) invert(1);" onmouseover="this.style.filter='brightness(0) saturate(100%) invert(71%) sepia(98%) saturate(1161%) hue-rotate(359deg) brightness(105%) contrast(105%)'" onmouseout="this.style.filter='brightness(0) invert(1)'"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
+    <button class="carousel-control-prev" type="button" data-bs-target="#productos" data-bs-slide="prev" style="background: transparent;">
+      <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: brightness(0) invert(1);" onmouseover="this.style.filter='brightness(0) saturate(100%) invert(71%) sepia(98%) saturate(1161%) hue-rotate(359deg) brightness(105%) contrast(105%)'" onmouseout="this.style.filter='brightness(0) invert(1)'"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#productos" data-bs-slide="next" style="background: transparent;">
+      <span class="carousel-control-next-icon" aria-hidden="true" style="filter: brightness(0) invert(1);" onmouseover="this.style.filter='brightness(0) saturate(100%) invert(71%) sepia(98%) saturate(1161%) hue-rotate(359deg) brightness(105%) contrast(105%)'" onmouseout="this.style.filter='brightness(0) invert(1)'"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
     </div>
     
     <div id="mantenimientosDeRelojes">
       <h1>MANTENIMIENTOS DE LOS PRODUCTOS - ATENCIÓN AL CLIENTE</h1>
       <p>Nuestra empresa además de vender relojes, tiene una sección de <a href="Vista/atencionAlCliente.html">ayuda al cliente y mantenimiento de estos dispositivos.</a></p>
   </div>
-
-    <div id="formulario">
-        <form>
-            <label for="ConociendoEmpresa">¿Cómo has conocido nuestra empresa?</label>
-            <input type="text" id="ConociendoEmpresa" name="ConociendoEmpresa" required>
-            <br>
-            <label for="mensaje">¿Qué desea comunicar a la empresa?</label>
-            <textarea id="mensaje" name="mensaje" required></textarea>
-            <br>
-            <input type="submit" value="Enviar">
-            <input type="reset" value="Borrar">
-        </form>
-    </div>
     <div id="pieDePagina"></div>
     <footer style="display: flex; justify-content: space-between; align-items: center;">
       <pre>Iván Martínez Estrada - 2ºDAW</pre>

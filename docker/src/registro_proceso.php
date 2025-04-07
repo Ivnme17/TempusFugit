@@ -16,7 +16,6 @@ if (filter_has_var(INPUT_POST, "registrar")) {
     if (!empty($login) && !empty($clave) && !empty($nombre) && !empty($apellidos) && !empty($email)) {
         try {
             $conexion = Db::getConexion();
-            // Verificar si el usuario ya existe
             $consulta = "SELECT COUNT(*) FROM usuarios WHERE login = :login OR email = :email";
             $stmt = $conexion->prepare($consulta);
             $stmt->bindParam(':login', $login);
@@ -24,10 +23,8 @@ if (filter_has_var(INPUT_POST, "registrar")) {
             $stmt->execute();
             
             if ($stmt->fetchColumn() == 0) {
-                // Hash de la contraseña
-                $claveHash = password_hash($clave, PASSWORD_DEFAULT);
+                $claveHash = hash('sha512', $clave);
                 
-                // Insertar nuevo usuario
                 $consulta = "INSERT INTO usuarios (login, clave, nombre, apellidos, email, id_rol) 
                             VALUES (:login, :clave, :nombre, :apellidos, :email, 3)";
                 $stmt = $conexion->prepare($consulta);
@@ -37,26 +34,26 @@ if (filter_has_var(INPUT_POST, "registrar")) {
                 $stmt->bindParam(':apellidos', $apellidos);
                 $stmt->bindParam(':email', $email);
                 
-                if ($stmt->execute()) {
+                if ($stmt->execute()) {//En este caso reenvio al usuario con header Location:
                     $mensaje = "Usuario registrado correctamente";
                     header("Location: login.html");
                     exit();
                 } else {
                     $mensajeError = "Error al registrar el usuario";
-                    include_once './Vista/registroIncorrecto.php';
+                    include_once '../Vista/registroIncorrecto.php';
                 }
             } else {
                 $mensajeError = "El usuario o email ya existe";
-                include_once './Vista/registroIncorrecto.php';
+                include_once '../Vista/registroIncorrecto.php';
             }
         } catch (PDOException $e) {
             $mensajeError = "Error en la base de datos: " . $e->getMessage();
-            include_once './Vista/registroIncorrecto.php';
+            include_once '../Vista/registroIncorrecto.php';
         }
     } else {
         $mensajeError = "Todos los campos son obligatorios";
-        include_once './Vista/registroIncorrecto.php';
+        include_once '../Vista/registroIncorrecto.php';
     }
 } else {
-    include_once './Vista/registroIncorrecto.php';
+    include_once '../Vista/registroIncorrecto.php';
 }
