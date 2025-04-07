@@ -2,26 +2,38 @@
 require_once './Servicio/Db.php';
 
 class Usuario {
+    private $id_usuario;
     private $login;
     private $clave;
     private $id_rol;
     private $nombre;
     private $apellidos;
-    private $email;
-    private $fecha_registro;
-    private $activo;
     
     public function __construct() {
-        $this->fecha_registro = date('Y-m-d H:i:s');
-        $this->activo = true;
     }
     
-    public function getApellidos() {
-        return $this->apellidos;
+    public function getId_usuario() {
+        return $this->id_usuario;
     }
-    
-    public function setApellidos($apellidos): void {
-        $this->apellidos = trim($apellidos);
+
+    public function setId_usuario($id_usuario): void {
+        $this->id_usuario = $id_usuario;
+    }
+
+    public function getLogin() {
+        return $this->login;
+    }
+
+    public function setLogin($login): void {
+        $this->login = trim($login);
+    }
+
+    public function getClave() {
+        return $this->clave;
+    }
+
+    public function setClave($clave): void {
+        $this->clave = trim($clave);
     }
 
     public function getId_rol() {
@@ -35,45 +47,22 @@ class Usuario {
     public function getNombre() {
         return $this->nombre;
     }
+
     public function setNombre($nombre): void {
         $this->nombre = trim($nombre);
     }
-    public function getLogin() {
-        return $this->login;
+    
+    public function getApellidos() {
+        return $this->apellidos;
     }
-    public function setLogin($login): void {
-        $this->login = trim($login);
-    }
-
-    public function getClave() {
-        return $this->clave;
-    }
-
-    public function setClave($clave): void {
-        $this->clave = trim($clave);
-    }
-    public function getEmail() {
-        return $this->email;
-    }
-    public function setEmail($email): void {
-        $this->email = trim($email);
-    }
-    public function getFecha_registro() {
-        return $this->fecha_registro;
-    }
-    public function setFecha_registro($fecha_registro): void {
-        $this->fecha_registro = $fecha_registro;
-    }
-    public function getActivo() {
-        return $this->activo;
-    }
-    public function setActivo($activo): void {
-        $this->activo = $activo;
+    
+    public function setApellidos($apellidos): void {
+        $this->apellidos = trim($apellidos);
     }
 
     public static function obtenerUsuarioPorId($id) {
         $conexion = Db::getConexion();
-        $stmt = $conexion->prepare('SELECT * FROM usuarios WHERE id = :id');
+        $stmt = $conexion->prepare('SELECT * FROM usuarios WHERE id_usuario = :id');
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Usuario');
@@ -95,14 +84,13 @@ class Usuario {
         try {
             $conexion->beginTransaction();
             
-            $stmt = $conexion->prepare('SELECT COUNT(*) FROM usuarios WHERE login = :login OR email = :email');
+            $stmt = $conexion->prepare('SELECT COUNT(*) FROM usuarios WHERE login = :login');
             $stmt->bindParam(':login', $this->login);
-            $stmt->bindParam(':email', $this->email);
             $stmt->execute();
             
             if ($stmt->fetchColumn() == 0) {
-                $stmt = $conexion->prepare('INSERT INTO usuarios (login, clave, id_rol, nombre, apellidos, email, fecha_registro, activo) 
-                                          VALUES (:login, :clave, :id_rol, :nombre, :apellidos, :email, :fecha_registro, :activo)');
+                $stmt = $conexion->prepare('INSERT INTO usuarios (login, clave, id_rol, nombre, apellidos) 
+                                          VALUES (:login, :clave, :id_rol, :nombre, :apellidos)');
                 
                 $claveCifrada = hash('sha512', $this->clave);
                 $stmt->bindParam(':login', $this->login);
@@ -110,9 +98,6 @@ class Usuario {
                 $stmt->bindParam(':id_rol', $this->id_rol);
                 $stmt->bindParam(':nombre', $this->nombre);
                 $stmt->bindParam(':apellidos', $this->apellidos);
-                $stmt->bindParam(':email', $this->email);
-                $stmt->bindParam(':fecha_registro', $this->fecha_registro);
-                $stmt->bindParam(':activo', $this->activo);
                 
                 $exito = $stmt->execute();
                 $conexion->commit();
@@ -136,10 +121,8 @@ class Usuario {
                     clave = :clave,
                     id_rol = :id_rol,
                     nombre = :nombre,
-                    apellidos = :apellidos,
-                    email = :email,
-                    activo = :activo
-                    WHERE login = :login';
+                    apellidos = :apellidos
+                    WHERE id_usuario = :id_usuario';
             
             $stmt = $conexion->prepare($sql);
             
@@ -148,9 +131,7 @@ class Usuario {
             $stmt->bindParam(':id_rol', $this->id_rol);
             $stmt->bindParam(':nombre', $this->nombre);
             $stmt->bindParam(':apellidos', $this->apellidos);
-            $stmt->bindParam(':email', $this->email);
-            $stmt->bindParam(':activo', $this->activo);
-            $stmt->bindParam(':login', $this->login);
+            $stmt->bindParam(':id_usuario', $this->id_usuario);
             
             $resultado = $stmt->execute();
             $conexion->commit();
@@ -168,9 +149,9 @@ class Usuario {
         try {
             $conexion->beginTransaction();
             
-            $sql = 'DELETE FROM usuarios WHERE login = :login';
+            $sql = 'DELETE FROM usuarios WHERE id_usuario = :id_usuario';
             $stmt = $conexion->prepare($sql);
-            $stmt->bindParam(':login', $this->login);
+            $stmt->bindParam(':id_usuario', $this->id_usuario);
             
             $resultado = $stmt->execute();
             $conexion->commit();
@@ -183,7 +164,7 @@ class Usuario {
 
     public static function autenticarUsuario($login, $clave) {
         $conexion = Db::getConexion();
-        $stmt = $conexion->prepare('SELECT * FROM usuarios WHERE login = :login AND clave = :clave AND activo = true');
+        $stmt = $conexion->prepare('SELECT * FROM usuarios WHERE login = :login AND clave = :clave');
         
         $claveCifrada = hash('sha512', $clave);
         $stmt->bindParam(':login', $login);

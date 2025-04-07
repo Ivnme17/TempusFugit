@@ -11,7 +11,6 @@ if (filter_has_var(INPUT_POST, "registrar")) {
     $clave = filter_input(INPUT_POST, "claveUsuario", FILTER_SANITIZE_STRING);
     $nombre = filter_input(INPUT_POST, "nombreUsuario", FILTER_SANITIZE_STRING);
     $apellidos = filter_input(INPUT_POST, "apellidosUsuario", FILTER_SANITIZE_STRING);
-    $email = filter_input(INPUT_POST, "emailUsuario", FILTER_SANITIZE_EMAIL);
     
     if (!empty($login) && !empty($clave) && !empty($nombre) && !empty($apellidos) && !empty($email)) {
         try {
@@ -28,7 +27,6 @@ if (filter_has_var(INPUT_POST, "registrar")) {
                 $usuario->setClave($clave);
                 $usuario->setNombre($nombre);
                 $usuario->setApellidos($apellidos);
-                $usuario->setEmail($email);
                 $usuario->setId_rol(3);
                 
                 if ($usuario->añadirUsuario()) {
