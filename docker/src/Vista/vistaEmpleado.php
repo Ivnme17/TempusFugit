@@ -1,48 +1,36 @@
 <?php
 require_once './Servicio/Db.php';
-//Clientes
-$clientes = [];
-$conexion = Db::getConexion();
-$consulta = "SELECT * FROM clientes";
-$resultado = $conexion->query($consulta);
+$clientes = Usuario::listarUsuarios();
 
-if ($resultado) {
-    while ($fila = $resultado->fetch(PDO::FETCH_ASSOC)) {
-        $clientes[] = $fila;
-    }
-}
-//Relojes
 $relojes = [];
 $conexion = Db::getConexion();
-$consulta = "SELECT * FROM relojes";
+$consulta = "SELECT * FROM relojes"; 
 $resultado = $conexion->query($consulta);
 
 if ($resultado) {
-    while ($fila = $resultado->fetch(PDO::FETCH_ASSOC)) {
-        $relojes[] = $fila;
-    }
+  while ($fila = $resultado->fetch(PDO::FETCH_ASSOC)) {
+    $relojes[] = $fila;
+  }
 }
-//Los + vendidos
+
 $masVendidos = [];
 $conexion = Db::getConexion();
-$consulta = "SELECT * FROM relojes WHERE disponibilidad < 5 ORDER BY disponibilidad ASC LIMIT 5";
+$consulta = "SELECT * FROM relojes WHERE stock < 5 ORDER BY stock ASC LIMIT 5";
 $resultado = $conexion->query($consulta);
 if ($resultado) {
-    while ($fila = $resultado->fetch(PDO::FETCH_ASSOC)) {
-        $masVendidos[] = $fila;
-    }
+  while ($fila = $resultado->fetch(PDO::FETCH_ASSOC)) {
+    $masVendidos[] = $fila;
+  }
 }
 
-//TotalPrecio
-$totalPrecio = 0;
+$totalPrecio = 0; 
 $conexion = Db::getConexion();
 $consulta = "SELECT SUM(precio) as total_precio FROM relojes";
 $resultado = $conexion->query($consulta);
 if ($resultado) {
-    $fila = $resultado->fetch(PDO::FETCH_ASSOC);
-    $totalPrecio = $fila['total_precio'];
+  $fila = $resultado->fetch(PDO::FETCH_ASSOC);
+  $totalPrecio = $fila['total_precio'];
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -143,12 +131,10 @@ if ($resultado) {
             <thead>
           <tr>
               <th>ID Reloj</th>
-              <th>Marca</th>
-              <th>Modelo</th>
+              <th>ID Marca/Modelo</th>
               <th>Precio</th>
               <th>Tipo</th>
-              <th>Disponibilidad</th>
-              <th>Id_usuario</th>
+              <th>Stock</th>
               <th>URL Imagen</th>
               <th>Acciones</th>
           </tr>
@@ -157,39 +143,36 @@ if ($resultado) {
             <?php foreach($relojes as $reloj){ ?>
           <tr>
               <td><?= $reloj['id_reloj']; ?></td>
-              <td><?= $reloj['marca']; ?></td>
-              <td><?= $reloj['modelo']; ?></td>
-              <td><?= $reloj['precio']; ?></td>
+              <td><?= $reloj['id_marca_modelo']; ?></td>
+              <td><?= $reloj['precio']; ?> €</td>
               <td><?= $reloj['tipo']; ?></td>
-              <td><?= $reloj['disponibilidad']; ?></td>
-              <td><?= $reloj['id_usuario']; ?></td>
+              <td><?= $reloj['stock']; ?></td>
               <td><?= $reloj['url_imagen']; ?></td>
               <td>
-                <a href="controladorEmpleado.php? action=editar&id_reloj=<?= $reloj['id_reloj']; ?>">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    <input type="button" value="Eliminar" class="btn btn-secondary">
-                  <input type="button" value="Editar" class="btn btn-primary">
-                </a>
+          <a href="controladorEmpleado.php?action=editar&id_reloj=<?= $reloj['id_reloj']; ?>"></a>
+              <i class="fa-solid fa-pen-to-square"></i>
+              <input type="button" value="Eliminar" class="btn btn-secondary">
+              <input type="button" value="Editar" class="btn btn-primary">
+          </a>
               </td>
           </tr>
             <?php } ?>
             </tbody>
         </table>
-    </div>
+          </div>
 
-    <div id="informes">
+          <div id="informes">
         <h1>INFORMES Y ESTADÍSTICAS</h1>
-        <h1>Productos más vendidos (Orden Asc)</h1>
+        <h1>Productos con menor stock</h1>
         <div>
         <table class="table table-striped table-bordered table-hover">
             <thead>
           <tr>
               <th>ID Reloj</th>
-              <th>Marca</th>
-              <th>Modelo</th>
+              <th>ID Marca/Modelo</th>
               <th>Precio</th>
               <th>Tipo</th>
-              <th>Disponibilidad</th>
+              <th>Stock</th>
               <th>Acciones</th>
           </tr>
             </thead>
@@ -197,17 +180,16 @@ if ($resultado) {
             <?php foreach($masVendidos as $masvendido){ ?>
           <tr>
               <td><?= $masvendido['id_reloj']; ?></td>
-              <td><?= $masvendido['marca']; ?></td>
-              <td><?= $masvendido['modelo']; ?></td>
-              <td><?= $masvendido['precio']; ?></td>
+              <td><?= $masvendido['id_marca_modelo']; ?></td>
+              <td><?= $masvendido['precio']; ?> €</td>
               <td><?= $masvendido['tipo']; ?></td>
-              <td><?= $masvendido['disponibilidad']; ?></td>
+              <td><?= $masvendido['stock']; ?></td>
               <td>
-                <a href="controladorEmpleado.php? action=editar&id_reloj=<?= $masvendido['id_reloj']; ?>">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    <input type="button" value="Eliminar" class="btn btn-secondary">
-                  <input type="button" value="Editar" class="btn btn-primary">
-                </a>
+          <a href="controladorEmpleado.php?action=editar&id_reloj=<?= $masvendido['id_reloj']; ?>">
+              <i class="fa-solid fa-pen-to-square"></i>
+              <input type="button" value="Eliminar" class="btn btn-secondary">
+              <input type="button" value="Editar" class="btn btn-primary">
+          </a>
               </td>
           </tr>
             <?php } ?>

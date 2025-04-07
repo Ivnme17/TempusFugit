@@ -11,42 +11,45 @@ if (filter_has_var(INPUT_POST, "registrar")) {
     $clave = filter_input(INPUT_POST, "claveUsuario", FILTER_SANITIZE_STRING);
     $nombre = filter_input(INPUT_POST, "nombreUsuario", FILTER_SANITIZE_STRING);
     $apellidos = filter_input(INPUT_POST, "apellidosUsuario", FILTER_SANITIZE_STRING);
+    $correo = filter_input(INPUT_POST, "correoUsuario", FILTER_SANITIZE_EMAIL);
+    $dni = filter_input(INPUT_POST, "dniUsuario", FILTER_SANITIZE_STRING);
+    $nss = filter_input(INPUT_POST, "nssUsuario", FILTER_SANITIZE_STRING);
+    $telefono = filter_input(INPUT_POST, "telefonoUsuario", FILTER_SANITIZE_STRING);
+    $direccion = filter_input(INPUT_POST, "direccionUsuario", FILTER_SANITIZE_STRING);
+    $iban = filter_input(INPUT_POST, "ibanUsuario", FILTER_SANITIZE_STRING);
     
-    if (!empty($login) && !empty($clave) && !empty($nombre) && !empty($apellidos) && !empty($email)) {
-        try {
-            $conexion = Db::getConexion();
-            $consulta = "SELECT COUNT(*) FROM usuarios WHERE login = :login OR email = :email";
-            $stmt = $conexion->prepare($consulta);
-            $stmt->bindParam(':login', $login);
-            $stmt->bindParam(':email', $email);
-            $stmt->execute();
+    if (!empty($login) && !empty($clave) && !empty($nombre) && !empty($apellidos)) {
+        // Verificar si el usuario existe usando el método estático
+        $usuarioExistente = Usuario::verUsuario($login);
+        
+        if (!$usuarioExistente) {
+            $usuario = new Usuario();
+            $usuario->setLogin($login);
+            $usuario->setClave($clave);
+            $usuario->setNombre($nombre);
+            $usuario->setApellidos($apellidos);
+            $usuario->setId_rol(3); // Role por defecto
+            $usuario->setCorreo($correo);
+            $usuario->setDni($dni);
+            $usuario->setNss($nss);
+            $usuario->setTelefono($telefono);
+            $usuario->setDireccion($direccion);
+            $usuario->setIban($iban);
             
-            if ($stmt->fetchColumn() == 0) {
-                $usuario = new Usuario();
-                $usuario->setLogin($login);
-                $usuario->setClave($clave);
-                $usuario->setNombre($nombre);
-                $usuario->setApellidos($apellidos);
-                $usuario->setId_rol(3);
-                
-                if ($usuario->añadirUsuario()) {
-                    $mensaje = "Usuario registrado correctamente";
-                    header("Location: login.html");
-                    exit();
-                } else {
-                    $mensajeError = "Error al registrar el usuario";
-                    include_once './Vista/registroIncorrecto.php';
-                }
+            if ($usuario->añadirUsuario()) {
+                $mensaje = "Usuario registrado correctamente";
+                header("Location: login.html");
+                exit();
             } else {
-                $mensajeError = "El usuario o email ya existe";
+                $mensajeError = "Error al registrar el usuario";
                 include_once './Vista/registroIncorrecto.php';
             }
-        } catch (PDOException $e) {
-            $mensajeError = "Error en la base de datos: " . $e->getMessage();
+        } else {
+            $mensajeError = "El usuario ya existe";
             include_once './Vista/registroIncorrecto.php';
         }
     } else {
-        $mensajeError = "Todos los campos son obligatorios";
+        $mensajeError = "Los campos obligatorios deben estar completos";
         include_once './Vista/registroIncorrecto.php';
     }
 } else {
