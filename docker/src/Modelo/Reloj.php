@@ -1,28 +1,28 @@
 <?php
 class Reloj {
-    private ?int $id_reloj;
-    private int $id_marca_modelo;
-    private float $precio;
-    private string $tipo;
-    private int $stock;
-    private ?int $id_usuario;
-    private string $url_imagen;
+    private $id_reloj;
+    private $id_marca_modelo;
+    private $precio;
+    private $tipo;
+    private $stock;
+    private $id_usuario;
+    private $url_imagen;
     
-    private ?string $marca;
-    private ?string $modelo;
+    private $marca;
+    private $modelo;
     
-    public function __construct(?array $datos = null) {
+    public function __construct($datos = null) {
         if ($datos) {
-            $this->id_reloj = $datos['id_reloj'] ?? null;
-            $this->id_marca_modelo = $datos['id_marca_modelo'] ?? 0;
-            $this->precio = (float)($datos['precio'] ?? 0.00);
-            $this->tipo = $datos['tipo'] ?? 'analógico';
-            $this->stock = (int)($datos['stock'] ?? 0);
-            $this->id_usuario = $datos['id_usuario'] ?? null;
-            $this->url_imagen = $datos['url_imagen'] ?? 'img/no-image.jpg';
+            $this->id_reloj = isset($datos['id_reloj']) ? $datos['id_reloj'] : null;
+            $this->id_marca_modelo = isset($datos['id_marca_modelo']) ? $datos['id_marca_modelo'] : 0;
+            $this->precio = isset($datos['precio']) ? (float)$datos['precio'] : 0.00;
+            $this->tipo = isset($datos['tipo']) ? $datos['tipo'] : 'analógico';
+            $this->stock = isset($datos['stock']) ? (int)$datos['stock'] : 0;
+            $this->id_usuario = isset($datos['id_usuario']) ? $datos['id_usuario'] : null;
+            $this->url_imagen = isset($datos['url_imagen']) ? $datos['url_imagen'] : 'img/no-image.jpg';
             
-            $this->marca = $datos['marca'] ?? null;
-            $this->modelo = $datos['modelo'] ?? null;
+            $this->marca = isset($datos['marca']) ? $datos['marca'] : null;
+            $this->modelo = isset($datos['modelo']) ? $datos['modelo'] : null;
         } else {
             $this->id_reloj = null;
             $this->id_marca_modelo = 0;
@@ -36,55 +36,55 @@ class Reloj {
         }
     }
     
-    public function getId(): ?int { 
+    public function getId() { 
         return $this->id_reloj; 
     }
     
-    public function getIdMarcaModelo(): int { 
+    public function getIdMarcaModelo() { 
         return $this->id_marca_modelo; 
     }
     
-    public function getPrecio(): float {
+    public function getPrecio() {
         return $this->precio; 
     }
     
-    public function getTipo(): string { 
+    public function getTipo() { 
         return $this->tipo; 
     }
     
-    public function getStock(): int {
+    public function getStock() {
         return $this->stock;
     }
     
-    public function getIdUsuario(): ?int { 
+    public function getIdUsuario() { 
         return $this->id_usuario; 
     }
     
-    public function getUrlImagen(): string { 
+    public function getUrlImagen() { 
         return $this->url_imagen; 
     }
     
-    public function getMarca(): ?string {
+    public function getMarca() {
         return $this->marca;
     }
     
-    public function getModelo(): ?string {
+    public function getModelo() {
         return $this->modelo;
     }
     
-    public function setId(?int $id): void { 
+    public function setId($id) { 
         $this->id_reloj = $id; 
     }
     
-    public function setIdMarcaModelo(int $id_marca_modelo): void { 
+    public function setIdMarcaModelo($id_marca_modelo) { 
         $this->id_marca_modelo = $id_marca_modelo; 
     }
     
-    public function setPrecio(float $precio): void { 
+    public function setPrecio($precio) { 
         $this->precio = $precio;
     }
     
-    public function setTipo(string $tipo): void { 
+    public function setTipo($tipo) { 
         if ($tipo === 'digital' || $tipo === 'analógico') {
             $this->tipo = $tipo;
         } else {
@@ -92,27 +92,27 @@ class Reloj {
         }
     }
     
-    public function setStock(int $stock): void { 
+    public function setStock($stock) { 
         $this->stock = $stock; 
     }
     
-    public function setIdUsuario(?int $id_usuario): void { 
+    public function setIdUsuario($id_usuario) { 
         $this->id_usuario = $id_usuario; 
     }
     
-    public function setUrlImagen(string $url_imagen): void { 
+    public function setUrlImagen($url_imagen) { 
         $this->url_imagen = $url_imagen; 
     }
     
-    public function setMarca(?string $marca): void {
+    public function setMarca($marca) {
         $this->marca = $marca;
     }
     
-    public function setModelo(?string $modelo): void {
+    public function setModelo($modelo) {
         $this->modelo = $modelo;
     }
     
-    public function getNombreCompleto(): string {
+    public function getNombreCompleto() {
         if ($this->marca && $this->modelo) {
             return "{$this->marca} {$this->modelo}";
         }
@@ -125,7 +125,7 @@ class Reloj {
         return "Reloj #" . ($this->id_reloj ?? 'nuevo');
     }
     
-    private function cargarDatosMarcaModelo(): void {
+    private function cargarDatosMarcaModelo() {
         if (!$this->id_marca_modelo) {
             return;
         }
@@ -143,27 +143,28 @@ class Reloj {
         }
     }
     
-    public function getPrecioFormateado(): string {
+    public function getPrecioFormateado() {
         return number_format($this->precio, 2, ',', '.') . ' €';
     }
     
-    public function guardar(): bool {
+    public function guardar() {
         $conn = Db::getConexion();
         
-        $sql = match(true) {
-            $this->id_reloj !== null => "UPDATE relojes SET 
+        if ($this->id_reloj !== null) {
+            $sql = "UPDATE relojes SET 
                     id_marca_modelo = :id_marca_modelo,
                     precio = :precio,
                     tipo = :tipo,
                     stock = :stock,
                     id_usuario = :id_usuario,
                     url_imagen = :url_imagen
-                    WHERE id_reloj = :id_reloj",
-            default => "INSERT INTO relojes 
+                    WHERE id_reloj = :id_reloj";
+        } else {
+            $sql = "INSERT INTO relojes 
                     (id_marca_modelo, precio, tipo, stock, id_usuario, url_imagen) 
                     VALUES 
-                    (:id_marca_modelo, :precio, :tipo, :stock, :id_usuario, :url_imagen)"
-        };
+                    (:id_marca_modelo, :precio, :tipo, :stock, :id_usuario, :url_imagen)";
+        }
         
         $stmt = $conn->prepare($sql);
         
@@ -187,7 +188,7 @@ class Reloj {
         return $resultado;
     }
     
-    public function eliminar(): bool {
+    public function eliminar() {
         if ($this->id_reloj === null) {
             return false;
         }
@@ -199,7 +200,7 @@ class Reloj {
         return $stmt->execute();
     }
     
-    public static function obtenerTodos(): array {
+    public static function obtenerTodos() {
         $conn = Db::getConexion();
         $sql = "SELECT r.*, mm.marca, mm.modelo 
                 FROM relojes r
@@ -218,7 +219,7 @@ class Reloj {
         return $relojes;
     }
     
-    public static function obtenerPorMarca(string $marca): array {
+    public static function obtenerPorMarca($marca) {
         $conn = Db::getConexion();
         $sql = "SELECT r.*, mm.marca, mm.modelo 
                 FROM relojes r
@@ -239,7 +240,7 @@ class Reloj {
         return $relojes;
     }
     
-    public static function obtenerPorId(int $id): ?Reloj {
+    public static function obtenerPorId($id) {
         $conn = Db::getConexion();
         $sql = "SELECT r.*, mm.marca, mm.modelo 
                 FROM relojes r
@@ -254,7 +255,7 @@ class Reloj {
         return $fila ? new Reloj($fila) : null;
     }
     
-    public static function obtenerMarcas(): array {
+    public static function obtenerMarcas() {
         $conn = Db::getConexion();
         $sql = "SELECT DISTINCT marca FROM marca_modelo ORDER BY marca";
         $stmt = $conn->prepare($sql);
@@ -263,7 +264,7 @@ class Reloj {
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
     
-    public static function obtenerModelosPorMarca(string $marca): array {
+    public static function obtenerModelosPorMarca($marca) {
         $conn = Db::getConexion();
         $sql = "SELECT id_marca_modelo, modelo 
                 FROM marca_modelo 
@@ -276,11 +277,11 @@ class Reloj {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    public function disponible(): bool {
+    public function disponible() {
         return $this->stock > 0;
     }
     
-    public function reducirStock(int $cantidad = 1): bool {
+    public function reducirStock($cantidad = 1) {
         if ($this->stock < $cantidad) {
             return false;
         }
@@ -289,7 +290,7 @@ class Reloj {
         return $this->guardar();
     }
     
-    public function aumentarStock(int $cantidad = 1): bool {
+    public function aumentarStock($cantidad = 1) {
         $this->stock += $cantidad;
         return $this->guardar();
     }
