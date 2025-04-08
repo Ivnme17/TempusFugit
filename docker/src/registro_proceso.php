@@ -7,16 +7,16 @@ $mensaje = "";
 $mensajeError = "";
 
 if (filter_has_var(INPUT_POST, "registrar")) {
-    $login = filter_input(INPUT_POST, "loginUsuario", FILTER_SANITIZE_STRING);
-    $clave = filter_input(INPUT_POST, "claveUsuario", FILTER_SANITIZE_STRING);
-    $nombre = filter_input(INPUT_POST, "nombreUsuario", FILTER_SANITIZE_STRING);
-    $apellidos = filter_input(INPUT_POST, "apellidosUsuario", FILTER_SANITIZE_STRING);
-    $correo = filter_input(INPUT_POST, "correoUsuario", FILTER_SANITIZE_EMAIL);
-    $dni = filter_input(INPUT_POST, "dniUsuario", FILTER_SANITIZE_STRING);
-    $nss = filter_input(INPUT_POST, "nssUsuario", FILTER_SANITIZE_STRING);
-    $telefono = filter_input(INPUT_POST, "telefonoUsuario", FILTER_SANITIZE_STRING);
-    $direccion = filter_input(INPUT_POST, "direccionUsuario", FILTER_SANITIZE_STRING);
-    $iban = filter_input(INPUT_POST, "ibanUsuario", FILTER_SANITIZE_STRING);
+    $login = filter_input(INPUT_POST, "loginUsuario");
+    $clave = filter_input(INPUT_POST, "claveUsuario");
+    $nombre = filter_input(INPUT_POST, "nombreUsuario");
+    $apellidos = filter_input(INPUT_POST, "apellidosUsuario");
+    $correo = filter_input(INPUT_POST, "correoUsuario");
+    $dni = filter_input(INPUT_POST, "dniUsuario");
+    $nss = filter_input(INPUT_POST, "nssUsuario");
+    $telefono = filter_input(INPUT_POST, "telefonoUsuario");
+    $direccion = filter_input(INPUT_POST, "direccionUsuario");
+    $iban = filter_input(INPUT_POST, "ibanUsuario");
     
     if (!empty($login) && !empty($clave) && !empty($nombre) && !empty($apellidos)) {
 
