@@ -1,5 +1,6 @@
 <?php
 require_once './Servicio/Db.php';
+require_once './Modelo/Usuario.php';
 $clientesObj = Usuario::listarClientes();
 //Si clientesObj es un array, lo asignamos a $clientes, si no, lo convertimos en un array
 // para poder recorrerlo en el foreach.
