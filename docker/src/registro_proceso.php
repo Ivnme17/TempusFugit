@@ -2,23 +2,26 @@
 session_start();
 require_once './Modelo/Usuario.php';
 require_once './Servicio/Db.php';
+require_once './funcionesDeValidacion.php';
 
 $mensaje = "";
 $mensajeError = "";
-
+$esSaneado = false;
 if (filter_has_var(INPUT_POST, "registrar")) {
-    $login = filter_input(INPUT_POST, "loginUsuario");
+    $login = validarLogin(filter_input(INPUT_POST, "loginUsuario"));
     $clave = filter_input(INPUT_POST, "claveUsuario");
-    $nombre = filter_input(INPUT_POST, "nombreUsuario");
-    $apellidos = filter_input(INPUT_POST, "apellidosUsuario");
-    $correo = filter_input(INPUT_POST, "correoUsuario");
-    $dni = filter_input(INPUT_POST, "dniUsuario");
-    $nss = filter_input(INPUT_POST, "nssUsuario");
-    $telefono = filter_input(INPUT_POST, "telefonoUsuario");
-    $direccion = filter_input(INPUT_POST, "direccionUsuario");
-    $iban = filter_input(INPUT_POST, "ibanUsuario");
+    $nombre = validarNombre(filter_input(INPUT_POST, "nombreUsuario"));
+    $apellidos = validarNombre(filter_input(INPUT_POST, "apellidosUsuario"));
+    $correo = validarCorreo(filter_input(INPUT_POST, "correoUsuario"));
+    $dni = validarDNI(filter_input(INPUT_POST, "dniUsuario"));
+    $nss = validarNSS(filter_input(INPUT_POST, "nssUsuario"));
+    $telefono = validarTelefono(filter_input(INPUT_POST, "telefonoUsuario"));
+    $direccion = validarDireccion(filter_input(INPUT_POST, "direccionUsuario"));
+    $iban = validarIBAN(filter_input(INPUT_POST, "ibanUsuario"));
     
-    if (!empty($login) && !empty($clave) && !empty($nombre) && !empty($apellidos)) {
+    $esSaneado = $login && $clave && $nombre && $apellidos && $correo && $dni && $nss && $telefono && $direccion && $iban;
+    echo $esSaneado ? "Datos saneados correctamente" : "Error en el saneado de datos";
+    if ($esSaneado) {
 
         $usuarioExistente = Usuario::verUsuario($login);
         
