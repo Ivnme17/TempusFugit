@@ -200,7 +200,6 @@ class Usuario {
     
     public static function eliminarUsuario($login) {
         $conexion = Db::getConexion();
-        // Corregido el nombre de la tabla de 'usuario' a 'usuarios'
         $stmt = $conexion->prepare('DELETE FROM usuarios WHERE login = :login');
         $stmt->bindParam(':login', $login);
         $stmt->execute();
