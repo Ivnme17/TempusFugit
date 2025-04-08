@@ -21,7 +21,7 @@ if (filter_has_var(INPUT_POST, "iniciar")) {
                 break;
                 
             case "3":case "4": // Cliente Y Por Defecto
-                include_once './Vista/vistaCliente.html';
+                include_once './Vista/vistaCliente.php';
                 break;
                 
             default:

@@ -2,7 +2,7 @@
 // He tenido que cambiar la ruta de los require_once para que funcionen correctamente
 require_once __DIR__ . '/../Servicio/Db.php';
 require_once __DIR__ . '/../Modelo/Usuario.php';
-
+var_dump($_SESSION);
 $clientesObj = Usuario::listarClientes();
 
 $relojes = [];
@@ -79,7 +79,7 @@ if ($resultado) {
             <button class="btn btn-outline-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
           </form>
           <div id="botonesDeRegistro">
-            <button onclick="location.href='../index.html'">Cerrar Sesión</button>
+            <a href="cerrarSesion.php" class="btn btn-danger">Cerrar Sesión</a>
         </div>
     </div>
         </div>
