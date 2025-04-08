@@ -1,9 +1,7 @@
 <?php
 session_start();
-require_once './funciones.inc.php';
-require_once './Db.php';
-require_once './Reloj.php';
-
+require_once '../Servicio/Db.php';
+require_once '../Modelo/Reloj.php';
 if (!isset($_SESSION['usuario'])) {
     die("Error debe <a href='login.php'>identificarse</a>.<br />");
 }
@@ -50,10 +48,12 @@ if (filter_has_var(INPUT_POST, "comprar")) {
             text-align: center;
         }
         .producto-imagen {
-            max-width: 150px;
-            height: auto;
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
         }
     </style>
+    <link rel="stylesheet" type="text/css" href="../css/estilos.css">
 </head>
 <body>
     <div id='productos'>
