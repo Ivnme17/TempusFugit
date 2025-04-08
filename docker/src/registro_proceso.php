@@ -19,7 +19,7 @@ if (filter_has_var(INPUT_POST, "registrar")) {
     $iban = filter_input(INPUT_POST, "ibanUsuario", FILTER_SANITIZE_STRING);
     
     if (!empty($login) && !empty($clave) && !empty($nombre) && !empty($apellidos)) {
-        // Verificar si el usuario existe usando el método estático
+
         $usuarioExistente = Usuario::verUsuario($login);
         
         if (!$usuarioExistente) {
@@ -28,7 +28,7 @@ if (filter_has_var(INPUT_POST, "registrar")) {
             $usuario->setClave($clave);
             $usuario->setNombre($nombre);
             $usuario->setApellidos($apellidos);
-            $usuario->setId_rol(3); // Role por defecto
+            $usuario->setId_rol(3); 
             $usuario->setCorreo($correo);
             $usuario->setDni($dni);
             $usuario->setNss($nss);
