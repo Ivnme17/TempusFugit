@@ -105,26 +105,25 @@ if ($resultado) {
           </tr>
             </thead>
             <tbody>
-            <?php 
-            if (!empty($clientes)) {
-              var_dump($clientes); // Muestra el contenido de $clientes para depuración
-              foreach($clientes as $cliente){ ?>
-                <tr><!-- Si existe el atributo lo muestra, si no, lo deja vacío. -->
-                <td><?= isset($cliente->id_usuario) ? $cliente->id_usuario : ''; ?></td>
-                <td><?= isset($cliente->login) ? $cliente->login : ''; ?></td>
-                <td><?= isset($cliente->correo) ? $cliente->correo : ''; ?></td>
-                <td><?= isset($cliente->direccion) ? $cliente->direccion : ''; ?></td>
-                <td><?= isset($cliente->iban) ? $cliente->iban : ''; ?></td>
-                <td>
-                  <a href="controladorEmpleado.php? action=editar&id_cliente=<?= $cliente['id_cliente']; ?>">
+            <?php             
+            if (!empty($clientesObj)) {
+              foreach ($clientesObj as $cliente) { ?>
+                <tr>
+                  <td><?= $cliente->getId_usuario() ?></td>
+                  <td><?= $cliente->getLogin() ?></td>
+                  <td><?= $cliente->getCorreo() ?></td>
+                  <td><?= $cliente->getDireccion() ?></td>
+                  <td><?= $cliente->getIban() ?></td>
+                  <td>
+                    <a href="controladorEmpleado.php?action=editar&id_cliente=<?= $cliente->getId_usuario() ?>">
                       <i class="fa-solid fa-pen-to-square"></i>
                       <input type="button" value="Eliminar" class="btn btn-secondary">
-                    <input type="button" value="Editar" class="btn btn-primary">
-                  </a>
-                </td>
+                      <input type="button" value="Editar" class="btn btn-primary">
+                    </a>
+                  </td>
                 </tr>
-            <?php } ?>
-          <?php } ?>
+            <?php }
+            } ?>
             </tbody>
         </table>
     </div>
