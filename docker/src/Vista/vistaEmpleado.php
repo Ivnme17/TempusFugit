@@ -1,6 +1,6 @@
 <?php
 require_once './Servicio/Db.php';
-$clientes = Usuario::listarUsuarios();
+$clientes = Usuario::listarClientes();
 
 $relojes = [];
 $conexion = Db::getConexion();
@@ -106,9 +106,8 @@ if ($resultado) {
             <tbody>
             <?php foreach($clientes as $cliente){ ?>
           <tr>
-              <td><?= $cliente['id_cliente']; ?></td>
               <td><?= $cliente['id_usuario']; ?></td>
-              <td><?= $cliente['telefono']; ?></td>
+              <td><?= $cliente['login']; ?></td>
               <td><?= $cliente['correo']; ?></td>
               <td><?= $cliente['direccion']; ?></td>
               <td><?= $cliente['iban']; ?></td>

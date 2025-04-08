@@ -7,7 +7,7 @@ CREATE TABLE roles (
 );
 
 /*
-Tabla usuarios ha sido modificada para incluir los siguientes cambios:
+La tabla usuarios se ha modificado para incluir los siguientes cambios:
 - Se ha añadido el campo 'id_rol' como clave foránea que referencia a la tabla 'roles'.
 - Se ha añadido el campo 'dni' como VARCHAR(20) para almacenar el DNI del usuario.
 - Se ha añadido el campo 'nss' como VARCHAR(20) para almacenar el número de la seguridad social del usuario.

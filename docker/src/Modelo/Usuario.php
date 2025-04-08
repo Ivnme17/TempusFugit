@@ -237,6 +237,7 @@ class Usuario {
         }
         return $usuarios;
     }
+
     
     public static function autenticarUsuario($nombreLogin, $passwd) {
         $conexion = Db::getConexion();
@@ -263,5 +264,18 @@ class Usuario {
             $usuarios = false;
         }
         return $usuarios;
+    }
+
+    public static function listarClientes() {
+        try {
+            $conexion = Db::getConexion();
+            $stmt = $conexion->prepare("SELECT * FROM usuarios WHERE id_rol = 3");
+            $stmt->execute();
+            $clientes = $stmt->fetchAll(PDO::FETCH_CLASS, self::class);
+            $stmt->closeCursor();
+        } catch (PDOException $e) {
+            $clientes = false;
+        }
+        return $clientes;
     }
 }
