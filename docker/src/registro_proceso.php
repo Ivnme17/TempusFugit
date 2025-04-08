@@ -1,4 +1,5 @@
 <?php
+//Registro de Clientes
 session_start();
 require_once './Modelo/Usuario.php';
 require_once './Servicio/Db.php';
@@ -7,20 +8,20 @@ require_once './funcionesDeValidacion.php';
 $mensaje = "";
 $mensajeError = "";
 $esSaneado = false;
+
 if (filter_has_var(INPUT_POST, "registrar")) {
+
     $login = validarLogin(filter_input(INPUT_POST, "loginUsuario"));
     $clave = filter_input(INPUT_POST, "claveUsuario");
-    $nombre = validarNombre(filter_input(INPUT_POST, "nombreUsuario"));
-    $apellidos = validarNombre(filter_input(INPUT_POST, "apellidosUsuario"));
-    $correo = validarCorreo(filter_input(INPUT_POST, "correoUsuario"));
-    $dni = validarDNI(filter_input(INPUT_POST, "dniUsuario"));
-    $nss = validarNSS(filter_input(INPUT_POST, "nssUsuario"));
-    $telefono = validarTelefono(filter_input(INPUT_POST, "telefonoUsuario"));
-    $direccion = validarDireccion(filter_input(INPUT_POST, "direccionUsuario"));
-    $iban = validarIBAN(filter_input(INPUT_POST, "ibanUsuario"));
+    $nombre = validarNombre(filter_input(INPUT_POST, "nombre"));
+    $apellidos = validarNombre(filter_input(INPUT_POST, "apellido"));
+    $correo = validarCorreo(filter_input(INPUT_POST, "email"));
+    $telefono = validarTelefono(filter_input(INPUT_POST, "telefono"));
+    $direccion = validarDireccion(filter_input(INPUT_POST, "direccion"));
+    $iban = validarIBAN(filter_input(INPUT_POST, "iban"));
     
-    $esSaneado = $login && $clave && $nombre && $apellidos && $correo && $dni && $nss && $telefono && $direccion && $iban;
-    echo $esSaneado ? "Datos saneados correctamente" : "Error en el saneado de datos";
+    $esSaneado = $login && $clave && $nombre && $apellidos && $correo && $telefono && $direccion && $iban;
+    //echo $login.", ".$clave.", ".$nombre.", ".$apellidos.", ".$correo.", ".$telefono.", ".$direccion.", ".$iban;
     if ($esSaneado) {
 
         $usuarioExistente = Usuario::verUsuario($login);
@@ -33,15 +34,13 @@ if (filter_has_var(INPUT_POST, "registrar")) {
             $usuario->setApellidos($apellidos);
             $usuario->setId_rol(3); 
             $usuario->setCorreo($correo);
-            $usuario->setDni($dni);
-            $usuario->setNss($nss);
             $usuario->setTelefono($telefono);
             $usuario->setDireccion($direccion);
             $usuario->setIban($iban);
             
             if ($usuario->añadirUsuario()) {
                 $mensaje = "Usuario registrado correctamente";
-                header("Location: login.html");
+                header("Location: login.php");
                 exit();
             } else {
                 $mensajeError = "Error al registrar el usuario";

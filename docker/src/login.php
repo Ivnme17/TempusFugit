@@ -33,6 +33,6 @@ if (filter_has_var(INPUT_POST, "iniciar")) {
         include_once './Vista/loginIncorrecto.php';
     }
 } else {
-    include_once '../Vista/loginIncorrecto.php';
+    include_once 'Vista/loginIncorrecto.php';
     $mensajeError .= "ERROR: No se ha podido iniciar sesión.";
 }

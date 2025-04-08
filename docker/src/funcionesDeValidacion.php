@@ -83,11 +83,18 @@ function validarDireccion($direccion) {
 }
 
 /**
- * Sanitizes and validates IBAN
+ * Sanitizes and validates Spanish IBAN
  * @param string $iban
- * 
+ * @return string|false Returns sanitized IBAN if valid, false otherwise
  */
 function validarIBAN($iban) {
     $iban = stripslashes(strip_tags(htmlspecialchars(trim($iban))));
+    
+    $iban = strtoupper(str_replace(' ', '', $iban));
+    
+    if (!preg_match('/^ES[0-9]{22}$/', $iban)) {
+        return false;
+    }
+    
     return $iban;
 }

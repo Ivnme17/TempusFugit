@@ -78,7 +78,7 @@ if ($resultado) {
             <button class="btn btn-outline-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
           </form>
           <div id="botonesDeRegistro">
-            <a href="cerrarSesion.php" class="btn btn-danger">Cerrar Sesión</a>
+            <a href="../cerrarSesion.php" class="btn btn-danger">Cerrar Sesión</a>
         </div>
     </div>
         </div>

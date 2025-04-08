@@ -120,9 +120,15 @@ color: #FFD700;
     <div id="formulario">
         <form action="../registro_proceso.php" method="POST">
             <h2>Registro de Usuario</h2>
-            
-            <label for="nombre">Nombre Completo:</label>
+                           
+            <label for="loginUsuario">Nombre de Usuario:</label>
+            <input type="text" id="loginUsuario" name="loginUsuario" required>
+
+            <label for="nombre">Nombre </label>
             <input type="text" id="nombre" name="nombre" required>
+
+            <label for="apellidos">Apellidos </label>
+            <input type="text" id="apellido" name="apellido" required>
             
             <label for="email">Correo Electrónico:</label>
             <input type="email" id="email" name="email" required>
@@ -130,15 +136,15 @@ color: #FFD700;
             <label for="telefono">Teléfono:</label>
             <input type="tel" id="telefono" name="telefono">
             
-            <label for="loginUsuario">Nombre de Usuario:</label>
-            <input type="text" id="loginUsuario" name="loginUsuario" required>
-            
             <label for="claveUsuario">Contraseña:</label>
             <input type="password" id="claveUsuario" name="claveUsuario" required>
             
             <label for="confirmarClave">Confirmar Contraseña:</label>
             <input type="password" id="confirmarClave" name="confirmarClave" required>
             
+            <label for="iban">IBAN:</label>
+            <input type="text" id="iban" name="iban">
+
             <label for="direccion">Dirección:</label>
             <textarea id="direccion" name="direccion"></textarea>
             

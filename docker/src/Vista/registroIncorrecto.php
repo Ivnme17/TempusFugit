@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../css/estilos.css">
     <style>
-        /* Estilos para formularios y inputs */
 form {
     background-color: rgba(255, 215, 0, 0.1); 
     padding: 30px; 
@@ -121,9 +120,15 @@ color: #FFD700;
     <div id="formulario">
         <form action="../registro_proceso.php" method="POST">
             <h2>Registro de Usuario</h2>
-            
-            <label for="nombre">Nombre Completo:</label>
+                           
+            <label for="loginUsuario">Nombre de Usuario:</label>
+            <input type="text" id="loginUsuario" name="loginUsuario" required>
+
+            <label for="nombre">Nombre </label>
             <input type="text" id="nombre" name="nombre" required>
+
+            <label for="apellidos">Apellidos </label>
+            <input type="text" id="apellido" name="apellido" required>
             
             <label for="email">Correo Electrónico:</label>
             <input type="email" id="email" name="email" required>
@@ -131,33 +136,25 @@ color: #FFD700;
             <label for="telefono">Teléfono:</label>
             <input type="tel" id="telefono" name="telefono">
             
-            <label for="loginUsuario">Nombre de Usuario:</label>
-            <input type="text" id="loginUsuario" name="loginUsuario" required>
-            
             <label for="claveUsuario">Contraseña:</label>
             <input type="password" id="claveUsuario" name="claveUsuario" required>
             
             <label for="confirmarClave">Confirmar Contraseña:</label>
             <input type="password" id="confirmarClave" name="confirmarClave" required>
             
+            <label for="iban">IBAN:</label>
+            <input type="text" id="iban" name="iban ">
+
             <label for="direccion">Dirección:</label>
             <textarea id="direccion" name="direccion"></textarea>
             
-            <input type="submit" value="Registrarse">
+            <button type="submit" name="registrar">Registrar</button>
             <input type="button" value="Cancelar" onclick="location.href='../index.html'">
         </form>
-      
-        <div class="alert alert-danger" role="alert" style="margin-top: 20px;">
-            <?php 
-            if (!empty($mensajeError)) {
-            echo $mensajeError;
-            } else {
-            echo "No hay errores.";
-            }
-            ?>
-        </div>
     </div>
-
+    <div class="alert alert-danger" role="alert">
+        <?php echo htmlspecialchars($mensajeError); ?>
+    </div>
     <div id="pieDePagina">
         <footer>
             <pre>Iván Martínez Estrada - 2ºDAW</pre>
