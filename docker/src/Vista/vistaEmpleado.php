@@ -94,9 +94,8 @@ if ($resultado) {
         <table class="table table-striped table-bordered table-hover">
             <thead>
           <tr>
-              <th>ID Cliente</th>
               <th>ID Usuario</th>
-              <th>Telefono</th>
+              <th>cliente</th>
               <th>Correo</th>
               <th>Dirección</th>
               <th>IBAN</th>
