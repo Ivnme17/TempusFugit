@@ -29,7 +29,7 @@ if (filter_has_var(INPUT_POST, "comprar")) {
     header('Location: vistaCliente.php');
     exit();
 } elseif (filter_has_var(INPUT_POST, "logoff")) {
-    header('Location: cerrarSesion.php');
+    header('Location: ../cerrarSesion.php');
     exit();
 }
 ?>
@@ -44,14 +44,10 @@ if (filter_has_var(INPUT_POST, "comprar")) {
             padding: 10px;
             margin: 10px;
             display: inline-block;
-            width: 200px;
+            width: 250px;
             text-align: center;
         }
-        .producto-imagen {
-            width: 150px;
-            height: 150px;
-            object-fit: contain;
-        }
+        
     </style>
     <link rel="stylesheet" type="text/css" href="../css/estilos.css">
 </head>
@@ -60,9 +56,11 @@ if (filter_has_var(INPUT_POST, "comprar")) {
         <div class="productos-grid">
             <?php foreach ($relojes as $reloj) { ?>
                 <div class="producto-card">
+                    <div style="background-color: white; width: 250px; height: 250px;">
                     <img src="<?php echo htmlspecialchars($reloj->getUrlImagen()); ?>" 
                          alt="<?php echo htmlspecialchars($reloj->getNombreCompleto()); ?>" 
-                         class="producto-imagen">
+                         style="width: 250px; height: 250px">
+                    </div>
                     <h3><?php echo htmlspecialchars($reloj->getNombreCompleto()); ?></h3>
                     <p>Precio: <?php echo htmlspecialchars($reloj->getPrecioFormateado()); ?></p>
                     <form action="" method="post">
