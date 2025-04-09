@@ -1,3 +1,14 @@
+<?php
+
+if(filter_input(INPUT_POST,"Eliminar")){
+    $id = filter_input(INPUT_POST, "id", FILTER_SANITIZE_NUMBER_INT);
+    if($id){
+        unset($_SESSION['cesta'][$id]);
+        unset($_SESSION['cantidad'][$id]);
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
