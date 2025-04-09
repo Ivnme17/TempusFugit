@@ -1,4 +1,5 @@
 <?php
+var_dump($_SESSION);
 //Hacer funcionar eliminación de productos del carrito
 if(filter_input(INPUT_POST,"Eliminar")){
     $id = filter_input(INPUT_POST, "id", FILTER_SANITIZE_NUMBER_INT);
@@ -8,8 +9,9 @@ if(filter_input(INPUT_POST,"Eliminar")){
     }
 }
 
-if(filter_input(INPUT_POST,'finalizar')){
-    include_once 'bizum.php';
+if(filter_input(INPUT_POST,"finalizar")){
+    header("Location: bizum.php");
+    exit;
 }
 
 ?>
@@ -137,8 +139,9 @@ if(filter_input(INPUT_POST,'finalizar')){
       </table>
   </div>
   <div class="d-flex justify-content-end gap-2 mt-3">
-      <button class="boton seguir">Seguir Comprando</button>
-      <button class="boton finalizar" name="finalizar" >Finalizar Compra</button>
+      <form method="POST">
+          <button type="submit" class="boton finalizar" name="finalizar">Finalizar Compra</button>
+      </form>
   </div>
 </div>
     <div id="misPedidos">

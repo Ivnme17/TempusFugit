@@ -1,44 +1,81 @@
+<?php
+// Verificar si hay una sesión activa
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Verificar si hay productos en la cesta
+if (!isset($_SESSION['cesta']) || empty($_SESSION['cesta'])) {
+    header("Location: index.php");
+    exit;
+}
+
+// Calcular el total del pedido
+$total = 0;
+if (isset($_SESSION['cesta'])) {
+    foreach ($_SESSION['cesta'] as $id => $reloj) {
+        $cantidad = isset($_SESSION['cantidad'][$id]) ? $_SESSION['cantidad'][$id] : 1;
+        $total += $reloj['precio'] * $cantidad;
+    }
+}
+
+// Procesar el pago
+if (filter_input(INPUT_POST, "procesar_pago")) {
+    $telefono = filter_input(INPUT_POST, "telefono", FILTER_SANITIZE_NUMBER_INT);
+    
+    if (strlen($telefono) == 9) {
+        // Aquí iría la lógica para procesar el pago con Bizum
+        // Por ahora solo simularemos que el pago fue exitoso
+        
+        // Generar un número de pedido
+        $numeroPedido = "TF-" . date("Y") . "-" . sprintf("%03d", rand(1, 999));
+        
+        // Guardar el pedido en la base de datos (esto sería implementado según tu estructura)
+        // Por ahora solo mostraremos un mensaje de éxito
+        
+        // Limpiar el carrito
+        unset($_SESSION['cesta']);
+        unset($_SESSION['cantidad']);
+        
+        // Redirigir a una página de confirmación
+        $_SESSION['mensaje_exito'] = "Pago realizado con éxito. Tu número de pedido es: " . $numeroPedido;
+        header("Location: confirmacion_pedido.php");
+        exit;
+    } else {
+        $error = "El número de teléfono debe tener 9 dígitos.";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pago con Bizum</title>
+    <title>Pago con Bizum - Tempus Fugit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/estilos.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        }
-        
-        body {
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        
-        .container {
+        .container-bizum {
             max-width: 450px;
-            margin: 0 auto;
+            margin: 20px auto;
             background-color: white;
-            min-height: 100vh;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
         }
         
-        header {
+        .bizum-header {
+            background-color: #00a1e4;
+            color: white;
             padding: 20px;
             text-align: center;
-            border-bottom: 1px solid #eee;
         }
         
-        .logo {
-            max-width: 120px;
-            margin: 0 auto 10px;
-        }
-        
-        .checkout-title {
-            font-size: 18px;
-            color: #666;
+        .bizum-logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
         
         .order-summary {
@@ -68,78 +105,12 @@
             font-weight: bold;
         }
         
-        .form-container {
-            padding: 20px;
-        }
-        
-        .payment-methods {
-            margin-bottom: 20px;
-        }
-        
-        .payment-title {
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-        
-        .payment-option {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: border-color 0.3s;
-        }
-        
-        .payment-option.selected {
-            border-color: #00a1e4;
-            background-color: #f0f9ff;
-        }
-        
-        .payment-logo {
-            width: 50px;
-            margin-right: 15px;
-        }
-        
-        .payment-info {
-            flex-grow: 1;
-        }
-        
-        .payment-name {
-            font-weight: 500;
-        }
-        
-        .payment-description {
-            font-size: 12px;
-            color: #777;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-            color: #666;
-        }
-        
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-        
         .bizum-info {
             background-color: #f0f9ff;
             border: 1px solid #d0e8f9;
             border-radius: 8px;
             padding: 15px;
-            margin-bottom: 20px;
+            margin: 20px;
         }
         
         .bizum-info-title {
@@ -153,12 +124,12 @@
             line-height: 1.5;
         }
         
-        .button-container {
+        .form-container {
             padding: 20px;
-            position: sticky;
-            bottom: 0;
-            background-color: white;
-            border-top: 1px solid #eee;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
         }
         
         .pay-button {
@@ -172,9 +143,6 @@
             font-weight: bold;
             cursor: pointer;
             transition: background-color 0.3s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
         
         .pay-button:hover {
@@ -191,107 +159,88 @@
             align-items: center;
         }
         
-        .secure-info svg {
-            margin-right: 5px;
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .back-link {
+            display: block;
+            text-align: center;
+            margin: 20px 0;
+            color: #6c757d;
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            color: #5a6268;
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">
-                <svg height="40" viewBox="0 0 120 40" fill="none">
-                    <rect width="120" height="40" rx="8" fill="#00A1E4"/>
-                    <text x="25" y="26" font-family="Arial" font-size="20" font-weight="bold" fill="white">BIZUM</text>
-                </svg>
-            </div>
-            <div class="checkout-title">Finalizar compra</div>
-        </header>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+    <div id="header">
+        <div id="logoEmpresa">
+            <a href="index.php"><img src="../logoEmpresa/TEMPUS-removebg-preview.png" alt="Logo Tempus Fugit"></a>
+        </div>
+    </div>
+    
+    <div class="container-bizum">
+        <div class="bizum-header">
+            <div class="bizum-logo">BIZUM</div>
+            <div>Finalizar compra</div>
+        </div>
         
         <div class="order-summary">
             <div class="summary-title">Resumen del pedido</div>
-            <div class="summary-row">
-                <span>Auriculares inalámbricos</span>
-                <span>59,99 €</span>
-            </div>
-            <div class="summary-row">
-                <span>Envío</span>
-                <span>4,95 €</span>
-            </div>
+            <?php foreach ($_SESSION['cesta'] as $id => $reloj): ?>
+                <?php $cantidad = isset($_SESSION['cantidad'][$id]) ? $_SESSION['cantidad'][$id] : 1; ?>
+                <div class="summary-row">
+                    <span><?php echo htmlspecialchars($reloj['nombre']); ?> (x<?php echo $cantidad; ?>)</span>
+                    <span><?php echo number_format($reloj['precio'] * $cantidad, 2); ?> €</span>
+                </div>
+            <?php endforeach; ?>
+            
             <div class="summary-total">
                 <span>Total</span>
-                <span>64,94 €</span>
+                <span><?php echo number_format($total, 2); ?> €</span>
+            </div>
+        </div>
+        
+        <div class="bizum-info">
+            <div class="bizum-info-title">¿Cómo funciona?</div>
+            <div class="bizum-info-text">
+                1. Introduce tu número de teléfono asociado a Bizum<br>
+                2. Recibirás una notificación en tu app bancaria<br>
+                3. Confirma el pago en tu aplicación bancaria
             </div>
         </div>
         
         <div class="form-container">
-            <div class="payment-methods">
-                <div class="payment-title">Selecciona método de pago</div>
-                
-                <div class="payment-option selected">
-                    <div class="payment-logo">
-                        <svg height="30" viewBox="0 0 60 30" fill="none">
-                            <rect width="60" height="30" rx="4" fill="#00A1E4"/>
-                            <text x="12" y="19" font-family="Arial" font-size="10" font-weight="bold" fill="white">BIZUM</text>
-                        </svg>
-                    </div>
-                    <div class="payment-info">
-                        <div class="payment-name">Bizum</div>
-                        <div class="payment-description">Pago rápido desde tu móvil</div>
-                    </div>
+            <form method="POST" action="">
+                <div class="form-group">
+                    <label for="telefono">Número de teléfono</label>
+                    <input type="tel" name="telefono" id="telefono" class="form-control" placeholder="Ej: 600123456" pattern="[0-9]{9}" maxlength="9" required>
+                    <?php if (isset($error)): ?>
+                        <div class="error-message"><?php echo $error; ?></div>
+                    <?php endif; ?>
                 </div>
                 
-                <div class="payment-option">
-                    <div class="payment-logo">
-                        <svg height="30" viewBox="0 0 60 30" fill="none">
-                            <rect width="60" height="30" rx="4" fill="#F1F1F1"/>
-                            <text x="8" y="19" font-family="Arial" font-size="10" fill="#333">TARJETA</text>
-                        </svg>
-                    </div>
-                    <div class="payment-info">
-                        <div class="payment-name">Tarjeta de crédito/débito</div>
-                        <div class="payment-description">Visa, Mastercard, American Express</div>
-                    </div>
-                </div>
+                <button type="submit" name="procesar_pago" class="pay-button">PAGAR <?php echo number_format($total, 2); ?> €</button>
                 
-                <div class="payment-option">
-                    <div class="payment-logo">
-                        <svg height="30" viewBox="0 0 60 30" fill="none">
-                            <rect width="60" height="30" rx="4" fill="#F1F1F1"/>
-                            <text x="8" y="19" font-family="Arial" font-size="10" fill="#333">PAYPAL</text>
-                        </svg>
-                    </div>
-                    <div class="payment-info">
-                        <div class="payment-name">PayPal</div>
-                        <div class="payment-description">Paga de forma segura con tu cuenta</div>
-                    </div>
+                <div class="secure-info mt-3">
+                    <i class="fa-solid fa-lock me-1"></i>
+                    Pago seguro y encriptado
                 </div>
-            </div>
-            
-            <div class="bizum-info">
-                <div class="bizum-info-title">¿Cómo funciona?</div>
-                <div class="bizum-info-text">
-                    1. Introduce tu número de teléfono asociado a Bizum<br>
-                    2. Recibirás una notificación en tu app bancaria<br>
-                    3. Confirma el pago en tu aplicación bancaria
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="phone">Número de teléfono</label>
-                <input type="tel" id="phone" placeholder="Ej: 600123456" pattern="[0-9]{9}" maxlength="9">
-            </div>
+            </form>
         </div>
         
-        <div class="button-container">
-            <button class="pay-button">PAGAR 64,94 €</button>
-            <div class="secure-info">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M9.5,4H8.5V3a2.5,2.5,0,0,0-5,0V4H2.5A1.5,1.5,0,0,0,1,5.5v4A1.5,1.5,0,0,0,2.5,11h7A1.5,1.5,0,0,0,11,9.5v-4A1.5,1.5,0,0,0,9.5,4ZM5,3a1.5,1.5,0,0,1,3,0V4H5Z" fill="#777"/>
-                </svg>
-                Pago seguro y encriptado
-            </div>
-        </div>
+        <a href="index.php" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i> Volver al carrito
+        </a>
     </div>
 </body>
 </html>
