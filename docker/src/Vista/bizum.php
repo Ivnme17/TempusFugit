@@ -4,12 +4,17 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+// Verificar si el usuario está logueado
+if (!isset($_SESSION['usuario'])) {
+    header("Location: login.php");
+    exit;
+}
+
 // Verificar si hay productos en la cesta
 if (!isset($_SESSION['cesta']) || empty($_SESSION['cesta'])) {
     header("Location: index.php");
     exit;
 }
-
 // Calcular el total del pedido
 $total = 0;
 if (isset($_SESSION['cesta'])) {
@@ -32,7 +37,7 @@ if (filter_input(INPUT_POST, "procesar_pago")) {
         
         // Guardar el pedido en la base de datos (esto sería implementado según tu estructura)
         // Por ahora solo mostraremos un mensaje de éxito
-        
+        $_SESSION['mensaje_exito'] = "Pago realizado con éxito. Tu número de pedido es: $numeroPedido";
         // Limpiar el carrito
         unset($_SESSION['cesta']);
         unset($_SESSION['cantidad']);
@@ -191,7 +196,7 @@ if (filter_input(INPUT_POST, "procesar_pago")) {
     <div class="container-bizum">
         <div class="bizum-header">
             <div class="bizum-logo">BIZUM</div>
-            <div>Finalizar compra</div>
+                <?php $cantidad = $_SESSION['cantidad'][$id] ?? 1; ?>
         </div>
         
         <div class="order-summary">
