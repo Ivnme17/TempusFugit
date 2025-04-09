@@ -32,8 +32,8 @@ CREATE TABLE marca_modelo (
     CONSTRAINT uq_marca_modelo UNIQUE (marca, modelo)
 );
 
-CREATE TABLE detalles_precio (
-    id_detalle_precio INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE detalles_pedido (
+    id_detalle_pedido INT AUTO_INCREMENT PRIMARY KEY,
     precio_base DECIMAL(10, 2) NOT NULL,
     descuento_porcentaje DECIMAL(5, 2) DEFAULT 0.00,
     impuesto_porcentaje DECIMAL(5, 2) DEFAULT 21.00,
@@ -46,15 +46,15 @@ CREATE TABLE relojes (
     id_reloj INT AUTO_INCREMENT PRIMARY KEY,
     id_marca_modelo INT NOT NULL,
     precio DECIMAL(10, 2),
-    id_detalle_precio INT,
+    id_detalle_pedido INT,
     tipo ENUM('digital', 'analógico'),
     stock INT DEFAULT 0,
     url_imagen VARCHAR(255),
     CONSTRAINT fk_relojes_marca_modelo FOREIGN KEY (id_marca_modelo)
         REFERENCES marca_modelo(id_marca_modelo)
         ON UPDATE CASCADE,
-    CONSTRAINT fk_relojes_detalle_precio FOREIGN KEY (id_detalle_precio)
-        REFERENCES detalles_precio(id_detalle_precio)
+    CONSTRAINT fk_relojes_detalle_pedido FOREIGN KEY (id_detalle_pedido)
+        REFERENCES detalles_pedido(id_detalle_pedido)
         ON DELETE SET NULL
         ON UPDATE CASCADE
 );
@@ -94,6 +94,7 @@ INSERT INTO usuarios (login, clave, id_rol, nombre, apellidos, dni, nss, telefon
 ('ana.lopez', 'B109F3BBBC244EB82441917ED06D618B9008DD09B3BEFD1B5E07394C706A8BB980B1D7785E5976EC049B46DF5F1326AF5A2EA6D103FD07C95385FFAB0CACBC86', 2, 'Ana', 'López Martínez', '23456789B', '281234567890', '600111222', 'ana.lopez@example.com', 'Calle Mayor 10, Madrid', NULL),
 ('carlos.sanchez', '7469EB3DC5848B1DADD0F638A95CF4E4F0D6246717D5DC92E77B80F5199182B0F2CC1BB86C9187666B90ACA27372CDB03D22689A9343C5A96993BB1782F7A67D', 3, 'Carlos', 'Sánchez Fernández', NULL, NULL, '600123456', 'carlos.sanchez@example.com', 'Calle Falsa 123, Madrid', 'ES9121000418450200051332');
 
+
 INSERT INTO marca_modelo (marca, modelo) VALUES
 ('Rolex', 'Submariner'),
 ('Rolex', 'Datejust'),
@@ -101,14 +102,14 @@ INSERT INTO marca_modelo (marca, modelo) VALUES
 ('Casio', 'Edifice'),
 ('Lotus', 'Multifunction');
 
-INSERT INTO detalles_precio (precio_base, descuento_porcentaje, impuesto_porcentaje, notas) VALUES
+INSERT INTO detalles_pedido (precio_base, descuento_porcentaje, impuesto_porcentaje, notas) VALUES
 (7024.79, 0.00, 21.00, 'Precio premium de Rolex Submariner'),
 (5950.41, 0.00, 21.00, 'Precio estándar de Rolex Datejust'),
 (123.97, 0.00, 21.00, 'Precio económico para G-Shock'),
 (148.76, 0.00, 21.00, 'Precio competitivo para Edifice'),
 (181.82, 0.00, 21.00, 'Precio medio para Lotus Multifunction');
 
-INSERT INTO relojes (id_marca_modelo, precio, id_detalle_precio, tipo, stock, url_imagen) VALUES
+INSERT INTO relojes (id_marca_modelo, precio, id_detalle_pedido, tipo, stock, url_imagen) VALUES
 (1, 8500.00, 1, 'analógico', 5, 'https://www.rabat.net/media/catalog/product/r/o/rolex-submariner-m126610ln-0001.png'),
 (2, 7200.00, 2, 'analógico', 3, 'https://media.rolex.com/image/upload/q_auto:eco/f_auto/t_v7-majesty/c_limit,w_3840/v1/catalogue/2024/upright-c/m126200-0005'),
 (3, 150.00, 3, 'digital', 10, 'https://www.baroli.es/wp-content/uploads/2015/12/GA-120BB-1AER.jpg'),

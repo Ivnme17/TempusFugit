@@ -52,6 +52,29 @@ if (filter_has_var(INPUT_POST, "comprar")) {
     <link rel="stylesheet" type="text/css" href="../css/estilos.css">
 </head>
 <body>
+<div class="filtros">
+    <form method="get">
+        <select name="marca">
+            <option value="">Todas las marcas</option>
+            <?php
+            $marcas = array_unique(array_map(function($reloj) {
+                return $reloj->getMarca();
+            }, $relojes));
+            
+            foreach ($marcas as $marca) {
+                $seleccionado = (isset($_GET['marca']) && $_GET['marca'] === $marca) ? 'selected' : '';
+                echo "<option value='" . htmlspecialchars($marca) . "' $seleccionado>" . htmlspecialchars($marca) . "</option>";
+            }
+            ?>
+        </select>
+        <button type="submit">Filtrar</button>
+    </form>
+</div>
+<?php
+if (isset($_GET['marca']) && $_GET['marca'] !== '') {
+    $relojes = Reloj::obtenerPorMarca($_GET['marca']);
+}
+?>
     <div id='productos'>
         <div class="productos-grid">
             <?php foreach ($relojes as $reloj) { ?>

@@ -29,7 +29,7 @@ session_start();
               <a class="nav-link" href="#mantenimientosDeRelojes">Atención Al Cliente</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="Vista/productos.php" tabindex="-1" aria-disabled="true">Productos</a>
+              <a class="nav-link" href="productos.php" tabindex="-1" aria-disabled="true">Productos</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#formulario">Formulario</a>
