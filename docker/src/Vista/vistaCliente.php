@@ -8,6 +8,10 @@ if(filter_input(INPUT_POST,"Eliminar")){
     }
 }
 
+if(filter_input(INPUT_POST,'finalizar')){
+    include_once 'bizum.php';
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -134,7 +138,7 @@ if(filter_input(INPUT_POST,"Eliminar")){
   </div>
   <div class="d-flex justify-content-end gap-2 mt-3">
       <button class="boton seguir">Seguir Comprando</button>
-      <button class="boton finalizar">Finalizar Compra</button>
+      <button class="boton finalizar" name="finalizar" >Finalizar Compra</button>
   </div>
 </div>
     <div id="misPedidos">
