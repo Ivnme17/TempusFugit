@@ -30,8 +30,7 @@ if (filter_has_var(INPUT_POST, "enviar")) {
 }
 
 if (filter_has_var(INPUT_POST, "comprar")) {
-    header('Location: vistaCliente.php');
-    exit();
+    include_once 'vistaCliente.php';
 } elseif (filter_has_var(INPUT_POST, "logoff")) {
     header('Location: ../cerrarSesion.php');
     exit();
