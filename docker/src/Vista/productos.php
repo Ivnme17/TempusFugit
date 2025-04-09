@@ -17,10 +17,14 @@ if (filter_has_var(INPUT_POST, "enviar")) {
     if ($relojId) {
         $reloj = Reloj::obtenerPorId($relojId);
         if ($reloj && $reloj->disponible()) {
+            $cantidad = filter_input(INPUT_POST, 'cantidad', FILTER_SANITIZE_NUMBER_INT);
+            $cantidad = $cantidad > 0 ? $cantidad : 1;
+            
             $_SESSION['cesta'][$relojId] = [
                 'nombre' => $reloj->getNombreCompleto(),
                 'precio' => $reloj->getPrecio()
             ];
+            $_SESSION['cantidad'][$relojId] = $cantidad;
         }
     }
 }
@@ -88,11 +92,11 @@ if (isset($_GET['marca']) && $_GET['marca'] !== '') {
                     <p>Precio: <?php echo htmlspecialchars($reloj->getPrecioFormateado()); ?></p>
                     <form action="" method="post">
                         <input type="hidden" name="producto" value="<?php echo htmlspecialchars($reloj->getId()); ?>">
+                        <input type="number" name="cantidad" min="1" value="1" style="width: 50px; margin-bottom: 5px;"><br>
                         <button type="submit" name="enviar" <?php echo $reloj->disponible() ? '' : 'disabled'; ?>>
                             <?php echo $reloj->disponible() ? 'Añadir al carrito' : 'Sin stock'; ?>
                         </button>
                     </form>
-                    <input type="number" name="cantidad" min="0" value="0" style="width: 50px; margin-bottom: 5px;"><br>
                 </div>
             <?php } ?>  
         </div>

@@ -63,56 +63,69 @@
         </div>
     </div>
     <div id="carrito" style="display: none;">
-      <h1>MI CARRITO</h1>
-      <div class="table-responsive">
-          <table class="table table-striped">
-              <thead>
-                  <tr>
-                      <th>Producto</th>
-                      <th>Precio</th>
-                      <th>Cantidad</th>
-                      <th>Acciones</th>
-                  </tr>
-              </thead>
-              <tbody id="items-carrito">
-                <?php if(!isset($_SESSION['cesta'])){ ?>
-                    <tr>
-                        <td colspan="5" class="text-center">No hay productos en el carrito.</td>
-                    </tr>
-                <?php } else { ?>
-                        <?php foreach ($_SESSION['cesta'] as $reloj) { ?>
-                            <tr>
-                                <td><?php echo ($reloj['nombre']); ?></td>
-                                <td><?php echo ($reloj['precio']); ?> €</td>
-                                <td><?php echo ($reloj['cantidad']); ?></td>
-                                <td><button class="btn btn-danger eliminar">Eliminar</button></td>
-                            </tr>
-                        <?php } ?>
+  <h1>MI CARRITO</h1>
+  <div class="table-responsive">
+      <table class="table table-striped">
+          <thead>
+              <tr>
+                  <th>Producto</th>
+                  <th>Precio</th>
+                  <th>Cantidad</th>
+                  <th>Subtotal</th>
+                  <th>Acciones</th>
+              </tr>
+          </thead>
+          <tbody id="items-carrito">
+            <?php if(!isset($_SESSION['cesta']) || empty($_SESSION['cesta'])){ ?>
+                <tr>
+                    <td colspan="5" class="text-center">No hay productos en el carrito.</td>
+                </tr>
+            <?php } else { ?>
+                    <?php foreach ($_SESSION['cesta'] as $id => $reloj) { ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($reloj['nombre']); ?></td>
+                            <td><?php echo number_format($reloj['precio'], 2); ?> €</td>
+                            <td>
+                                <?php 
+                                $cantidad = isset($_SESSION['cantidad'][$id]) ? $_SESSION['cantidad'][$id] : 1;
+                                echo $cantidad;
+                                ?>
+                            </td>
+                            <td>
+                                <?php echo number_format($reloj['precio'] * $cantidad, 2); ?> €
+                            </td>
+                            <td>
+                                <button class="btn btn-danger eliminar" data-id="<?php echo $id; ?>">Eliminar</button>
+                            </td>
+                        </tr>
                     <?php } ?>
-              </tbody>
-              <tfoot>
-                  <tr>
-                      <td colspan="3"><strong>Total:</strong></td>
-                      <td>
-                          <?php
-                          $total = 0;
-                          if(isset($_SESSION['cesta'])) {
-                              foreach($_SESSION['cesta'] as $reloj) {
-                                  $total += $reloj['precio'] * $reloj['cantidad'];
-                              }
+                <?php } ?>
+          </tbody>
+          <tfoot>
+              <tr>
+                  <td colspan="3"><strong>Total:</strong></td>
+                  <td>
+                      <?php
+                      $total = 0;
+                      if(isset($_SESSION['cesta'])) {
+                          foreach($_SESSION['cesta'] as $id => $reloj) {
+                              $cantidad = isset($_SESSION['cantidad'][$id]) ? $_SESSION['cantidad'][$id] : 1;
+                              $total += $reloj['precio'] * $cantidad;
                           }
-                          echo number_format($total, 2) . ' €';
-                          ?>
-                      </td>
-                  </tr>
-              </tfoot>
-          </table>
-      </div>
-      <div class="d-flex justify-content-end gap-2 mt-3">
-          <button class="boton seguir">Seguir Comprando</button>
-          <button class="boton finalizar">Finalizar Compra</button>
-      </div>
+                      }
+                      echo number_format($total, 2) . ' €';
+                      ?>
+                  </td>
+                  <td></td>
+              </tr>
+          </tfoot>
+      </table>
   </div>
+  <div class="d-flex justify-content-end gap-2 mt-3">
+      <button class="boton seguir">Seguir Comprando</button>
+      <button class="boton finalizar">Finalizar Compra</button>
+  </div>
+</div>
     <div id="misPedidos">
         <h1>MIS PEDIDOS</h1>
         <table class="table table-striped">
