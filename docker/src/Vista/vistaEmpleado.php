@@ -34,6 +34,11 @@ if ($resultado) {
   $totalPrecio = $fila['total_precio'];
 }
 
+if(filter_input(INPUT_POST,'Eliminar')){
+  unset($_SESSION['cesta']);
+  unset($_SESSION['cantidad']);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
