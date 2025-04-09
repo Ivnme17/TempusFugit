@@ -92,8 +92,9 @@ if (isset($_GET['marca']) && $_GET['marca'] !== '') {
                             <?php echo $reloj->disponible() ? 'Añadir al carrito' : 'Sin stock'; ?>
                         </button>
                     </form>
+                    <input type="number" name="cantidad" min="0" value="0" style="width: 50px; margin-bottom: 5px;"><br>
                 </div>
-            <?php } ?>
+            <?php } ?>  
         </div>
     </div>
     <form method="post">

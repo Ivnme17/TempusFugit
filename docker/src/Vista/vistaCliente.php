@@ -71,17 +71,39 @@
                       <th>Producto</th>
                       <th>Precio</th>
                       <th>Cantidad</th>
-                      <th>Total</th>
                       <th>Acciones</th>
                   </tr>
               </thead>
               <tbody id="items-carrito">
+                <?php if(!isset($_SESSION['cesta'])){ ?>
+                    <tr>
+                        <td colspan="5" class="text-center">No hay productos en el carrito.</td>
+                    </tr>
+                <?php } else { ?>
+                        <?php foreach ($_SESSION['cesta'] as $reloj) { ?>
+                            <tr>
+                                <td><?php echo ($reloj['nombre']); ?></td>
+                                <td><?php echo ($reloj['precio']); ?> €</td>
+                                <td><?php echo ($reloj['cantidad']); ?></td>
+                                <td><button class="btn btn-danger eliminar">Eliminar</button></td>
+                            </tr>
+                        <?php } ?>
+                    <?php } ?>
               </tbody>
               <tfoot>
                   <tr>
-                      <td colspan="3" ><strong>Total:</strong></td>
-                      <td id="total-carrito">0.00 €</td>
-                      <td></td>
+                      <td colspan="3"><strong>Total:</strong></td>
+                      <td>
+                          <?php
+                          $total = 0;
+                          if(isset($_SESSION['cesta'])) {
+                              foreach($_SESSION['cesta'] as $reloj) {
+                                  $total += $reloj['precio'] * $reloj['cantidad'];
+                              }
+                          }
+                          echo number_format($total, 2) . ' €';
+                          ?>
+                      </td>
                   </tr>
               </tfoot>
           </table>
@@ -132,20 +154,6 @@
             <p>CASIO G-SHOCK RESISTENTE AL AGUA Y GOLPES - 120,00 €</p>
             <button>Añadir al Carrito</button>
         </fieldset>
-    </div>
-    
-
-    <div id="soporte">
-        <h1>CENTRO DE SOPORTE</h1>
-        <div id="formulario">
-            <form>
-                <label for="problema">Describa su problema:</label>
-                <textarea id="problema" name="problema" required></textarea>
-                <br>
-                <input type="submit" value="Enviar Solicitud">
-                <input type="button" value="Cancelar">
-            </form>
-        </div>
     </div>
 
     <div id="pieDePagina">
