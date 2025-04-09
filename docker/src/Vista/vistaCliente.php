@@ -1,5 +1,5 @@
 <?php
-
+//Hacer funcionar eliminación de productos del carrito
 if(filter_input(INPUT_POST,"Eliminar")){
     $id = filter_input(INPUT_POST, "id", FILTER_SANITIZE_NUMBER_INT);
     if($id){
