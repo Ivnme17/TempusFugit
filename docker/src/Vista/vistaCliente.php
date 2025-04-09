@@ -76,7 +76,6 @@ if(filter_input(INPUT_POST,"Eliminar")){
     <div id="carrito" style="display: none;">
   <h1>MI CARRITO</h1>
   <div class="table-responsive">
-   <?php var_dump($_SESSION['cesta']); ?>
       <table class="table table-striped">
           <thead>
               <tr>
