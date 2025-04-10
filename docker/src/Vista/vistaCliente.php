@@ -55,7 +55,7 @@ if(filter_input(INPUT_POST,"finalizar") && isset($_SESSION['cesta']) && !empty($
               </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="../Vista/indexCliente.html" tabindex="-1" aria-disabled="true">
+                <a class="nav-link" href="../Vista/indexCliente.php" tabindex="-1" aria-disabled="true">
                     <i class="fa-solid fa-house"></i>
                 </a>
             </li>
