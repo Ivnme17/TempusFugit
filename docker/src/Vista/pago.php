@@ -19,7 +19,7 @@ if(isset($_POST['pagar'])) {
     <form method="POST">
     <img src="../imagenBackground/logo-vector-bizum.jpg" alt="Bizum" class="logo" style="width: 390px; height:auto;">
         <h1>Pago</h1>
-        < class="mb-3">
+        <class="mb-3">
             <label for="telefono" class="form-label">Teléfono</label>
             <img src="../logoEmpresa/logoBizumMovil.png"><input type="tel" class="form-control" id="telefono" name="telefono" required>
         </div>
