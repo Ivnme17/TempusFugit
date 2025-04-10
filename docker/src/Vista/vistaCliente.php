@@ -1,5 +1,7 @@
 <?php
+session_start();
 var_dump($_SESSION);
+
 //Hacer funcionar eliminación de productos del carrito
 if(filter_input(INPUT_POST,"Eliminar")){
     $id = filter_input(INPUT_POST, "id", FILTER_SANITIZE_NUMBER_INT);
@@ -10,8 +12,7 @@ if(filter_input(INPUT_POST,"Eliminar")){
 }
 
 if(filter_input(INPUT_POST,"finalizar")){
-    header("Location: bizum.php");
-    exit;
+    include_once "./Vista/pago.php";
 }
 
 ?>
