@@ -14,7 +14,7 @@ if(isset($_POST['eliminar'])){
 }
 
 if(filter_input(INPUT_POST,"finalizar") && isset($_SESSION['cesta']) && !empty($_SESSION['cesta'])){
-    include_once "./Vista/pago.php";
+    header("Location: pago.php");
 }
 ?>
 <!DOCTYPE html>

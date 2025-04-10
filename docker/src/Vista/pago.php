@@ -1,8 +1,8 @@
 <?php
 session_start();
-
- if (!isset($_SESSION['cliente'])) {
-    header("Location: ../Vista/login.php");
+if(isset($_POST['submit'])) {
+    $mensaje="Pago realizado con éxito";
+    include_once("../Vista/alerta.php");
 }
 ?>
 <!DOCTYPE html>
@@ -10,10 +10,12 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Bizum</title>
+    <link rel="stylesheet" href="../css/estilospago.css">
 </head>
-<body>
+<body>    
     <form method="" action="">
+    <img src="../imagenBackground/logo-vector-bizum.jpg" alt="Bizum" class="logo" style="width: 390px; height:auto;">
         <h1>Pago</h1>
         <div class="mb-3">
             <label for="telefono" class="form-label">Teléfono</label>
@@ -21,7 +23,6 @@ session_start();
         </div>
         <button type="submit" class="btn btn-primary">Realizar Pago</button>
         <button type="reset" class="btn btn-secondary">Limpiar</button>
-
     </form>
 </body>
 </html>
