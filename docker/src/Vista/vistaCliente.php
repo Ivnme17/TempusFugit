@@ -1,20 +1,21 @@
 <?php
 session_start();
-//var_dump($_SESSION);
 
-//Hacer funcionar eliminación de productos del carrito
-if(filter_input(INPUT_POST,"Eliminar")){
-    $id = filter_input(INPUT_POST, "id", FILTER_SANITIZE_NUMBER_INT);
-    if($id){
+if(isset($_POST['eliminar'])){
+    $id = isset($_POST['id']) ? $_POST['id'] : null;
+    
+    if($id !== null && isset($_SESSION['cesta'][$id])){
         unset($_SESSION['cesta'][$id]);
         unset($_SESSION['cantidad'][$id]);
+        
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit;
     }
 }
 
-if(filter_input(INPUT_POST,"finalizar")){
+if(filter_input(INPUT_POST,"finalizar") && isset($_SESSION['cesta']) && !empty($_SESSION['cesta'])){
     include_once "./Vista/pago.php";
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -113,7 +114,10 @@ if(filter_input(INPUT_POST,"finalizar")){
                                 <?php echo number_format($reloj['precio'] * $cantidad, 2); ?> €
                             </td>
                             <td>
-                                <button class="btn btn-danger eliminar" data-id="<?php echo $id; ?>">Eliminar</button>
+                                <form method="POST">
+                                    <input type="hidden" name="id" value="<?php echo $id; ?>">
+                                    <button type="submit" class="btn btn-danger" name="eliminar">Eliminar</button>
+                                </form>
                             </td>
                         </tr>
                     <?php } ?>
@@ -141,7 +145,7 @@ if(filter_input(INPUT_POST,"finalizar")){
   </div>
   <div class="d-flex justify-content-end gap-2 mt-3">
       <form method="POST">
-          <button type="submit" class="boton finalizar" name="finalizar">Finalizar Compra</button>
+          <button type="submit" class="boton finalizar" name="finalizar" value="1">Finalizar Compra</button>
       </form>
   </div>
 </div>
