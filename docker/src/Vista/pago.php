@@ -1,9 +1,11 @@
 <?php
 session_start();
-if(isset($_POST['submit'])) {
-    $mensaje="Pago realizado con éxito";
-    include_once("../Vista/alerta.php");
+if(isset($_POST['pagar'])) {
+    echo "<dialog open style='padding: 30px; border-radius: 20px; border: none; box-shadow: 0 0 20px rgba(0,0,0,0.3); background-color:#00205B;'>
+            <p style='color: white; font-size: 18px; margin: 0;'>Pago realizado correctamente!!</p>
+          </dialog>";
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,15 +15,15 @@ if(isset($_POST['submit'])) {
     <title>Bizum</title>
     <link rel="stylesheet" href="../css/estilospago.css">
 </head>
-<body>    
-    <form method="" action="">
+<bod>    
+    <form method="POST">
     <img src="../imagenBackground/logo-vector-bizum.jpg" alt="Bizum" class="logo" style="width: 390px; height:auto;">
         <h1>Pago</h1>
-        <div class="mb-3">
+        < class="mb-3">
             <label for="telefono" class="form-label">Teléfono</label>
-            <input type="tel" class="form-control" id="telefono" name="telefono" required>
+            <img src="../logoEmpresa/logoBizumMovil.png"><input type="tel" class="form-control" id="telefono" name="telefono" required>
         </div>
-        <button type="submit" class="btn btn-primary">Realizar Pago</button>
+        <button type="submit" class="btn btn-primary" name="pagar">Realizar Pago</button>
         <button type="reset" class="btn btn-secondary">Limpiar</button>
     </form>
 </body>

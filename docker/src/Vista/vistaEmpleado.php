@@ -34,6 +34,19 @@ if ($resultado) {
   $totalPrecio = $fila['total_precio'];
 }
 
+$pedidos = [];
+$conexion = Db::getConexion();
+$consulta = "SELECT * FROM pedidos ORDER BY fecha DESC LIMIT 5";
+$resultado = $conexion->query($consulta);
+if ($resultado) {
+  while ($fila = $resultado->fetch(PDO::FETCH_ASSOC)) {
+    $pedidos[] = $fila;
+  }
+}
+
+
+
+
 if(filter_input(INPUT_POST,'Eliminar')){
   unset($_SESSION['cesta']);
   unset($_SESSION['cantidad']);
@@ -171,6 +184,41 @@ if(filter_input(INPUT_POST,'Eliminar')){
 
           <div id="informes">
         <h1>INFORMES Y ESTADÍSTICAS</h1>
+
+
+        <h2>Últimos 5 Pedidos</h2>
+        <div>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+          <tr>
+              <th>ID Pedido</th>
+              <th>ID Usuario</th>
+              <th>Fecha</th>
+              <th>Total</th>
+              <th>Acciones</th>
+          </tr>
+            </thead>
+            <tbody>
+            <?php foreach($pedidos as $pedido){ ?>
+          <tr>
+              <td><?= $pedido['id_pedido']; ?></td>
+              <td><?= $pedido['id_usuario']; ?></td>
+              <td><?= $pedido['fecha']; ?></td>
+              <td><?= $pedido['total']; ?> €</td>
+              <td>
+          <a href="controladorEmpleado.php?action=editar&id_pedido=<?= $pedido['id_pedido']; ?>">
+              <i class="fa-solid fa-pen-to-square"></i>
+              <input type="button" value="Eliminar" class="btn btn-secondary">
+              <input type="button" value="Editar" class="btn btn-primary">
+          </a>
+              </td>
+          </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+
+
+
         <h1>Productos con menor stock</h1>
         <div>
         <table class="table table-striped table-bordered table-hover">
