@@ -1,4 +1,4 @@
-
+CREATE DATABASE IF NOT EXISTS tempus_fugit;
 USE `tempus_fugit`;
 
 CREATE TABLE roles (
