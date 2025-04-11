@@ -26,11 +26,12 @@ if(isset($_POST['pagar'])) {
             $pedido = new Pedidos(
                 $id, 
                 $reloj->getId(),
-                date('Y-m-d H:i:s'),
+                (new DateTime())->setTimezone(new DateTimeZone('Europe/Madrid'))->format('Y-m-d H:i:s'),
                 $cantidad,
                 $producto['precio'],
                 'Bizum'
             );
+
             $pedido->insertarPedido();
         }
           exit();
