@@ -1,5 +1,5 @@
 <?php
-require_once './Servicio/Db.php';
+require_once '../Servicio/Db.php';
 
 class Usuario {
     private $id_usuario;
