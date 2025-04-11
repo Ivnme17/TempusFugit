@@ -17,7 +17,7 @@ if(!isset($_SESSION['usuario'])) {
 }
 //Informo al usuario de que se ha realizado el pago y después de 3 segundos lo redirijo a la vistaCliente.php
 if(isset($_POST['pagar'])) {
-    header("refresh:30;url=vistaCliente.php");
+    header("refresh:3;url=vistaCliente.php");
     echo "<dialog open style='padding: 30px; border-radius: 20px; border: none; box-shadow: 0 0 20px rgba(0,0,0,0.3); background-color:#00205B;'>
            <p style='color: white; font-size: 18px; margin: 0;'>Pago realizado correctamente!!</p>
         </dialog>";
