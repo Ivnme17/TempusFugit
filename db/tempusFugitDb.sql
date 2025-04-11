@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS `tempus_fugit`;
+
 USE `tempus_fugit`;
 
 CREATE TABLE roles (
@@ -61,19 +61,13 @@ CREATE TABLE relojes (
 
 CREATE TABLE pedidos (
     id_pedido INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT,
-    id_reloj INT,
-    fecha_pedido DATETIME,
-    fecha_entrega_estimada DATE,
-    fecha_entrega_real DATETIME,
-    estado ENUM('pendiente', 'en progreso', 'completado') DEFAULT 'pendiente',
+    id_usuario INT NOT NULL,
+    id_reloj INT NOT NULL,
+    fecha_pedido DATETIME NOT NULL,
     cantidad INT NOT NULL DEFAULT 1,
     precio_unitario DECIMAL(10, 2) NOT NULL,
     precio_total DECIMAL(10, 2) GENERATED ALWAYS AS (cantidad * precio_unitario) STORED,
-    direccion_entrega VARCHAR(255),
-    metodo_pago ENUM('tarjeta', 'transferencia', 'contra reembolso', 'PayPal'),
-    codigo_seguimiento VARCHAR(50),
-    notas_pedido TEXT,
+    metodo_pago ENUM('tarjeta', 'transferencia', 'contra reembolso', 'BIZUM'),
     CONSTRAINT fk_pedidos_usuario FOREIGN KEY (id_usuario)
         REFERENCES usuarios(id_usuario)
         ON DELETE CASCADE
@@ -93,7 +87,6 @@ INSERT INTO usuarios (login, clave, id_rol, nombre, apellidos, dni, nss, telefon
 ('juan.perez', 'D404559F602EAB6FD602AC7680DACBFAADD13630335E951F097AF3900E9DE176B6DB28512F2E000B9D04FBA5133E8B1C6E8DF59DB3A8AB9D60BE4B97CC9E81DB', 1, 'Juan', 'Pérez García', NULL, NULL, NULL, NULL, NULL, NULL),
 ('ana.lopez', 'B109F3BBBC244EB82441917ED06D618B9008DD09B3BEFD1B5E07394C706A8BB980B1D7785E5976EC049B46DF5F1326AF5A2EA6D103FD07C95385FFAB0CACBC86', 2, 'Ana', 'López Martínez', '23456789B', '281234567890', '600111222', 'ana.lopez@example.com', 'Calle Mayor 10, Madrid', NULL),
 ('carlos.sanchez', '7469EB3DC5848B1DADD0F638A95CF4E4F0D6246717D5DC92E77B80F5199182B0F2CC1BB86C9187666B90ACA27372CDB03D22689A9343C5A96993BB1782F7A67D', 3, 'Carlos', 'Sánchez Fernández', NULL, NULL, '600123456', 'carlos.sanchez@example.com', 'Calle Falsa 123, Madrid', 'ES9121000418450200051332');
-
 
 INSERT INTO marca_modelo (marca, modelo) VALUES
 ('Rolex', 'Submariner'),
@@ -116,6 +109,6 @@ INSERT INTO relojes (id_marca_modelo, precio, id_detalle_pedido, tipo, stock, ur
 (4, 180.00, 4, 'digital', 12, 'https://www.timeshop24.es/media/catalog/product/cache/1bc0b3bc127023c7949db1e873983161/e/f/ef-539d-1avef.webp'),
 (5, 220.00, 5, 'analógico', 8, 'https://static6.festinagroup.com/product/lotus/watches/detail/big/l18812_3.webp');
 
-INSERT INTO pedidos (id_usuario, id_reloj, fecha_pedido, fecha_entrega_estimada, estado, cantidad, precio_unitario, direccion_entrega, metodo_pago) VALUES
-(3, 1, '2024-04-01 10:00:00', '2024-04-08', 'pendiente', 1, 8500.00, 'Calle Falsa 123, Madrid', 'tarjeta'),
-(3, 3, '2024-04-02 15:30:00', '2024-04-09', 'en progreso', 1, 150.00, 'Calle Falsa 123, Madrid', 'transferencia');
+INSERT INTO pedidos (id_usuario, id_reloj, fecha_pedido, cantidad, precio_unitario, metodo_pago) VALUES
+(3, 1, '2024-04-01 10:00:00', 1, 8500.00, 'tarjeta'),
+(3, 3, '2024-04-02 15:30:00', 1, 150.00, 'transferencia');
