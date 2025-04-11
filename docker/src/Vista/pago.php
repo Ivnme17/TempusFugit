@@ -24,12 +24,12 @@ if(isset($_POST['pagar'])) {
         $cesta = $_SESSION['cesta'];
         foreach($cesta as $producto) {
             $pedido = new Pedidos(
-            $id, 
-            $reloj,
-            date('Y-m-d H:i:s'),
-            $cantidad,
-            $producto['precio'],
-            'Bizum'
+                $id, 
+                $reloj,
+                date('Y-m-d H:i:s'),
+                $cantidad,
+                $producto['precio'],
+                'Bizum'
             );
             $pedido->insertarPedido();
         }
