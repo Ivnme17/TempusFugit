@@ -103,35 +103,6 @@ if(isset($_POST['pagar'])) {
             <input type="tel" class="form-control" id="telefono" name="telefono" pattern="[0-9]{9}" maxlength="9" title="Debe ingresar un número de teléfono válido de 9 dígitos" required>
             </div>
         </div>
-        <div class="resumen-pedido">
-            <h3>Resumen del pedido</h3>
-            <div class="tabla-resumen">
-                <div class="cabecera">
-                    <span>Producto</span>
-                    <span>Cantidad</span>
-                    <span>Precio</span>
-                    <span>Subtotal</span>
-                </div>
-                <?php
-                $total = 0;
-                foreach ($cesta as $index => $producto):
-                    $cantidadProducto = isset($_SESSION['cantidad'][$index]) ? $_SESSION['cantidad'][$index] : 1;
-                    $subtotal = $producto['precio'] * $cantidadProducto;
-                    $total += $subtotal;
-                ?>
-                <div class="fila">
-                    <span><?php echo $producto['nombre']; ?></span>
-                    <span><?php echo $cantidadProducto; ?></span>
-                    <span><?php echo number_format($producto['precio'], 2); ?> €</span>
-                    <span><?php echo number_format($subtotal, 2); ?> €</span>
-                </div>
-                <?php endforeach; ?>
-                <div class="fila total">
-                    <span colspan="3">Total (IVA incluido):</span>
-                    <span><?php echo number_format($total, 2); ?> €</span>
-                </div>
-            </div>
-        </div>
         <button type="submit" class="btn btn-primary" name="pagar">Realizar Pago</button>
         <button type="reset" class="btn btn-secondary">Limpiar</button>
     </form>
