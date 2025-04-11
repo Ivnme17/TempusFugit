@@ -10,13 +10,14 @@ class Pedidos {
     private $precio_total;
     private $metodo_pago;
 
-    public function __construct($id_usuario, $id_reloj, $fecha_pedido, $cantidad = 1, $precio_unitario = 0.00, $metodo_pago = null) {
+    public function __construct($id_usuario, $id_reloj, $fecha_pedido, $cantidad = 1, $precio_unitario = 0.00,$precio_total=0, $metodo_pago = null) {
         $this->id_usuario = $id_usuario;
         $this->id_reloj = $id_reloj;
         $this->fecha_pedido = $fecha_pedido ?? date('Y-m-d H:i:s');
         $this->cantidad = $cantidad;
         $this->precio_unitario = $precio_unitario;
-        $this->precio_total = $cantidad * $precio_unitario;
+        $precio_total = $precio_unitario * $cantidad;
+        $this->precio_total = $precio_total;
         $this->metodo_pago = $metodo_pago;
     }
 

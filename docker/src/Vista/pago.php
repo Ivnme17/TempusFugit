@@ -29,6 +29,7 @@ if(isset($_POST['pagar'])) {
                 date('Y-m-d H:i:s'),
                 $cantidad,
                 $producto['precio'],
+                $producto['precio'] * $cantidad,
                 'Bizum'
             );
             $pedido->insertarPedido();
