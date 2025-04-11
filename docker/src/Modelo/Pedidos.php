@@ -92,7 +92,7 @@ class Pedidos {
     public function insertarPedido() {
         $conexion = Db::getConexion();
         $sql = "INSERT INTO pedidos (id_usuario, id_reloj, fecha_pedido, cantidad, precio_unitario, metodo_pago) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)";
+                VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $conexion->prepare($sql);
         $stmt->execute([$this->id_usuario, $this->id_reloj, $this->fecha_pedido, 
                        $this->cantidad, $this->precio_unitario, $this->metodo_pago]);
