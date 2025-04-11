@@ -34,6 +34,7 @@ if(isset($_POST['pagar'])) {
 
             // Añadir detalles al pedido
             $detalles = [
+                'id_usuario' => $id,
                 'precio_base' => $producto['precio'],
                 'descuento_porcentaje' => 0.00, // Valor por defecto si no hay descuento
                 'impuesto_porcentaje' => 21.00, // IVA estándar
