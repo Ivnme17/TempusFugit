@@ -32,27 +32,22 @@ if(isset($_POST['pagar'])) {
     
     $cesta = $_SESSION['cesta'];
     foreach($cesta as $index => $producto) {
-        // Obtener el reloj correspondiente
         $relojActual = Reloj::obtenerPorNombre($producto['nombre']);
-        if(!$relojActual) continue; // Si no se encuentra el reloj, saltar a la siguiente iteración
         
         $cantidadActual = isset($_SESSION['cantidad'][$index]) ? $_SESSION['cantidad'][$index] : 1;
         
-        // Crear el pedido principal
         $pedido = new Pedidos(
             $id, 
             $relojActual->getId(),
             (new DateTime())->setTimezone(new DateTimeZone('Europe/Madrid'))->format('Y-m-d H:i:s'),
             $cantidadActual,
             $producto['precio'],
-            'BIZUM' // Cambiado a mayúsculas para coincidir con el ENUM en la tabla
+            'BIZUM' 
         );
         
-        // Obtener el ID del pedido después de insertarlo
         $idPedido = $pedido->insertarPedido();
         
         if($idPedido) {
-            // Insertar los detalles del pedido
             $precio_base = $producto['precio'] * $cantidadActual;
             $descuento_porcentaje = isset($producto['descuento']) ? $producto['descuento'] : 0.00;
             
@@ -66,7 +61,6 @@ if(isset($_POST['pagar'])) {
                 'notas' => 'Pedido de ' . $producto['nombre']
             ];
             
-            // Insertar los detalles del pedido
             $idPedido = $pedido->insertarPedido();
             if ($idPedido) {
                 $detalles = [
