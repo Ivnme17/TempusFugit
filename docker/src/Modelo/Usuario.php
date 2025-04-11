@@ -1,6 +1,5 @@
 <?php
-require_once '../Servicio/Db.php';
-
+require_once __DIR__ . '/../Servicio/Db.php';
 class Usuario {
     private $id_usuario;
     private $login;
