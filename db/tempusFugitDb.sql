@@ -66,6 +66,7 @@ CREATE TABLE pedidos (
 CREATE TABLE detalles_pedido (
     id_detalle_pedido INT AUTO_INCREMENT PRIMARY KEY,
     id_pedido INT NOT NULL,
+    id_usuario INT NOT NULL,
     precio_base DECIMAL(10, 2) NOT NULL,
     descuento_porcentaje DECIMAL(5, 2) DEFAULT 0.00,
     impuesto_porcentaje DECIMAL(5, 2) DEFAULT 21.00,
@@ -74,6 +75,10 @@ CREATE TABLE detalles_pedido (
     notas VARCHAR(255),
     CONSTRAINT fk_detalles_pedido FOREIGN KEY (id_pedido)
         REFERENCES pedidos(id_pedido)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_detalles_usuario FOREIGN KEY (id_usuario)
+        REFERENCES usuarios(id_usuario)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
