@@ -1,19 +1,19 @@
 <?php
 class Db{
     
-   private static $conn = null;
+   private static $conexion = null;
    
    
    public static function getConexion(){
-       if(self::$conn == null){
-           self::$conn = new PDO('mysql:host=mysql;dbname=tempus_fugit', 'root', 'root');
+       if(self::$conexion == null){
+           self::$conexion = new PDO('mysql:host=mysql;dbname=tempus_fugit', 'root', 'root');
        }
-       return self::$conn;
+       return self::$conexion;
    }
    
    public static function cerrarConexion(){
-       if(self::$conn != null){
-           self::$conn = null;
+       if(self::$conexion != null){
+           self::$conexion = null;
        }
    }
    

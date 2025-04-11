@@ -9,6 +9,7 @@ class Pedidos {
     private $precio_unitario;
     private $precio_total;
     private $metodo_pago;
+    private $detalles; 
 
     public function __construct($id_usuario, $id_reloj, $fecha_pedido, $cantidad = 1, $precio_unitario = 0.00, $metodo_pago = null) {
         $this->id_usuario = $id_usuario;
@@ -17,6 +18,7 @@ class Pedidos {
         $this->cantidad = $cantidad;
         $this->precio_unitario = $precio_unitario;       
         $this->metodo_pago = $metodo_pago;
+        $this->detalles = []; 
     }
 
     public function getIdPedido() {
@@ -28,11 +30,9 @@ class Pedidos {
     public function getIdReloj() {
         return $this->id_reloj;
     }
-
     public function getFechaPedido() {
         return $this->fecha_pedido;
     }
-   
     public function getCantidad() {
         return $this->cantidad;
     }
@@ -42,8 +42,11 @@ class Pedidos {
     public function getPrecioTotal() {
         return $this->precio_total;
     }
-       public function getMetodoPago() {
+    public function getMetodoPago() {
         return $this->metodo_pago;
+    }
+    public function getDetalles() {
+        return $this->detalles;
     }
     
     public function setIdUsuario($id_usuario) {
@@ -88,42 +91,166 @@ class Pedidos {
     public function setCodigoPedido($codigo_Pedido) {
         $this->codigo_Pedido = $codigo_Pedido;
     }
+    public function setDetalles($detalles) {
+        $this->detalles = $detalles;
+    }
 
     public function insertarPedido() {
         $conexion = Db::getConexion();
-        $sql = "INSERT INTO pedidos (id_usuario, id_reloj, fecha_pedido, cantidad, precio_unitario, metodo_pago) 
-                VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt = $conexion->prepare($sql);
-        $stmt->execute([$this->id_usuario, $this->id_reloj, $this->fecha_pedido, 
-                       $this->cantidad, $this->precio_unitario, $this->metodo_pago]);
-        return $stmt->rowCount() > 0;
+        
+        try {
+            $conexion->beginTransaction();
+            
+            $consulta = "INSERT INTO pedidos (id_usuario, id_reloj, fecha_pedido, cantidad, precio_unitario, metodo_pago) 
+                    VALUES (?, ?, ?, ?, ?, ?)";
+            $stmt = $conexion->prepare($consulta);
+            $stmt->execute([
+                $this->id_usuario, 
+                $this->id_reloj, 
+                $this->fecha_pedido, 
+                $this->cantidad, 
+                $this->precio_unitario, 
+                $this->metodo_pago
+            ]);
+            
+            $this->id_pedido = $conexion->lastInsertId();
+            
+            if (!empty($this->detalles)) {
+                $consultaDetalles = "INSERT INTO detalles_pedido (id_pedido, precio_base, descuento_porcentaje, impuesto_porcentaje, notas) 
+                                VALUES (?, ?, ?, ?, ?)";
+                $stmtDetalles = $conexion->prepare($consultaDetalles);
+                $stmtDetalles->execute([
+                    $this->id_pedido,
+                    $this->detalles['precio_base'] ?? $this->precio_unitario,
+                    $this->detalles['descuento_porcentaje'] ?? 0.00,
+                    $this->detalles['impuesto_porcentaje'] ?? 21.00,
+                    $this->detalles['notas'] ?? null
+                ]);
+            }
+            
+            $conexion->commit();
+            return true;
+            
+        } catch (PDOException $e) {
+            $conexion->rollBack();
+            error_log("Error al insertar pedido: " . $e->getMessage());
+            return false;
+        }
     }
 
     public function actualizarPedido() {
         $conexion = Db::getConexion();
-        $sql = "UPDATE pedidos SET id_usuario=?, id_reloj=?, fecha_pedido=?, cantidad=?, 
-                precio_unitario=?, precio_total=?, metodo_pago=? WHERE id_pedido=?";
-        $stmt = $conexion->prepare($sql);
-        $stmt->execute([$this->id_usuario, $this->id_reloj, $this->fecha_pedido, 
-                       $this->cantidad, $this->precio_unitario, $this->precio_total, 
-                       $this->metodo_pago, $this->id_pedido]);
-        return $stmt->rowCount() > 0;
+        
+        try {
+            $conexion->beginTransaction();
+            
+            $consulta = "UPDATE pedidos SET id_usuario=?, id_reloj=?, fecha_pedido=?, cantidad=?, 
+                    precio_unitario=?, metodo_pago=? WHERE id_pedido=?";
+            $stmt = $conexion->prepare($consulta);
+            $stmt->execute([
+                $this->id_usuario, 
+                $this->id_reloj, 
+                $this->fecha_pedido, 
+                $this->cantidad, 
+                $this->precio_unitario,
+                $this->metodo_pago, 
+                $this->id_pedido
+            ]);
+            
+            if (!empty($this->detalles)) {
+                $obtenerDetalles = "SELECT id_detalle_pedido FROM detalles_pedido WHERE id_pedido = ?";
+                $stmt = $conexion->prepare($obtenerDetalles);
+                $stmt->execute([$this->id_pedido]);
+                
+                if ($stmt->rowCount() > 0) {
+                    $detalleId = $stmt->fetchColumn();
+                    $consultaDetalles = "UPDATE detalles_pedido SET precio_base=?, descuento_porcentaje=?, 
+                                    impuesto_porcentaje=?, notas=? WHERE id_detalle_pedido=?";
+                    $stmtDetalles = $conexion->prepare($consultaDetalles);
+                    $stmtDetalles->execute([
+                        $this->detalles['precio_base'] ?? $this->precio_unitario,
+                        $this->detalles['descuento_porcentaje'] ?? 0.00,
+                        $this->detalles['impuesto_porcentaje'] ?? 21.00,
+                        $this->detalles['notas'] ?? null,
+                        $detalleId
+                    ]);
+                } else {
+                    $consultaDetalles = "INSERT INTO detalles_pedido (id_pedido, precio_base, descuento_porcentaje, impuesto_porcentaje, notas) 
+                                    VALUES (?, ?, ?, ?, ?)";
+                    $stmtDetalles = $conexion->prepare($consultaDetalles);
+                    $stmtDetalles->execute([
+                        $this->id_pedido,
+                        $this->detalles['precio_base'] ?? $this->precio_unitario,
+                        $this->detalles['descuento_porcentaje'] ?? 0.00,
+                        $this->detalles['impuesto_porcentaje'] ?? 21.00,
+                        $this->detalles['notas'] ?? null
+                    ]);
+                }
+            }
+            
+            $conexion->commit();
+            return true;
+            
+        } catch (PDOException $e) {
+            $conexion->rollBack();
+            error_log("Error al actualizar pedido: " . $e->getMessage());
+            return false;
+        }
     }
 
     public static function obtenerTodosPedidos() {
         $conexion = Db::getConexion();
-        $sql = "SELECT * FROM pedidos";
-        $stmt = $conexion->query($sql);
+        $consulta = "SELECT p.*, dp.precio_base, dp.descuento_porcentaje, dp.impuesto_porcentaje, dp.precio_final, dp.notas 
+                FROM pedidos p
+                LEFT JOIN detalles_pedido dp ON p.id_pedido = dp.id_pedido";
+        $stmt = $conexion->query($consulta);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function obtenerPedidoPorId($id_pedido) {
         $conexion = Db::getConexion();
-        $sql = "SELECT * FROM pedidos WHERE id_pedido = ?";
-        $stmt = $conexion->prepare($sql);
+        $consulta = "SELECT p.*, dp.precio_base, dp.descuento_porcentaje, dp.impuesto_porcentaje, dp.precio_final, dp.notas 
+                FROM pedidos p
+                LEFT JOIN detalles_pedido dp ON p.id_pedido = dp.id_pedido
+                WHERE p.id_pedido = ?";
+        $stmt = $conexion->prepare($consulta);
         $stmt->execute([$id_pedido]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public static function obtenerDetallesPedido($id_pedido) {
+        $conexion = Db::getConexion();
+        $consulta = "SELECT * FROM detalles_pedido WHERE id_pedido = ?";
+        $stmt = $conexion->prepare($consulta);
+        $stmt->execute([$id_pedido]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
-} 
+    public function eliminarPedido() {
+        if (!isset($this->id_pedido)) {
+            return false;
+        }
+        
+        $conexion = Db::getConexion();
+        
+        try {
+            $conexion->beginTransaction();
+            
+            $consultaDetalles = "DELETE FROM detalles_pedido WHERE id_pedido = ?";
+            $stmtDetalles = $conexion->prepare($consultaDetalles);
+            $stmtDetalles->execute([$this->id_pedido]);
+            
+            $consulta = "DELETE FROM pedidos WHERE id_pedido = ?";
+            $stmt = $conexion->prepare($consulta);
+            $stmt->execute([$this->id_pedido]);
+            
+            $conexion->commit();
+            return true;
+            
+        } catch (PDOException $e) {
+            $conexion->rollBack();
+            error_log("Error al eliminar pedido: " . $e->getMessage());
+            return false;
+        }
+    }
+}

@@ -34,28 +34,28 @@ CREATE TABLE marca_modelo (
 
 CREATE TABLE detalles_pedido (
     id_detalle_pedido INT AUTO_INCREMENT PRIMARY KEY,
+    id_pedido INT NOT NULL,
     precio_base DECIMAL(10, 2) NOT NULL,
     descuento_porcentaje DECIMAL(5, 2) DEFAULT 0.00,
     impuesto_porcentaje DECIMAL(5, 2) DEFAULT 21.00,
     fecha_actualizacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     precio_final DECIMAL(10, 2) GENERATED ALWAYS AS (precio_base * (1 - descuento_porcentaje/100) * (1 + impuesto_porcentaje/100)) STORED,
-    notas VARCHAR(255)
+    notas VARCHAR(255),
+    CONSTRAINT fk_detalles_pedido FOREIGN KEY (id_pedido)
+        REFERENCES pedidos(id_pedido)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE relojes (
     id_reloj INT AUTO_INCREMENT PRIMARY KEY,
     id_marca_modelo INT NOT NULL,
     precio DECIMAL(10, 2),
-    id_detalle_pedido INT,
     tipo ENUM('digital', 'analógico'),
     stock INT DEFAULT 0,
     url_imagen VARCHAR(255),
     CONSTRAINT fk_relojes_marca_modelo FOREIGN KEY (id_marca_modelo)
         REFERENCES marca_modelo(id_marca_modelo)
-        ON UPDATE CASCADE,
-    CONSTRAINT fk_relojes_detalle_pedido FOREIGN KEY (id_detalle_pedido)
-        REFERENCES detalles_pedido(id_detalle_pedido)
-        ON DELETE SET NULL
         ON UPDATE CASCADE
 );
 
@@ -77,7 +77,6 @@ CREATE TABLE pedidos (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
-
 INSERT INTO roles (tipo) VALUES
 ('Administrador'),
 ('Empleado'),
@@ -95,20 +94,18 @@ INSERT INTO marca_modelo (marca, modelo) VALUES
 ('Casio', 'Edifice'),
 ('Lotus', 'Multifunction');
 
-INSERT INTO detalles_pedido (precio_base, descuento_porcentaje, impuesto_porcentaje, notas) VALUES
-(7024.79, 0.00, 21.00, 'Precio premium de Rolex Submariner'),
-(5950.41, 0.00, 21.00, 'Precio estándar de Rolex Datejust'),
-(123.97, 0.00, 21.00, 'Precio económico para G-Shock'),
-(148.76, 0.00, 21.00, 'Precio competitivo para Edifice'),
-(181.82, 0.00, 21.00, 'Precio medio para Lotus Multifunction');
-
-INSERT INTO relojes (id_marca_modelo, precio, id_detalle_pedido, tipo, stock, url_imagen) VALUES
-(1, 8500.00, 1, 'analógico', 5, 'https://www.rabat.net/media/catalog/product/r/o/rolex-submariner-m126610ln-0001.png'),
-(2, 7200.00, 2, 'analógico', 3, 'https://media.rolex.com/image/upload/q_auto:eco/f_auto/t_v7-majesty/c_limit,w_3840/v1/catalogue/2024/upright-c/m126200-0005'),
-(3, 150.00, 3, 'digital', 10, 'https://www.baroli.es/wp-content/uploads/2015/12/GA-120BB-1AER.jpg'),
-(4, 180.00, 4, 'digital', 12, 'https://www.timeshop24.es/media/catalog/product/cache/1bc0b3bc127023c7949db1e873983161/e/f/ef-539d-1avef.webp'),
-(5, 220.00, 5, 'analógico', 8, 'https://static6.festinagroup.com/product/lotus/watches/detail/big/l18812_3.webp');
+INSERT INTO relojes (id_marca_modelo, precio, tipo, stock, url_imagen) VALUES
+(1, 8500.00, 'analógico', 5, 'https://www.rabat.net/media/catalog/product/r/o/rolex-submariner-m126610ln-0001.png'),
+(2, 7200.00, 'analógico', 3, 'https://media.rolex.com/image/upload/q_auto:eco/f_auto/t_v7-majesty/c_limit,w_3840/v1/catalogue/2024/upright-c/m126200-0005'),
+(3, 150.00, 'digital', 10, 'https://www.baroli.es/wp-content/uploads/2015/12/GA-120BB-1AER.jpg'),
+(4, 180.00, 'digital', 12, 'https://www.timeshop24.es/media/catalog/product/cache/1bc0b3bc127023c7949db1e873983161/e/f/ef-539d-1avef.webp'),
+(5, 220.00, 'analógico', 8, 'https://static6.festinagroup.com/product/lotus/watches/detail/big/l18812_3.webp');
 
 INSERT INTO pedidos (id_usuario, id_reloj, fecha_pedido, cantidad, precio_unitario, metodo_pago) VALUES
 (3, 1, '2024-04-01 10:00:00', 1, 8500.00, 'tarjeta'),
 (3, 3, '2024-04-02 15:30:00', 1, 150.00, 'transferencia');
+
+INSERT INTO detalles_pedido (id_pedido, precio_base, descuento_porcentaje, impuesto_porcentaje, notas) VALUES
+(1, 7024.79, 0.00, 21.00, 'Precio premium de Rolex Submariner'),
+(2, 123.97, 0.00, 21.00, 'Precio económico para G-Shock');
+

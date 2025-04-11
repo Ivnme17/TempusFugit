@@ -3,9 +3,9 @@ session_start();
 require_once './Servicio/Db.php';
 
 function obtenerEmpleados() {
-    $conn = Db::getConexion();
-    $sql = "SELECT * FROM usuarios";
-    $stmt = $conn->query($sql);
+    $conexion = Db::getConexion();
+    $consulta = "SELECT * FROM usuarios";
+    $stmt = $conexion->query($consulta);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
@@ -13,15 +13,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
         switch ($_POST['action']) {
             case 'editar':
-                $conn = Db::getConexion();
-                $sql = "UPDATE usuarios SET 
+                $conexion = Db::getConexion();
+                $consulta = "UPDATE usuarios SET 
                         telefono = :telefono, 
                         correo = :correo, 
                         direccion = :direccion,  
                         iban = :iban 
                         WHERE id_cliente = :id_cliente";
                 
-                $stmt = $conn->prepare($sql);
+                $stmt = $conexion->prepare($consulta);
                 $stmt->execute([
                     ':telefono' => $_POST['telefono'],
                     ':correo' => $_POST['correo'],

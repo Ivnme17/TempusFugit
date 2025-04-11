@@ -32,6 +32,16 @@ if(isset($_POST['pagar'])) {
                 'Bizum'
             );
 
+            // Añadir detalles al pedido
+            $detalles = [
+                'precio_base' => $producto['precio'],
+                'descuento_porcentaje' => 0.00, // Valor por defecto si no hay descuento
+                'impuesto_porcentaje' => 21.00, // IVA estándar
+                'notas' => 'Pedido de ' . $producto['nombre']
+            ];
+            
+            $pedido->setDetalles($detalles);
+            
             $pedido->insertarPedido();
         }
           exit();
@@ -46,11 +56,11 @@ if(isset($_POST['pagar'])) {
     <title>Bizum</title>
     <link rel="stylesheet" href="../css/estilospago.css">
 </head>
-<bod>    
+<body>    
     <form method="POST">
     <img src="../imagenBackground/logo-vector-bizum.jpg" alt="Bizum" class="logo" style="width: 390px; height:auto;">
         <h1>Pago</h1>
-        <class="mb-3">
+        <div class="mb-3">
             <label for="telefono" class="form-label">Teléfono</label>
             <div style="display: flex; align-items: center; gap: 10px;">
             <img src="../logoEmpresa/logoBizumMovil.png" style="width: 30px; height: auto;">
@@ -62,6 +72,3 @@ if(isset($_POST['pagar'])) {
     </form>
 </body>
 </html>
-
-
-

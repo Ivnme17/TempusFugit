@@ -131,9 +131,9 @@ class Reloj {
             return;
         }
         
-        $conn = Db::getConexion();
-        $sql = "SELECT marca, modelo FROM marca_modelo WHERE id_marca_modelo = :id_marca_modelo";
-        $stmt = $conn->prepare($sql);
+        $conexion = Db::getConexion();
+        $consulta = "SELECT marca, modelo FROM marca_modelo WHERE id_marca_modelo = :id_marca_modelo";
+        $stmt = $conexion->prepare($consulta);
         $stmt->bindParam(':id_marca_modelo', $this->id_marca_modelo, PDO::PARAM_INT);
         $stmt->execute();
         
@@ -149,10 +149,10 @@ class Reloj {
     }
     
     public function guardar() {
-        $conn = Db::getConexion();
+        $conexion = Db::getConexion();
         
         if ($this->id_reloj !== null) {
-            $sql = "UPDATE relojes SET 
+            $consulta = "UPDATE relojes SET 
                     id_marca_modelo = :id_marca_modelo,
                     precio = :precio,
                     tipo = :tipo,
@@ -161,13 +161,13 @@ class Reloj {
                     url_imagen = :url_imagen
                     WHERE id_reloj = :id_reloj";
         } else {
-            $sql = "INSERT INTO relojes 
+            $consulta = "INSERT INTO relojes 
                     (id_marca_modelo, precio, tipo, stock, id_usuario, url_imagen) 
                     VALUES 
                     (:id_marca_modelo, :precio, :tipo, :stock, :id_usuario, :url_imagen)";
         }
         
-        $stmt = $conn->prepare($sql);
+        $stmt = $conexion->prepare($consulta);
         
         if ($this->id_reloj !== null) {
             $stmt->bindParam(':id_reloj', $this->id_reloj, PDO::PARAM_INT);
@@ -183,7 +183,7 @@ class Reloj {
         $resultado = $stmt->execute();
         
         if ($this->id_reloj === null && $resultado) {
-            $this->id_reloj = (int)$conn->lastInsertId();
+            $this->id_reloj = (int)$conexion->lastInsertId();
         }
         
         return $resultado;
@@ -194,20 +194,20 @@ class Reloj {
             return false;
         }
         
-        $conn = Db::getConexion();
-        $sql = "DELETE FROM relojes WHERE id_reloj = :id_reloj";
-        $stmt = $conn->prepare($sql);
+        $conexion = Db::getConexion();
+        $consulta = "DELETE FROM relojes WHERE id_reloj = :id_reloj";
+        $stmt = $conexion->prepare($consulta);
         $stmt->bindParam(':id_reloj', $this->id_reloj, PDO::PARAM_INT);
         return $stmt->execute();
     }
     
     public static function obtenerTodos() {
-        $conn = Db::getConexion();
-        $sql = "SELECT r.*, mm.marca, mm.modelo 
+        $conexion = Db::getConexion();
+        $consulta = "SELECT r.*, mm.marca, mm.modelo 
                 FROM relojes r
                 JOIN marca_modelo mm ON r.id_marca_modelo = mm.id_marca_modelo
                 ORDER BY mm.marca, mm.modelo";
-        $stmt = $conn->prepare($sql);
+        $stmt = $conexion->prepare($consulta);
         $stmt->execute();
         
         $relojes = [];
@@ -221,13 +221,13 @@ class Reloj {
     }
     
     public static function obtenerPorMarca($marca) {
-        $conn = Db::getConexion();
-        $sql = "SELECT r.*, mm.marca, mm.modelo 
+        $conexion = Db::getConexion();
+        $consulta = "SELECT r.*, mm.marca, mm.modelo 
                 FROM relojes r
                 JOIN marca_modelo mm ON r.id_marca_modelo = mm.id_marca_modelo
                 WHERE mm.marca = :marca 
                 ORDER BY mm.modelo";
-        $stmt = $conn->prepare($sql);
+        $stmt = $conexion->prepare($consulta);
         $stmt->bindParam(':marca', $marca, PDO::PARAM_STR);
         $stmt->execute();
         
@@ -242,12 +242,12 @@ class Reloj {
     }
     
     public static function obtenerPorId($id) {
-        $conn = Db::getConexion();
-        $sql = "SELECT r.*, mm.marca, mm.modelo 
+        $conexion = Db::getConexion();
+        $consulta = "SELECT r.*, mm.marca, mm.modelo 
                 FROM relojes r
                 JOIN marca_modelo mm ON r.id_marca_modelo = mm.id_marca_modelo
                 WHERE r.id_reloj = :id";
-        $stmt = $conn->prepare($sql);
+        $stmt = $conexion->prepare($consulta);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         
@@ -258,12 +258,12 @@ class Reloj {
     
     
     public static function obtenerPorNombre($nombre) {
-        $conn = Db::getConexion();
-        $sql = "SELECT r.*, mm.marca, mm.modelo 
+        $conexion = Db::getConexion();
+        $consulta = "SELECT r.*, mm.marca, mm.modelo 
                 FROM relojes r
                 JOIN marca_modelo mm ON r.id_marca_modelo = mm.id_marca_modelo
                 WHERE CONCAT(mm.marca, ' ', mm.modelo) = :nombre";
-        $stmt = $conn->prepare($sql);
+        $stmt = $conexion->prepare($consulta);
         $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
         $stmt->execute();
         
@@ -273,21 +273,21 @@ class Reloj {
     }
 
     public static function obtenerMarcas() {
-        $conn = Db::getConexion();
-        $sql = "SELECT DISTINCT marca FROM marca_modelo ORDER BY marca";
-        $stmt = $conn->prepare($sql);
+        $conexion = Db::getConexion();
+        $consulta = "SELECT DISTINCT marca FROM marca_modelo ORDER BY marca";
+        $stmt = $conexion->prepare($consulta);
         $stmt->execute();
         
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
     
     public static function obtenerModelosPorMarca($marca) {
-        $conn = Db::getConexion();
-        $sql = "SELECT id_marca_modelo, modelo 
+        $conexion = Db::getConexion();
+        $consulta = "SELECT id_marca_modelo, modelo 
                 FROM marca_modelo 
                 WHERE marca = :marca 
                 ORDER BY modelo";
-        $stmt = $conn->prepare($sql);
+        $stmt = $conexion->prepare($consulta);
         $stmt->bindParam(':marca', $marca, PDO::PARAM_STR);
         $stmt->execute();
         
