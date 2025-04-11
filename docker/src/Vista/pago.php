@@ -21,7 +21,10 @@ if(isset($_POST['pagar'])) {
         <h1>Pago</h1>
         <class="mb-3">
             <label for="telefono" class="form-label">Teléfono</label>
-            <img src="../logoEmpresa/logoBizumMovil.png"><input type="tel" class="form-control" id="telefono" name="telefono" required>
+            <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="../logoEmpresa/logoBizumMovil.png" style="width: 30px; height: auto;">
+            <input type="tel" class="form-control" id="telefono" name="telefono" required>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary" name="pagar">Realizar Pago</button>
         <button type="reset" class="btn btn-secondary">Limpiar</button>

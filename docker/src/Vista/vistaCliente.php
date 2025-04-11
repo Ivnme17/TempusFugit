@@ -1,5 +1,9 @@
 <?php
 session_start();
+if(filter_input(INPUT_POST,"finalizar") && isset($_SESSION['cesta']) && !empty($_SESSION['cesta'])){
+    header("Location: pago.php");
+    exit();
+}
 
 if(isset($_POST['eliminar'])){
     $id = isset($_POST['id']) ? $_POST['id'] : null;
@@ -8,13 +12,8 @@ if(isset($_POST['eliminar'])){
         unset($_SESSION['cesta'][$id]);
         unset($_SESSION['cantidad'][$id]);
         
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit;
+        include_once '../Vista/vistaCliente.php';
     }
-}
-
-if(filter_input(INPUT_POST,"finalizar") && isset($_SESSION['cesta']) && !empty($_SESSION['cesta'])){
-    header("Location: pago.php");
 }
 ?>
 <!DOCTYPE html>

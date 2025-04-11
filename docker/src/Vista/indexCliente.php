@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['cliente'])) {
+if (!isset($_SESSION['usuario'])) {
   header("Location: ../Vista/login.html");
   exit();
 }
