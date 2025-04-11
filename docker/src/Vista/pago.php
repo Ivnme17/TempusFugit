@@ -74,7 +74,7 @@ if(isset($_POST['pagar'])) {
                     'precio_base' => $precio_base,
                     'descuento_porcentaje' => $descuento_porcentaje,
                     'impuesto_porcentaje' => 21.00,
-                    'fecha_actualizacion' => date('Y-m-d H:i:s'),
+                    'fecha_actualizacion' => (new DateTime())->setTimezone(new DateTimeZone('Europe/Madrid'))->format('Y-m-d H:i:s'),
                     'notas' => 'Pedido de ' . $producto['nombre']
                 ];
                 
