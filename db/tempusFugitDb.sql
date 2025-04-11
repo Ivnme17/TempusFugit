@@ -32,21 +32,6 @@ CREATE TABLE marca_modelo (
     CONSTRAINT uq_marca_modelo UNIQUE (marca, modelo)
 );
 
-CREATE TABLE detalles_pedido (
-    id_detalle_pedido INT AUTO_INCREMENT PRIMARY KEY,
-    id_pedido INT NOT NULL,
-    precio_base DECIMAL(10, 2) NOT NULL,
-    descuento_porcentaje DECIMAL(5, 2) DEFAULT 0.00,
-    impuesto_porcentaje DECIMAL(5, 2) DEFAULT 21.00,
-    fecha_actualizacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-    precio_final DECIMAL(10, 2) GENERATED ALWAYS AS (precio_base * (1 - descuento_porcentaje/100) * (1 + impuesto_porcentaje/100)) STORED,
-    notas VARCHAR(255),
-    CONSTRAINT fk_detalles_pedido FOREIGN KEY (id_pedido)
-        REFERENCES pedidos(id_pedido)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
-
 CREATE TABLE relojes (
     id_reloj INT AUTO_INCREMENT PRIMARY KEY,
     id_marca_modelo INT NOT NULL,
@@ -77,6 +62,22 @@ CREATE TABLE pedidos (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
+CREATE TABLE detalles_pedido (
+    id_detalle_pedido INT AUTO_INCREMENT PRIMARY KEY,
+    id_pedido INT NOT NULL,
+    precio_base DECIMAL(10, 2) NOT NULL,
+    descuento_porcentaje DECIMAL(5, 2) DEFAULT 0.00,
+    impuesto_porcentaje DECIMAL(5, 2) DEFAULT 21.00,
+    fecha_actualizacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    precio_final DECIMAL(10, 2) GENERATED ALWAYS AS (precio_base * (1 - descuento_porcentaje/100) * (1 + impuesto_porcentaje/100)) STORED,
+    notas VARCHAR(255),
+    CONSTRAINT fk_detalles_pedido FOREIGN KEY (id_pedido)
+        REFERENCES pedidos(id_pedido)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
 INSERT INTO roles (tipo) VALUES
 ('Administrador'),
 ('Empleado'),
@@ -108,4 +109,3 @@ INSERT INTO pedidos (id_usuario, id_reloj, fecha_pedido, cantidad, precio_unitar
 INSERT INTO detalles_pedido (id_pedido, precio_base, descuento_porcentaje, impuesto_porcentaje, notas) VALUES
 (1, 7024.79, 0.00, 21.00, 'Precio premium de Rolex Submariner'),
 (2, 123.97, 0.00, 21.00, 'Precio económico para G-Shock');
-
