@@ -111,6 +111,6 @@ INSERT INTO pedidos (id_usuario, id_reloj, fecha_pedido, cantidad, precio_unitar
 (3, 1, '2024-04-01 10:00:00', 1, 8500.00, 'tarjeta'),
 (3, 3, '2024-04-02 15:30:00', 1, 150.00, 'transferencia');
 
-INSERT INTO detalles_pedido (id_pedido, precio_base, descuento_porcentaje, impuesto_porcentaje, notas) VALUES
-(1, 7024.79, 0.00, 21.00, 'Precio premium de Rolex Submariner'),
-(2, 123.97, 0.00, 21.00, 'Precio económico para G-Shock');
+INSERT INTO detalles_pedido (id_pedido, id_usuario, precio_base, descuento_porcentaje, impuesto_porcentaje, notas) VALUES
+(1, 3, 7024.79, 0.00, 21.00, 'Precio premium de Rolex Submariner'),
+(2, 3, 123.97, 0.00, 21.00, 'Precio económico para G-Shock');
