@@ -1,4 +1,5 @@
 <?php
+require_once '../Servicio/Db.php';
 class Pedidos {
     private $id_pedido;
     private $id_usuario;
@@ -93,7 +94,41 @@ class Pedidos {
         $this->codigo_Pedido = $codigo_Pedido;
     }
 
+    public function insertarPedido() {
+        $conexion = Db::getConexion();
+        $sql = "INSERT INTO pedidos (id_usuario, id_reloj, fecha_pedido, cantidad, precio_unitario, precio_total, metodo_pago) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $conexion->prepare($sql);
+        $stmt->execute([$this->id_usuario, $this->id_reloj, $this->fecha_pedido, 
+                       $this->cantidad, $this->precio_unitario, $this->precio_total, $this->metodo_pago]);
+        return $stmt->rowCount() > 0;
+    }
+
+    public function actualizarPedido() {
+        $conexion = Db::getConexion();
+        $sql = "UPDATE pedidos SET id_usuario=?, id_reloj=?, fecha_pedido=?, cantidad=?, 
+                precio_unitario=?, precio_total=?, metodo_pago=? WHERE id_pedido=?";
+        $stmt = $conexion->prepare($sql);
+        $stmt->execute([$this->id_usuario, $this->id_reloj, $this->fecha_pedido, 
+                       $this->cantidad, $this->precio_unitario, $this->precio_total, 
+                       $this->metodo_pago, $this->id_pedido]);
+        return $stmt->rowCount() > 0;
+    }
+
+    public static function obtenerTodosPedidos() {
+        $conexion = Db::getConexion();
+        $sql = "SELECT * FROM pedidos";
+        $stmt = $conexion->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function obtenerPedidoPorId($id_pedido) {
+        $conexion = Db::getConexion();
+        $sql = "SELECT * FROM pedidos WHERE id_pedido = ?";
+        $stmt = $conexion->prepare($sql);
+        $stmt->execute([$id_pedido]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
 
-    
 } 
