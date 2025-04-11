@@ -1,4 +1,5 @@
 <?php
+require_once '../Servicio/Db.php';
 class Reloj {
     private $id_reloj;
     private $id_marca_modelo;

@@ -1,4 +1,7 @@
 <?php
+require_once '../Modelo/Pedidos.php';
+require_once '../Modelo/Usuario.php';
+require_once '../Modelo/Reloj.php';
 session_start();
 //Informo al usuario de que se ha realizado el pago y después de 3 segundos lo redirijo a la vistaCliente.php
 if(isset($_POST['pagar'])) {
@@ -6,6 +9,18 @@ if(isset($_POST['pagar'])) {
     echo "<dialog open style='padding: 30px; border-radius: 20px; border: none; box-shadow: 0 0 20px rgba(0,0,0,0.3); background-color:#00205B;'>
             <p style='color: white; font-size: 18px; margin: 0;'>Pago realizado correctamente!!</p>
           </dialog>";
+        $carrito = $_SESSION['carrito'];
+        foreach($carrito as $producto) {
+            $pedido = new Pedidos(
+            $_SESSION['usuario']->getId(), 
+            $producto['id'],
+            date('Y-m-d H:i:s'),
+            $producto['cantidad'],
+            $producto['precio'],
+            'Bizum'
+            );
+            $pedido->insertarPedido();
+        }
           exit();
 }
 
