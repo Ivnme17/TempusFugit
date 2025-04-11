@@ -253,9 +253,25 @@ class Reloj {
         
         $fila = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        return $fila ? new Reloj($fila) : null;
+        return $fila ? new Reloj($fila) : false;
     }
     
+    
+    public static function obtenerPorNombre($nombre) {
+        $conn = Db::getConexion();
+        $sql = "SELECT r.*, mm.marca, mm.modelo 
+                FROM relojes r
+                JOIN marca_modelo mm ON r.id_marca_modelo = mm.id_marca_modelo
+                WHERE CONCAT(mm.marca, ' ', mm.modelo) = :nombre";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+        $stmt->execute();
+        
+        $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $fila ? new Reloj($fila) : false;
+    }
+
     public static function obtenerMarcas() {
         $conn = Db::getConexion();
         $sql = "SELECT DISTINCT marca FROM marca_modelo ORDER BY marca";
