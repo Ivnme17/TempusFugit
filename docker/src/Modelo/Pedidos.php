@@ -253,4 +253,40 @@ class Pedidos {
             return false;
         }
     }
+    public function insertarDetallesPedido($detalles) {
+        // Verificar que el pedido ya tenga un ID asignado
+        if (!isset($this->id_pedido) || empty($this->id_pedido)) {
+            return false;
+        }
+        
+        $conexion = Db::getConexion();
+        
+        try {
+            // Establecer los detalles del pedido en el objeto
+            $this->setDetalles($detalles);
+            
+            // Preparar la consulta para insertar los detalles
+            $consultaDetalles = "INSERT INTO detalles_pedido 
+                                (id_pedido, id_usuario, precio_base, descuento_porcentaje, 
+                                impuesto_porcentaje, fecha_actualizacion, notas) 
+                                VALUES (?, ?, ?, ?, ?, ?, ?)";
+            
+            $stmtDetalles = $conexion->prepare($consultaDetalles);
+            $resultado = $stmtDetalles->execute([
+                $this->id_pedido,
+                $detalles['id_usuario'] ?? $this->id_usuario,
+                $detalles['precio_base'] ?? $this->precio_unitario,
+                $detalles['descuento_porcentaje'] ?? 0.00,
+                $detalles['impuesto_porcentaje'] ?? 21.00,
+                $detalles['fecha_actualizacion'] ?? date('Y-m-d H:i:s'),
+                $detalles['notas'] ?? null
+            ]);
+            
+            return $resultado;
+            
+        } catch (PDOException $e) {
+            error_log("Error al insertar detalles del pedido: " . $e->getMessage());
+            return false;
+        }
+    }
 }
