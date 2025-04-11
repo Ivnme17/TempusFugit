@@ -17,10 +17,6 @@ class Pedidos {
         $this->cantidad = $cantidad;
         $this->precio_unitario = $precio_unitario;
         $this->precio_total = $cantidad * $precio_unitario;
-        $this->id_reloj = $id_reloj;
-        $this->fecha_pedido = $fecha_pedido ?? date('Y-m-d H:i:s');
-        $this->cantidad = $cantidad;
-        $this->precio_unitario = $precio_unitario;
         $this->metodo_pago = $metodo_pago;
     }
 
