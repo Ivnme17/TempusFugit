@@ -4,7 +4,14 @@ if(filter_input(INPUT_POST,"finalizar") && isset($_SESSION['cesta']) && !empty($
     header("Location: pago.php");
     exit();
 }
-
+if(filter_input(INPUT_POST,"finalizar")){
+    echo "<dialog open style='padding: 20px; border-radius: 330px; border: none; box-shadow: 0 0 20px rgba(0,0,0,0.3); background-color:#FFD700;'>
+           <p style='color: brown; font-size: 18px; margin: 0;'>La cesta está vacía</p>
+        </dialog>";
+    header("Location: vistaCliente.php");
+    
+}
+   
 if(isset($_POST['eliminar'])){
     $id = isset($_POST['id']) ? $_POST['id'] : null;
     

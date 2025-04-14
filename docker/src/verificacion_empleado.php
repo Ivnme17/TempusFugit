@@ -44,7 +44,7 @@ if ($_SESSION['rol'] == '1' || $_SESSION['rol'] == '2') {
 <body>
     <div class="verificacion-container">
     <div id="logoEmpresa">
-            <a href="index.html"><img src=".logoEmpresa/TEMPUS-removebg-preview.png"></a>
+            <a href="index.html"><img src="../logoEmpresa/TEMPUS-removebg-preview.png" width="200" height="auto"></a>
         </div>
 
         <?php
@@ -70,7 +70,7 @@ if ($_SESSION['rol'] == '1' || $_SESSION['rol'] == '2') {
             <div class="mb-3">
                 <label for="nss" class="form-label">Número de Seguridad Social (NSS):</label>
                 <input type="text" class="form-control" id="nss" name="nss" required placeholder="Introduce tu NSS">
-                <div class="form-text">Tu NSS es necesario para verificar tu condición de empleado.</div>
+                <div class="form-text" style="color:#FFD700">Tu NSS es necesario para verificar tu condición de empleado.</div>
             </div>
            
             <div class="mb-3">
