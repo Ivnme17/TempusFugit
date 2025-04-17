@@ -152,8 +152,12 @@ color: #FFD700;
             <input type="tel" id="telefono" name="telefono" placeholder="Ej: 612345678">
             
             <label for="claveUsuario">Contraseña:</label>
+            <div style="position: relative;">
             <input type="password" id="claveUsuario" name="claveUsuario" placeholder="Longitud mínima 8" required>
-            
+                <button type="button" onclick="alternarContrasena('claveUsuario')" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: none; background: none;">
+                    <img src="../botones/ojo-abierto.png" id="claveUsuario-icono" alt="Mostrar/Ocultar contraseña" style="width: 20px; height: 20px;">
+                </button>
+            </div>
             <label for="confirmarClave">Confirmar Contraseña:</label>
             <div style="position: relative;">
                 <input type="password" id="confirmarClave" name="confirmarClave" required>
