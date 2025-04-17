@@ -36,10 +36,6 @@ if (!isset($_SESSION['usuario'])) {
                 <a class="nav-link" href="#formulario">Formulario</a>
             </li>
           </ul>
-          <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Search">
-            <button class="btn btn-outline-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-          </form>
             <a href="./vistaCliente.php" class="btn btn-outline-warning ms-2" id="botonPerfil">
                 <i class="fa-solid fa-user"></i>
             </a>

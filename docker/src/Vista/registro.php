@@ -94,6 +94,21 @@ input[type="button"] {
 color: #FFD700;
 }
     </style>
+    
+    <script>
+            function alternarContrasena(inputId) {
+                const input = document.getElementById(inputId);
+                const icono = document.getElementById(inputId + '-icono');
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icono.src = '../botones/ojo-cerrado.png';
+                } else {
+                    input.type = 'password';
+                    icono.src = '../botones/ojo-abierto.png';
+                }
+            }
+            </script>
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
@@ -122,31 +137,40 @@ color: #FFD700;
             <h2>Registro de Usuario</h2>
                            
             <label for="loginUsuario">Nombre de Usuario:</label>
-            <input type="text" id="loginUsuario" name="loginUsuario" required>
+            <input type="text" id="loginUsuario" name="loginUsuario" placeholder="Juan.Garcia" required>
 
             <label for="nombre">Nombre </label>
-            <input type="text" id="nombre" name="nombre" required>
+            <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan" required>
 
             <label for="apellidos">Apellidos </label>
-            <input type="text" id="apellido" name="apellido" required>
+            <input type="text" id="apellido" name="apellido" placeholder="Ej: García Pérez" required>
             
             <label for="email">Correo Electrónico:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required>
             
             <label for="telefono">Teléfono:</label>
-            <input type="tel" id="telefono" name="telefono">
+            <input type="tel" id="telefono" name="telefono" placeholder="Ej: 612345678">
             
             <label for="claveUsuario">Contraseña:</label>
-            <input type="password" id="claveUsuario" name="claveUsuario" required>
+            <input type="password" id="claveUsuario" name="claveUsuario" placeholder="Longitud mínima 8" required>
             
             <label for="confirmarClave">Confirmar Contraseña:</label>
-            <input type="password" id="confirmarClave" name="confirmarClave" required>
+            <div style="position: relative;">
+                <input type="password" id="confirmarClave" name="confirmarClave" required>
+                <button type="button" onclick="alternarContrasena('confirmarClave')" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: none; background: none;">
+                    <img src="../botones/ojo-abierto.png" id="confirmarClave-icono" alt="Mostrar/Ocultar contraseña" style="width: 20px; height: 20px;">
+                </button>
+            </div>
             
             <label for="iban">IBAN:</label>
-            <input type="text" id="iban" name="iban">
+            <select id="iban" name="iban" class="form-control">
+                <option value="">Seleccione un IBAN</option>
+                <option value="ES6112343456420456323532">España (ES)</option>
+                <option value="PT50000201231234567890154">Portugal (PT)</option>
+            </select>
 
             <label for="direccion">Dirección:</label>
-            <textarea id="direccion" name="direccion"></textarea>
+            <textarea id="direccion" name="direccion" placeholder="Cmno de la Luna 25, Almeria, España"></textarea>
             
             <button type="submit" name="registrar">Registrar</button>
             <input type="button" value="Cancelar" onclick="location.href='../index.html'">

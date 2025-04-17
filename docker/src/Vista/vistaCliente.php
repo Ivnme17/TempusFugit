@@ -1,4 +1,5 @@
 <?php
+require_once '../Servicio/Db.php';
 session_start();
 if(filter_input(INPUT_POST,"finalizar") && isset($_SESSION['cesta']) && !empty($_SESSION['cesta'])){
     header("Location: pago.php");
@@ -9,7 +10,32 @@ if(filter_input(INPUT_POST,"finalizar")){
            <p style='color: brown; font-size: 18px; margin: 0;'>La cesta está vacía</p>
         </dialog>";
     header("Location: vistaCliente.php");
-    
+    $clienteId = $_SESSION['login'];
+    $conexion = Db::getConexion();
+    try {
+        $stmt = $conexion->prepare("SELECT id_cliente FROM clientes WHERE login = :login");
+        $stmt->bindParam(':login', $_SESSION['login']);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $clienteId = $row['id_cliente'];
+
+        if ($clienteId) {
+            $sql = "SELECT p.id_pedido, p.fecha, pr.nombre, p.estado 
+                    FROM pedidos p 
+                    JOIN productos pr ON p.id_producto = pr.id_producto 
+                    WHERE p.id_cliente = :clienteId
+                    ORDER BY p.fecha DESC";
+                    
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindParam(':clienteId', $clienteId, PDO::PARAM_INT);
+            $stmt->execute();
+            $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $_SESSION['pedidos'] = $pedidos;
+        }
+    } catch(PDOException $e) {
+        error_log("Error: " . $e->getMessage());
+    }
+
 }
    
 if(isset($_POST['eliminar'])){
@@ -21,6 +47,7 @@ if(isset($_POST['eliminar'])){
         
         include_once '../Vista/vistaCliente.php';
     }
+
 }
 ?>
 <!DOCTYPE html>
@@ -50,12 +77,6 @@ if(isset($_POST['eliminar'])){
               <a class="nav-link" href="#misPedidos">Mis Pedidos</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#productos">Tienda</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#soporte">Soporte</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link btn btn-warning" href="../verificacion_empleado.php" style="color: #4E3B31; margin-left: 10px;">
                 ¿Eres empleado/a?
               </a>
@@ -66,12 +87,6 @@ if(isset($_POST['eliminar'])){
                 </a>
             </li>
           </ul>
-
-          <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Search">
-            <button class="btn btn-outline-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-          </form>
-          
           <a href="#carrito" class="btn btn-warning ms-2 me-2" id="botonCarrito">
           <i class="fa-solid fa-cart-shopping"></i>
           </a>         
@@ -168,34 +183,26 @@ if(isset($_POST['eliminar'])){
                 </tr>
             </thead>
             <tbody>
+            <?php if(isset($_SESSION['pedidos']) && !empty($_SESSION['pedidos'])){ ?>
+                <?php foreach($_SESSION['pedidos'] as $pedido){ ?>
                 <tr>
-                    <td>TF-2024-001</td>
-                    <td>15/03/2024</td>
-                    <td>Reloj Lotus Multifunction</td>
-                    <td>Enviado</td>
+                    <td><?= $pedido['id_pedido'] ?></td>
+                    <td><?= $pedido['fecha'] ?></td>
+                    <td><?= $pedido['nombre'] ?></td>
+                    <td><?= $pedido['estado'] ?></td>
                     <td>
-                        <button>Detalles</button>
-                        <button>Seguimiento</button>
+                        <button class="btn btn-info">Ver detalles</button>
+                        <button class="btn btn-danger">Cancelar</button>
                     </td>
                 </tr>
+                <?php }; ?>
+            <?php }else{ ?>
+                <tr>
+                    <td colspan="5" class="text-center">No tienes ningún pedido realizado.</td>
+                </tr>
+            <?php }; ?>
             </tbody>
         </table>
-    </div>
-    
-    <div id="productos">
-        <h2>CATÁLOGO DE RELOJES</h2>
-        <fieldset class="producto">
-            <legend>Reloj Lotus</legend>
-            <img src="https://static6.festinagroup.com/product/lotus/watches/detail/big/l18812_3.webp" alt="Reloj Lotus Multifunction">
-            <p>RELOJ DE HOMBRE LOTUS MULTIFUNCTION CON ESFERA NEGRA 18812/3 - 89,00 €</p>
-            <button>Añadir al Carrito</button>
-        </fieldset>
-        <fieldset class="producto">
-            <legend>Reloj Casio G-Shock</legend>
-            <img src="https://www.baroli.es/wp-content/uploads/2015/12/GA-120BB-1AER.jpg" alt="Reloj Casio G-Shock">
-            <p>CASIO G-SHOCK RESISTENTE AL AGUA Y GOLPES - 120,00 €</p>
-            <button>Añadir al Carrito</button>
-        </fieldset>
     </div>
 
     <div id="pieDePagina">

@@ -91,10 +91,6 @@ if(filter_input(INPUT_POST,'Eliminar')){
               </a>
             </li>
           </ul>
-          <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Search">
-            <button class="btn btn-outline-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-          </form>
           <div id="botonesDeRegistro">
             <a href="../cerrarSesion.php" class="btn btn-danger">Cerrar Sesión</a>
         </div>
