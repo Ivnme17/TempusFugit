@@ -32,7 +32,7 @@ session_start();
                 <a class="nav-link" href="#formulario">Formulario</a>
             </li>
           </ul>
-            <a href="./vistaEmpleado.php" class="btn btn-outline-warning ms-2" id="botonPerfil">
+            <a href="./backOffice.php" class="btn btn-outline-warning ms-2" id="botonPerfil">
                 <i class="fa-solid fa-user"></i>
             </a>
           </div> 
