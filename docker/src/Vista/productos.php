@@ -83,11 +83,11 @@ if (isset($_GET['marca']) && $_GET['marca'] !== '') {
         <div class="productos-grid">
             <?php foreach ($relojes as $reloj) { ?>
                 <div class="producto-card">
-                    <div style="background-color: white; width: 250px; height: 250px;">
+                <div style="background-color: white; width: 250px; height: 250px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
                     <img src="<?php echo htmlspecialchars($reloj->getUrlImagen()); ?>" 
-                         alt="<?php echo htmlspecialchars($reloj->getNombreCompleto()); ?>" 
-                         style="width: 250px; height: 250px">
-                    </div>
+                        alt="<?php echo htmlspecialchars($reloj->getNombreCompleto()); ?>" 
+                        style="max-width: 230px; max-height: 230px; object-fit: contain;">
+                </div>
                     <h3><?php echo htmlspecialchars($reloj->getNombreCompleto()); ?></h3>
                     <p>Precio: <?php echo htmlspecialchars($reloj->getPrecioFormateado()); ?></p>
                     <form action="" method="post">
