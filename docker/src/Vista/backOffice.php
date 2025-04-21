@@ -119,7 +119,7 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
               <a class="nav-link" href="vistaEmpleado.php#informes">Informes</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="../Vista/indexEmpleado.php" tabindex="-1" aria-disabled="true">
+              <a class="nav-link" href="../Vista/indexAdmin.php" tabindex="-1" aria-disabled="true">
                 <i class="fa-solid fa-building"></i>
               </a>
             </li>

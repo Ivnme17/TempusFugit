@@ -1,0 +1,103 @@
+<?php
+session_start();
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TempusFugit</title>
+    <title>Página Principal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <nav class="navbar navbar-expand-xl navbar-light" style="background-color: transparent;">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLight" aria-controls="navbarLight" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse show" id="navbarLight">
+          <ul class="navbar-nav me-auto mb-2 mb-xl-0">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="#inicio">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#mantenimientosDeRelojes">Atención Al Cliente</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#formulario">Formulario</a>
+            </li>
+          </ul>
+            <a href="./vistaEmpleado.php" class="btn btn-outline-warning ms-2" id="botonPerfil">
+                <i class="fa-solid fa-user"></i>
+            </a>
+          </div> 
+    </div>
+    
+        </div>
+      </div>
+    </nav>
+    <div id="header">
+        <div id="logoEmpresa">
+            <a><img src="../logoEmpresa/TEMPUS-removebg-preview.png" alt="Logo de Tempus Fugit"></a>
+        </div>
+    </div>
+    <div id="inicio">
+        <h1>BIENVENIDO A TEMPUS FUGIT</h1>
+        <p>La tienda de relojes más completa y moderna del mercado.</p>
+        <p>Encuentra el reloj perfecto para ti o para regalar.</p>
+    
+    <div id="productos" class="carousel slide" data-bs-ride="carousel">
+      <h2>SELECCIÓN DE NUESTROS RELOJEROS</h2>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <fieldset class="producto">
+            <legend>Reloj Lotus</legend>
+            <img src="https://static6.festinagroup.com/product/lotus/watches/detail/big/l18812_3.webp" alt="Reloj Lotus Multifunction">
+            <p>RELOJ DE HOMBRE LOTUS MULTIFUNCTION CON ESFERA NEGRA 18812/3 <br> 89,00 €</p>
+          </fieldset>
+        </div>
+        <div class="carousel-item">
+          <fieldset class="producto"></fieldset>
+            <legend>Reloj Casio G-Shock</legend>
+            <img src="https://www.baroli.es/wp-content/uploads/2015/12/GA-120BB-1AER.jpg" alt="Reloj Casio G-Shock">
+            <p>CASIO G-SHOCK RESISTENTE AL AGUA Y GOLPES <br> 120,00 €</p>
+          </fieldset>
+        </div>
+        <div class="carousel-item">
+          <fieldset class="producto">
+            <legend>Reloj Rolex Submariner</legend>
+            <img src="https://www.rabat.net/media/catalog/product/r/o/rolex-submariner-m126610ln-0001.png" alt="Reloj Rolex Submariner">
+            <p>ROLEX SUBMARINER ACERO INOXIDABLE <br> 8.500,00 €</p>
+          </fieldset>
+        </div>
+      </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#productos" data-bs-slide="prev" style="background: transparent;">
+      <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: brightness(0) invert(1);" onmouseover="this.style.filter='brightness(0) saturate(100%) invert(71%) sepia(98%) saturate(1161%) hue-rotate(359deg) brightness(105%) contrast(105%)'" onmouseout="this.style.filter='brightness(0) invert(1)'"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#productos" data-bs-slide="next" style="background: transparent;">
+      <span class="carousel-control-next-icon" aria-hidden="true" style="filter: brightness(0) invert(1);" onmouseover="this.style.filter='brightness(0) saturate(100%) invert(71%) sepia(98%) saturate(1161%) hue-rotate(359deg) brightness(105%) contrast(105%)'" onmouseout="this.style.filter='brightness(0) invert(1)'"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+    </div>
+    <div id="pieDePagina"></div>
+    <footer style="display: flex; justify-content: space-between; align-items: center;">
+      <pre>Iván Martínez Estrada - 2ºDAW</pre>
+      <div id="Asociados">
+        <h4>Empresas Asociadas</h4>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/Logo_da_Rolex.png" alt="Logo Rolex" style="height: 30px;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Lotus_Watches_logo.svg/1200px-Lotus_Watches_logo.svg.png" alt="Logo Lotus" style="height: 30px;">
+          <img src="https://cdn.worldvectorlogo.com/logos/casio-logo.svg" alt="Logo Casio" style="height: 30px;">
+        </div>
+      </div>
+    </footer>
+  </div>
+    
+</body>
+</html>
