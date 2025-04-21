@@ -104,19 +104,7 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
         <div class="collapse navbar-collapse show" id="navbarLight">
           <ul class="navbar-nav me-auto mb-2 mb-xl-0">
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="vistaEmpleado.php">Panel de Empleado</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link active" href="gestionUsuarios.php">Gestión de Usuarios</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="vistaEmpleado.php#gestionClientes">Gestión de Clientes</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="vistaEmpleado.php#gestionInventario">Inventario</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="vistaEmpleado.php#informes">Informes</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="../Vista/indexAdmin.php" tabindex="-1" aria-disabled="true">
