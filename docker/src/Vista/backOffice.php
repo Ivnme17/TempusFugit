@@ -3,22 +3,17 @@
 require_once __DIR__ . '/../Servicio/Db.php';
 require_once __DIR__ . '/../Modelo/Usuario.php';
 
-// Obtener todos los usuarios para mostrarlos en la tabla
 $usuariosObj = Usuario::listarUsuarios();
 
-// Variables para el formulario de edición/creación
 $modoEdicion = false;
 $usuarioEditar = null;
 
-// Verificar si se está editando un usuario
 if (isset($_GET['action']) && $_GET['action'] == 'editar' && isset($_GET['id_usuario'])) {
     $modoEdicion = true;
     $usuarioEditar = Usuario::verUsuario($_GET['id_usuario']);
 }
 
-// Procesar formulario si se ha enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Si se ha pulsado el botón de eliminar
     if (isset($_POST['eliminar']) && isset($_POST['login'])) {
         Usuario::eliminarUsuario($_POST['login']);
         // Redirigir para evitar reenvío del formulario
@@ -42,11 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $usuario->setIban($_POST['iban'] ?? null);
         
         if (isset($_POST['id_usuario'])) {
-            // Actualizar usuario existente
             $usuario->setId_usuario($_POST['id_usuario']);
             $usuario->actualizarUsuario();
         } else {
-            // Crear nuevo usuario
             $usuario->añadirUsuario();
         }
         
@@ -56,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-// Filtrar usuarios si se ha enviado el criterio de búsqueda
+// Filtrar usuarios
 $usuariosFiltrados = $usuariosObj;
 if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor'])) {
     $usuariosFiltrados = Usuario::buscarUsuarios($_GET['criterio'], $_GET['valor']);
@@ -126,7 +119,7 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
             </div>
             <div class="card-body">
                 <form action="" method="GET" class="row g-3">
-                    <div class="col-md-4">
+                    <div class="col-md-9">
                         <select name="criterio" class="form-select">
                             <option value="login">Login</option>
                             <option value="nombre">Nombre</option>
@@ -135,7 +128,7 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
                             <option value="correo">Correo</option>
                         </select>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-10">
                         <input type="text" name="valor" class="form-control" placeholder="Valor a buscar">
                     </div>
                     <div class="col-md-2">
@@ -177,8 +170,8 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (!empty($usuariosFiltrados)): ?>
-                                <?php foreach ($usuariosFiltrados as $usuario): ?>
+                            <?php if (!empty($usuariosFiltrados)){ ?>
+                                <?php foreach ($usuariosFiltrados as $usuario){ ?>
                                 <tr>
                                     <td><?= $usuario->getId_usuario() ?></td>
                                     <td><?= $usuario->getLogin() ?></td>
@@ -231,12 +224,12 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
                                         </form>
                                     </td>
                                 </tr>
-                                <?php endforeach; ?>
-                            <?php else: ?>
+                                <?php }; ?>
+                            <?php }else{ ?>
                                 <tr>
                                     <td colspan="12" class="text-center">No se encontraron usuarios</td>
                                 </tr>
-                            <?php endif; ?>
+                            <?php }; ?>
                         </tbody>
                     </table>
                 </div>
@@ -244,7 +237,7 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
         </div>
     </div>
 
-    <!-- Modal para añadir/editar usuario -->
+    <!-- Ventana gráfica o modal para editar el usuario -->
     <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -347,7 +340,7 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
                 const id = button.getAttribute('data-id');
                 
                 if (id) {
-                    // Es una edición, rellenar formulario con datos existentes
+                    // Edición de usuario existente	
                     document.getElementById('modalUsuarioLabel').textContent = 'Editar Usuario';
                     document.getElementById('id_usuario').value = id;
                     document.getElementById('login').value = button.getAttribute('data-login');
@@ -368,7 +361,7 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
                     // Mostramos/ocultamos campos según el rol
                     actualizarCamposPorRol(button.getAttribute('data-rol'));
                 } else {
-                    // Es una creación, limpiar formulario
+                    // Creación de nuevo usuario
                     document.getElementById('modalUsuarioLabel').textContent = 'Añadir Usuario';
                     document.getElementById('formUsuario').reset();
                     document.getElementById('id_usuario').value = '';
@@ -392,7 +385,8 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
                 }
             }
             
-            // Actualizar campos cuando cambia el rol
+            // Actualizar campos al cambiar el rol en el formulario
+            // Nos servirá si hay algún usuario cliente que en un futuro se convierta en empleado o admin
             document.getElementById('id_rol').addEventListener('change', function() {
                 actualizarCamposPorRol(this.value);
             });

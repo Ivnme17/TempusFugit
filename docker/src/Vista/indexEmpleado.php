@@ -85,11 +85,6 @@ session_start();
       <span class="visually-hidden">Next</span>
     </button>
     </div>
-    
-    <div id="mantenimientosDeRelojes">
-      <h1>MANTENIMIENTOS DE LOS PRODUCTOS - ATENCIÓN AL CLIENTE</h1>
-      <p>Nuestra empresa además de vender relojes, tiene una sección de <a href="Vista/atencionAlCliente.html">ayuda al cliente y mantenimiento de estos dispositivos.</a></p>
-  </div>
     <div id="pieDePagina"></div>
     <footer style="display: flex; justify-content: space-between; align-items: center;">
       <pre>Iván Martínez Estrada - 2ºDAW</pre>
