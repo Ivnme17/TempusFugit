@@ -36,7 +36,7 @@ if ($resultado) {
 
 $pedidos = [];
 $conexion = Db::getConexion();
-$consulta = "SELECT * FROM pedidos ORDER BY fecha DESC LIMIT 5";
+$consulta = "SELECT * FROM pedidos ORDER BY fecha_pedido DESC LIMIT 5";
 $resultado = $conexion->query($consulta);
 if ($resultado) {
   while ($fila = $resultado->fetch(PDO::FETCH_ASSOC)) {
@@ -199,8 +199,8 @@ if(filter_input(INPUT_POST,'Eliminar')){
           <tr>
               <td><?= $pedido['id_pedido']; ?></td>
               <td><?= $pedido['id_usuario']; ?></td>
-              <td><?= $pedido['fecha']; ?></td>
-              <td><?= $pedido['total']; ?> €</td>
+              <td><?= $pedido['fecha_pedido']; ?></td>
+              <td><?= $pedido['precio_total']; ?> €</td>
               <td>
           <a href="controladorEmpleado.php?action=editar&id_pedido=<?= $pedido['id_pedido']; ?>">
               <i class="fa-solid fa-pen-to-square"></i>
