@@ -3,6 +3,10 @@
 require_once __DIR__ . '/../Servicio/Db.php';
 require_once __DIR__ . '/../Modelo/Usuario.php';
 
+// Inicializamos las variables para mensajes de notificación
+$notificacion = null;
+$tipoNotificacion = null;
+
 $usuariosObj = Usuario::listarUsuarios();
 
 $modoEdicion = false;
@@ -15,38 +19,63 @@ if (isset($_GET['action']) && $_GET['action'] == 'editar' && isset($_GET['id_usu
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['eliminar']) && isset($_POST['login'])) {
-        Usuario::eliminarUsuario($_POST['login']);
+        try {
+            Usuario::eliminarUsuario($_POST['login']);
+            $notificacion = "Usuario eliminado correctamente";
+            $tipoNotificacion = "success";
+        } catch (Exception $e) {
+            $notificacion = "Error al eliminar el usuario: " . $e->getMessage();
+            $tipoNotificacion = "danger";
+        }
         // Redirigir para evitar reenvío del formulario
-        header('Location: ' . $_SERVER['PHP_SELF']);
+        header('Location: ' . $_SERVER['PHP_SELF'] . '?notificacion=' . urlencode($notificacion) . '&tipo=' . $tipoNotificacion);
         exit();
     }
     
     // Si se ha enviado el formulario de crear/editar
     if (isset($_POST['guardar'])) {
-        $usuario = new Usuario();
-        $usuario->setLogin($_POST['login']);
-        $usuario->setClave($_POST['clave']);
-        $usuario->setId_rol($_POST['id_rol']);
-        $usuario->setNombre($_POST['nombre']);
-        $usuario->setApellidos($_POST['apellidos']);
-        $usuario->setDni($_POST['dni']);
-        $usuario->setNss($_POST['nss'] ?? null);
-        $usuario->setTelefono($_POST['telefono']);
-        $usuario->setCorreo($_POST['correo']);
-        $usuario->setDireccion($_POST['direccion']);
-        $usuario->setIban($_POST['iban'] ?? null);
-        
-        if (isset($_POST['id_usuario'])) {
-            $usuario->setId_usuario($_POST['id_usuario']);
-            $usuario->actualizarUsuario();
-        } else {
-            $usuario->añadirUsuario();
+        try {
+            $usuario = new Usuario();
+            $usuario->setLogin($_POST['login']);
+            
+            // Solo establecemos la clave si no está vacía (para editar)
+            if (!empty($_POST['clave'])) {
+                $usuario->setClave($_POST['clave']);
+            }
+            
+            $usuario->setId_rol($_POST['id_rol']);
+            $usuario->setNombre($_POST['nombre']);
+            $usuario->setApellidos($_POST['apellidos']);
+            $usuario->setDni($_POST['dni']);
+            $usuario->setNss($_POST['nss'] ?? null);
+            $usuario->setTelefono($_POST['telefono']);
+            $usuario->setCorreo($_POST['correo']);
+            $usuario->setDireccion($_POST['direccion']);
+            $usuario->setIban($_POST['iban'] ?? null);
+            
+            if (isset($_POST['id_usuario']) && !empty($_POST['id_usuario'])) {
+                $usuario->setId_usuario($_POST['id_usuario']);
+                $usuario->actualizarUsuario();
+                $notificacion = "Usuario actualizado correctamente";
+            } else {
+                $usuario->añadirUsuario();
+                $notificacion = "Usuario añadido correctamente";
+            }
+            $tipoNotificacion = "success";
+        } catch (Exception $e) {
+            $notificacion = "Error al guardar el usuario: " . $e->getMessage();
+            $tipoNotificacion = "danger";
         }
         
-        // Redirigir para evitar reenvío del formulario
-        header('Location: ' . $_SERVER['PHP_SELF']);
+        header('Location: ' . $_SERVER['PHP_SELF'] . '?notificacion=' . urlencode($notificacion) . '&tipo=' . $tipoNotificacion);
         exit();
     }
+}
+
+// Recibir notificaciones de la redirección
+if (isset($_GET['notificacion'])) {
+    $notificacion = $_GET['notificacion'];
+    $tipoNotificacion = $_GET['tipo'] ?? 'info';
 }
 
 // Filtrar usuarios
@@ -111,6 +140,14 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
     
     <div class="container mt-4">
         <h1 class="mb-4 text-center">GESTIÓN DE USUARIOS</h1>
+        
+        <!-- Sistema de notificaciones -->
+        <?php if ($notificacion): ?>
+            <div class="alert alert-<?= $tipoNotificacion ?> alert-dismissible fade show" role="alert">
+                <?= $notificacion ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
         
         <!-- Buscador de usuarios -->
         <div class="card mb-4">
@@ -252,11 +289,11 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="login" class="form-label">Login</label>
-                                <input type="text" class="form-control" id="login" name="login" required>
+                                <input type="text" class="form-control" id="login" name="login" required placeholder="Nombre de usuario">
                             </div>
                             <div class="col-md-6">
                                 <label for="clave" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" id="clave" name="clave" required>
+                                <input type="password" class="form-control" id="clave" name="clave" required placeholder="Contraseña">
                             </div>
                         </div>
                         
@@ -271,47 +308,47 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
                             </div>
                             <div class="col-md-6">
                                 <label for="dni" class="form-label">DNI</label>
-                                <input type="text" class="form-control" id="dni" name="dni" required>
+                                <input type="text" class="form-control" id="dni" name="dni" required placeholder="12345678A">
                             </div>
                         </div>
                         
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                <input type="text" class="form-control" id="nombre" name="nombre" required placeholder="Nombre">
                             </div>
                             <div class="col-md-6">
                                 <label for="apellidos" class="form-label">Apellidos</label>
-                                <input type="text" class="form-control" id="apellidos" name="apellidos" required>
+                                <input type="text" class="form-control" id="apellidos" name="apellidos" required placeholder="Apellidos">
                             </div>
                         </div>
                         
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="telefono" class="form-label">Teléfono</label>
-                                <input type="tel" class="form-control" id="telefono" name="telefono" required>
+                                <input type="tel" class="form-control" id="telefono" name="telefono" required placeholder="612345678">
                             </div>
                             <div class="col-md-6">
                                 <label for="correo" class="form-label">Correo Electrónico</label>
-                                <input type="email" class="form-control" id="correo" name="correo" required>
+                                <input type="email" class="form-control" id="correo" name="correo" required placeholder="ejemplo@correo.com">
                             </div>
                         </div>
                         
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <label for="direccion" class="form-label">Dirección</label>
-                                <input type="text" class="form-control" id="direccion" name="direccion" required>
+                                <input type="text" class="form-control" id="direccion" name="direccion" required placeholder="Calle, número, código postal, ciudad">
                             </div>
                         </div>
                         
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="nss" class="form-label">NSS (para empleados)</label>
-                                <input type="text" class="form-control" id="nss" name="nss">
+                                <input type="text" class="form-control" id="nss" name="nss" placeholder="281234567890">
                             </div>
                             <div class="col-md-6">
                                 <label for="iban" class="form-label">IBAN</label>
-                                <input type="text" class="form-control" id="iban" name="iban">
+                                <input type="text" class="form-control" id="iban" name="iban" placeholder="ES9121000418450200051332">
                             </div>
                         </div>
                         
@@ -345,13 +382,13 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
                     document.getElementById('id_usuario').value = id;
                     document.getElementById('login').value = button.getAttribute('data-login');
                     document.getElementById('id_rol').value = button.getAttribute('data-rol');
-                    document.getElementById('nombre').value = button.getAttribute('data-nombre');
-                    document.getElementById('apellidos').value = button.getAttribute('data-apellidos');
-                    document.getElementById('dni').value = button.getAttribute('data-dni');
+                    document.getElementById('nombre').value = button.getAttribute('data-nombre') || '';
+                    document.getElementById('apellidos').value = button.getAttribute('data-apellidos') || '';
+                    document.getElementById('dni').value = button.getAttribute('data-dni') || '';
                     document.getElementById('nss').value = button.getAttribute('data-nss') || '';
-                    document.getElementById('telefono').value = button.getAttribute('data-telefono');
-                    document.getElementById('correo').value = button.getAttribute('data-correo');
-                    document.getElementById('direccion').value = button.getAttribute('data-direccion');
+                    document.getElementById('telefono').value = button.getAttribute('data-telefono') || '';
+                    document.getElementById('correo').value = button.getAttribute('data-correo') || '';
+                    document.getElementById('direccion').value = button.getAttribute('data-direccion') || '';
                     document.getElementById('iban').value = button.getAttribute('data-iban') || '';
                     
                     // Para la contraseña, mostramos un mensaje indicando que solo se cambiará si se introduce un valor
@@ -386,10 +423,18 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
             }
             
             // Actualizar campos al cambiar el rol en el formulario
-            // Nos servirá si hay algún usuario cliente que en un futuro se convierta en empleado o admin
             document.getElementById('id_rol').addEventListener('change', function() {
                 actualizarCamposPorRol(this.value);
             });
+            
+            // Ocultar automáticamente las alertas después de 5 segundos
+            setTimeout(function() {
+                const alertas = document.querySelectorAll('.alert');
+                alertas.forEach(function(alerta) {
+                    const bsAlert = new bootstrap.Alert(alerta);
+                    bsAlert.close();
+                });
+            }, 5000);
         });
     </script>
 </body>

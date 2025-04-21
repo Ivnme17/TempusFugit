@@ -77,11 +77,6 @@ if(isset($_POST['eliminar'])){
               <a class="nav-link" href="#misPedidos">Mis Pedidos</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link btn btn-warning" href="../verificacion_empleado.php" style="color: #4E3B31; margin-left: 10px;">
-                ¿Eres empleado/a?
-              </a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="../Vista/indexCliente.php" tabindex="-1" aria-disabled="true">
                     <i class="fa-solid fa-house"></i>
                 </a>
