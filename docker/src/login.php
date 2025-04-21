@@ -16,7 +16,10 @@ if (filter_has_var(INPUT_POST, "iniciar")) {
         $_SESSION["rol"] = $usuario->getId_rol();
         
         switch ($_SESSION['rol']) {
-            case "1": case "2": // Empleado Y Administrador
+            case "1":
+                header("Location: ./Vista/backOffice.php");
+                break;
+            case "2": // Empleado Y Administrador
                 header("Location: ./Vista/vistaEmpleado.php");
                 break;
                 
