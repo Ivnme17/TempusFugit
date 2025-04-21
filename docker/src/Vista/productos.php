@@ -3,7 +3,7 @@ session_start();
 require_once '../Servicio/Db.php';
 require_once '../Modelo/Reloj.php';
 if (!isset($_SESSION['usuario'])) {
-    die("Error debe <a href='login.php'>identificarse</a>.<br />");
+    die("Error debe <a href='registro.php'>identificarse</a>.<br />");
 }
 
 if (!isset($_SESSION['cesta'])) {
