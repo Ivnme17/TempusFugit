@@ -3,7 +3,6 @@
 require_once __DIR__ . '/../Servicio/Db.php';
 require_once __DIR__ . '/../Modelo/Usuario.php';
 
-// Inicializamos las variables para mensajes de notificación
 $notificacion = null;
 $tipoNotificacion = null;
 
