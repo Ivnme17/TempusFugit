@@ -2,6 +2,8 @@
 // He tenido que cambiar la ruta de los require_once para que funcionen correctamente
 require_once __DIR__ . '/../Servicio/Db.php';
 require_once __DIR__ . '/../Modelo/Usuario.php';
+require_once __DIR__ . '/../Modelo/Pedidos.php'; // Añadido el modelo Pedidos
+
 $clientesObj = Usuario::listarClientes();
 
 $relojes = [];
@@ -34,18 +36,14 @@ if ($resultado) {
   $totalPrecio = $fila['total_precio'];
 }
 
-$pedidos = [];
-$conexion = Db::getConexion();
-$consulta = "SELECT * FROM pedidos ORDER BY fecha_pedido DESC LIMIT 5";
-$resultado = $conexion->query($consulta);
-if ($resultado) {
-  while ($fila = $resultado->fetch(PDO::FETCH_ASSOC)) {
-    $pedidos[] = $fila;
-  }
-}
-
-
-
+// Actualización: Usando el modelo Pedidos en lugar de consulta directa
+$todosPedidos = Pedidos::obtenerTodosPedidos();
+// Ordenar por fecha_pedido en orden descendente
+usort($todosPedidos, function($a, $b) {
+    return strtotime($b['fecha_pedido']) - strtotime($a['fecha_pedido']);
+});
+// Tomar solo los primeros 5
+$pedidos = array_slice($todosPedidos, 0, 5);
 
 if(filter_input(INPUT_POST,'Eliminar')){
   unset($_SESSION['cesta']);
@@ -166,7 +164,7 @@ if(filter_input(INPUT_POST,'Eliminar')){
               <td><?= $reloj['stock']; ?></td>
               <td><?= $reloj['url_imagen']; ?></td>
               <td>
-          <a href="controladorEmpleado.php?action=editar&id_reloj=<?= $reloj['id_reloj']; ?>"></a>
+          <a href="controladorEmpleado.php?action=editar&id_reloj=<?= $reloj['id_reloj']; ?>">
               <i class="fa-solid fa-pen-to-square"></i>
               <input type="button" value="Eliminar" class="btn btn-secondary">
               <input type="button" value="Editar" class="btn btn-primary">
@@ -180,7 +178,6 @@ if(filter_input(INPUT_POST,'Eliminar')){
 
           <div id="informes">
         <h1>INFORMES Y ESTADÍSTICAS</h1>
-
 
         <h2>Últimos 5 Pedidos</h2>
         <div>
@@ -200,11 +197,14 @@ if(filter_input(INPUT_POST,'Eliminar')){
               <td><?= $pedido['id_pedido']; ?></td>
               <td><?= $pedido['id_usuario']; ?></td>
               <td><?= $pedido['fecha_pedido']; ?></td>
-              <td><?= $pedido['precio_total']; ?> €</td>
+              <td><?= isset($pedido['precio_final']) ? $pedido['precio_final'] : $pedido['precio_unitario'] * $pedido['cantidad']; ?> €</td>
               <td>
+          <a href="controladorEmpleado.php?action=verPedido&id_pedido=<?= $pedido['id_pedido']; ?>">
+              <i class="fa-solid fa-eye"></i>
+              <input type="button" value="Ver detalles" class="btn btn-info">
+          </a>
           <a href="controladorEmpleado.php?action=editar&id_pedido=<?= $pedido['id_pedido']; ?>">
               <i class="fa-solid fa-pen-to-square"></i>
-              <input type="button" value="Eliminar" class="btn btn-secondary">
               <input type="button" value="Editar" class="btn btn-primary">
           </a>
               </td>
@@ -212,8 +212,6 @@ if(filter_input(INPUT_POST,'Eliminar')){
             <?php } ?>
             </tbody>
         </table>
-
-
 
         <h1>Productos con menor stock</h1>
         <div>
