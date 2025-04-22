@@ -2,7 +2,7 @@
 // He tenido que cambiar la ruta de los require_once para que funcionen correctamente
 require_once __DIR__ . '/../Servicio/Db.php';
 require_once __DIR__ . '/../Modelo/Usuario.php';
-require_once __DIR__ . '/../Modelo/Pedidos.php'; // Añadido el modelo Pedidos
+require_once __DIR__ . '/../Modelo/Pedidos.php'; 
 
 $clientesObj = Usuario::listarClientes();
 
