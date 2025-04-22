@@ -26,18 +26,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $notificacion = "Error al eliminar el usuario: " . $e->getMessage();
             $tipoNotificacion = "danger";
         }
-        // Redirigir para evitar reenvío del formulario
         header('Location: ' . $_SERVER['PHP_SELF'] . '?notificacion=' . urlencode($notificacion) . '&tipo=' . $tipoNotificacion);
         exit();
     }
     
-    // Si se ha enviado el formulario de crear/editar
     if (isset($_POST['guardar'])) {
         try {
             $usuario = new Usuario();
             $usuario->setLogin($_POST['login']);
             
-            // Solo establecemos la clave si no está vacía (para editar)
             if (!empty($_POST['clave'])) {
                 $usuario->setClave($_POST['clave']);
             }
@@ -71,13 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-// Recibir notificaciones de la redirección
 if (isset($_GET['notificacion'])) {
     $notificacion = $_GET['notificacion'];
     $tipoNotificacion = $_GET['tipo'] ?? 'info';
 }
 
-// Filtrar usuarios
 $usuariosFiltrados = $usuariosObj;
 if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor'])) {
     $usuariosFiltrados = Usuario::buscarUsuarios($_GET['criterio'], $_GET['valor']);
@@ -92,31 +87,59 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../css/estilos.css">
+    <style>
+        .bg-primary {
+            background-color: #FFD700 !important; 
+            color: black !important; 
+        }
+        
+        .btn-primary {
+            background-color: #FFD700 !important;
+            border-color: #E6C200 !important;
+            color: black !important;
+        }
+        
+        .btn-primary:hover {
+            background-color: #E6C200 !important;
+            border-color: #CCAD00 !important;
+        }
+        .btn-success {
+            background-color: #FFD700 !important;
+            border-color: #CCAD00 !important;
+            color: black !important;
+        }
+        
+        .form-control, .form-select {
+            color: black !important;
+        }
+        
+        .form-label {
+            color: black !important;
+        }
+        
+        .nav-link.active {
+            color: #FFD700 !important;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     
     <nav class="navbar navbar-expand-xl navbar-light" style="background-color: transparent;">
-      <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLight" aria-controls="navbarLight" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse show" id="navbarLight">
-          <ul class="navbar-nav me-auto mb-2 mb-xl-0">
-            <li class="nav-item">
-              <a class="nav-link active" href="gestionUsuarios.php">Gestión de Usuarios</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="../Vista/indexAdmin.php" tabindex="-1" aria-disabled="true">
-                <i class="fa-solid fa-building"></i>
-              </a>
-            </li>
-          </ul>
-          <div id="botonesDeRegistro">
-            <a href="../cerrarSesion.php" class="btn btn-danger">Cerrar Sesión</a>
-          </div>
-        </div>
+    <div class="collapse navbar-collapse show" id="navbarLight">
+      <ul class="navbar-nav me-0 mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link px-0" href="../Vista/indexAdmin.php" tabindex="-1" aria-disabled="true">
+            <i class="fa-solid fa-building"></i>
+          </a>
+        </li>
+      </ul>
+      <div id="botonesDeRegistro" class="ms-auto">
+        <a href="../cerrarSesion.php" class="btn btn-danger">Cerrar Sesión</a>
       </div>
+    </div>
+  </div>
     </nav>
 
     <div id="header">
@@ -128,7 +151,6 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
     <div class="container mt-4">
         <h1 class="mb-4 text-center">GESTIÓN DE USUARIOS</h1>
         
-        <!-- Sistema de notificaciones -->
         <?php if ($notificacion): ?>
             <div class="alert alert-<?= $tipoNotificacion ?> alert-dismissible fade show" role="alert">
                 <?= $notificacion ?>
@@ -136,9 +158,8 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
             </div>
         <?php endif; ?>
         
-        <!-- Buscador de usuarios -->
         <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header bg-primary text-black">
                 Buscar Usuarios
             </div>
             <div class="card-body">
@@ -162,16 +183,14 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
             </div>
         </div>
         
-        <!-- Botón para añadir nuevo usuario -->
         <div class="mb-4">
             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalUsuario">
                 <i class="fas fa-plus"></i> Añadir Nuevo Usuario
             </button>
         </div>
         
-        <!-- Tabla de usuarios -->
         <div class="card">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header bg-primary text-black">
                 Listado de Usuarios
             </div>
             <div class="card-body">
@@ -261,11 +280,10 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
         </div>
     </div>
 
-    <!-- Ventana gráfica o modal para editar el usuario -->
     <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
+                <div class="modal-header bg-primary text-black">
                     <h5 class="modal-title" id="modalUsuarioLabel">Gestionar Usuario</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -356,7 +374,6 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
     </div>
 
     <script>
-        // Script para rellenar el modal con los datos del usuario al editar
         document.addEventListener('DOMContentLoaded', function() {
             const modalUsuario = document.getElementById('modalUsuario');
             modalUsuario.addEventListener('show.bs.modal', function (event) {
@@ -364,7 +381,6 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
                 const id = button.getAttribute('data-id');
                 
                 if (id) {
-                    // Edición de usuario existente	
                     document.getElementById('modalUsuarioLabel').textContent = 'Editar Usuario';
                     document.getElementById('id_usuario').value = id;
                     document.getElementById('login').value = button.getAttribute('data-login');
@@ -378,43 +394,36 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
                     document.getElementById('direccion').value = button.getAttribute('data-direccion') || '';
                     document.getElementById('iban').value = button.getAttribute('data-iban') || '';
                     
-                    // Para la contraseña, mostramos un mensaje indicando que solo se cambiará si se introduce un valor
                     document.getElementById('clave').setAttribute('placeholder', 'Dejar en blanco para mantener la actual');
                     document.getElementById('clave').removeAttribute('required');
                     
-                    // Mostramos/ocultamos campos según el rol
                     actualizarCamposPorRol(button.getAttribute('data-rol'));
                 } else {
-                    // Creación de nuevo usuario
                     document.getElementById('modalUsuarioLabel').textContent = 'Añadir Usuario';
                     document.getElementById('formUsuario').reset();
                     document.getElementById('id_usuario').value = '';
                     document.getElementById('clave').setAttribute('required', 'required');
                     document.getElementById('clave').setAttribute('placeholder', 'Contraseña');
                     
-                    // Configurar valores predeterminados
-                    document.getElementById('id_rol').value = '3'; // Cliente por defecto
+                    document.getElementById('id_rol').value = '3';
                     actualizarCamposPorRol(3);
                 }
             });
             
-            // Función para mostrar/ocultar campos según el rol seleccionado
             function actualizarCamposPorRol(rol) {
                 const campoNSS = document.querySelector('.col-md-6 label[for="nss"]').parentNode;
                 
-                if (rol == 1 || rol == 2) { // Admin o Empleado
+                if (rol == 1 || rol == 2) { 
                     campoNSS.style.display = 'block';
-                } else { // Cliente
+                } else { 
                     campoNSS.style.display = 'none';
                 }
             }
             
-            // Actualizar campos al cambiar el rol en el formulario
             document.getElementById('id_rol').addEventListener('change', function() {
                 actualizarCamposPorRol(this.value);
             });
             
-            // Ocultar automáticamente las alertas después de 5 segundos
             setTimeout(function() {
                 const alertas = document.querySelectorAll('.alert');
                 alertas.forEach(function(alerta) {
