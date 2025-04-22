@@ -137,6 +137,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: white;
         }
         
+        .btn-success {
+            background-color: #FFD700;
+            border-color: #FFD700;
+            color: black;
+        }
+
         .modal-body {
             color: #333;
         }
@@ -254,6 +260,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     <div id="gestionInventario">
         <h1>INVENTARIO DE RELOJES</h1>
+        <div class="mb-3">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregarRelojModal">
+                <i class="fa-solid fa-plus"></i> Añadir Nuevo Reloj
+            </button>
+        </div>
         <table class="table table-striped table-bordered table-hover">
             <thead>
           <tr>
@@ -366,8 +377,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <pre>Iván Martínez Estrada - 2ºDAW - Vista Empleado</pre>
         </footer>
     </div>
-    
-    <!-- MODALES PARA EDITAR CLIENTES -->
+    <!-- FORMULARIO PARA AÑADIR NUEVO RELOJ -->
+    <div class="modal fade" id="agregarRelojModal" tabindex="-1" aria-labelledby="agregarRelojModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="agregarRelojModalLabel">Añadir Nuevo Reloj</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST" id="formAgregarReloj">
+              <input type="hidden" name="action" value="agregarReloj">
+              
+              <div class="mb-3">
+                <label for="id_marca_modelo_nuevo" class="form-label">ID Marca/Modelo</label>
+                <input type="text" class="form-control" id="id_marca_modelo_nuevo" name="id_marca_modelo" required>
+              </div>
+              
+              <div class="mb-3">
+                <label for="precio_nuevo" class="form-label">Precio</label>
+                <input type="number" step="0.01" class="form-control" id="precio_nuevo" name="precio" required>
+              </div>
+              
+              <div class="mb-3">
+                <label for="tipo_nuevo" class="form-label">Tipo</label>
+                <select class="form-control" id="tipo_nuevo" name="tipo" required>
+                  <option value="">Seleccione un tipo</option>
+                  <option value="Analógico">Analógico</option>
+                  <option value="Digital">Digital</option>
+                  <option value="Smart">Smart</option>
+                  <option value="Luxury">Luxury</option>
+                </select>
+              </div>
+              
+              <div class="mb-3">
+                <label for="stock_nuevo" class="form-label">Stock</label>
+                <input type="number" class="form-control" id="stock_nuevo" name="stock" min="0" required>
+              </div>
+              
+              <div class="mb-3">
+                <label for="url_imagen_nuevo" class="form-label">URL Imagen</label>
+                <input type="text" class="form-control" id="url_imagen_nuevo" name="url_imagen" required>
+              </div>
+              
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-success">Añadir Reloj</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- FORMULARIO PARA EDITAR CLIENTES -->
     <?php if (!empty($clientesObj)) {
         foreach ($clientesObj as $cliente) { ?>
     <div class="modal fade" id="editarClienteModal<?= $cliente->getId_usuario() ?>" tabindex="-1" aria-labelledby="editarClienteModalLabel<?= $cliente->getId_usuario() ?>" aria-hidden="true">
@@ -414,7 +476,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php }
     } ?>
     
-    <!-- MODALES PARA EDITAR RELOJES -->
+    <!-- FORMULARIO PARA EDITAR RELOJES -->
     <?php foreach($relojes as $reloj){ ?>
     <div class="modal fade" id="editarRelojModal<?= $reloj['id_reloj']; ?>" tabindex="-1" aria-labelledby="editarRelojModalLabel<?= $reloj['id_reloj']; ?>" aria-hidden="true">
       <div class="modal-dialog">
