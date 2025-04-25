@@ -21,7 +21,6 @@ if(filter_input(INPUT_POST,"finalizar")){
         $clienteId = $row['id_cliente'];
 
         if ($clienteId) {
-            // Replace the direct database query with the model function
             $_SESSION['pedidos'] = Pedidos::obtenerPedidoPorIdUsuario($clienteId);
         }
     } catch(PDOException $e) {
