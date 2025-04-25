@@ -300,16 +300,30 @@ class Pedidos {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function obtenerPedidosConProductos($id_usuario) {
-        $conexion = Db::getConexion();
-        $consulta = "SELECT p.*, r.nombre, r.precio 
-                FROM pedidos p
-                JOIN relojes r ON p.id_reloj = r.id_reloj
-                WHERE p.id_usuario = ?
-                ORDER BY p.fecha_pedido DESC";
-        $stmt = $conexion->prepare($consulta);
-        $stmt->execute([$id_usuario]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public static function obtenerPedidosConProductos($clienteId) {
+        try {
+            $conexion = Db::getConexion();
+            
+            $sql = "SELECT p.id_pedido, p.fecha_pedido, dp.precio_base, dp.precio_final, dp.descuento_porcentaje, dp.impuesto_porcentaje
+                    FROM pedidos p
+                    JOIN detalles_pedido dp ON p.id_pedido = dp.id_pedido
+                    WHERE p.id_usuario = :clienteId
+                    ORDER BY p.fecha_pedido DESC";
+            
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindParam(':clienteId', $clienteId, PDO::PARAM_INT);
+            $stmt->execute();
+            
+            /*echo "SQL query executed for client ID: " . $clienteId;
+            echo "Number of rows returned: " . $stmt->rowCount();*/
+            
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (PDOException $e) {
+            error_log("Error en obtenerPedidosConProductos: " . $e->getMessage());
+            echo "Error al obtener pedidos: " . $e->getMessage();
+            return [];
+        }
     }
 
 }

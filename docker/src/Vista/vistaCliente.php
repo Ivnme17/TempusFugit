@@ -14,13 +14,18 @@ if(filter_input(INPUT_POST,"finalizar")){
     header("Location: vistaCliente.php");
 }
 $clienteId = $_SESSION['usuario'];
+$_SESSION['pedidos'] = [];
+
 try {
     $usuario = Usuario::verUsuario($_SESSION['usuario']);
     if ($usuario) {
         $clienteId = $usuario->getId_usuario();
         
         if ($clienteId) {
-            $_SESSION['pedidos'] = Pedidos::obtenerPedidosConProductos($clienteId);
+            $pedidos = Pedidos::obtenerPedidosConProductos($clienteId);
+            if ($pedidos) {
+                $_SESSION['pedidos'] = $pedidos;
+            }
         }
     }
 } catch(PDOException $e) {
@@ -163,29 +168,32 @@ if(isset($_POST['eliminar'])){
                     <th>Fecha</th>
                     <th>Producto</th>
                     <th>Estado</th>
-                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-               <?php var_dump($_SESSION['pedidos']); ?>
-            <?php if(isset($_SESSION['pedidos'])){ ?>
-                <?php foreach($_SESSION['pedidos'] as $pedido){ ?>
-                    <tr>
-                        <td><?= $pedido['id_pedido'] ?></td>
-                        <td><?= $pedido['fecha_pedido'] ?></td>
-                        <td><?= $pedido['nombre'] ?> (<?= $pedido['cantidad'] ?>)</td>
-                        <td>Completado</td>  
-                        <td>
-                            <button class="btn btn-info">Ver detalles</button>
-                            <button class="btn btn-danger">Cancelar</button>
-                        </td>
-                    </tr>
-                <?php }; ?>
-            <?php }else{ ?>
-                <tr>
-                    <td colspan="5" class="text-center">No tienes ningún pedido realizado.</td>
-                </tr>
-            <?php }; ?>
+               <?php
+              /* echo "Client ID: " . $clienteId;
+               if(isset($_SESSION['pedidos'])) {
+                var_dump($_SESSION['pedidos'])
+                ;}*/
+                ?>
+            <?php if(isset($_SESSION['pedidos']) && !empty($_SESSION['pedidos'])){ ?>
+    <?php foreach($_SESSION['pedidos'] as $pedido){ ?>
+        <tr>
+            <td><?= $pedido['id_pedido'] ?></td>
+            <td><?= $pedido['fecha_pedido'] ?></td>
+            <td>
+                Precio: <?= number_format($pedido['precio_base'], 2) ?> € 
+                (Final: <?= number_format($pedido['precio_final'], 2) ?> €)
+            </td>
+            <td>Completado</td>  
+        </tr>
+    <?php }; ?>
+<?php }else{ ?>
+    <tr>
+        <td colspan="5" class="text-center">No tienes ningún pedido realizado.</td>
+    </tr>
+<?php }; ?>
             </tbody>
         </table>
     </div>
