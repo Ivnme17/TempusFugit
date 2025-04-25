@@ -1,5 +1,6 @@
 <?php
 require_once '../Servicio/Db.php';
+require_once '../Modelo/Pedidos.php';
 session_start();
 if(filter_input(INPUT_POST,"finalizar") && isset($_SESSION['cesta']) && !empty($_SESSION['cesta'])){
     header("Location: pago.php");
@@ -20,18 +21,8 @@ if(filter_input(INPUT_POST,"finalizar")){
         $clienteId = $row['id_cliente'];
 
         if ($clienteId) {
-            $sql = "SELECT p.id_pedido, p.fecha_pedido, r.nombre, p.cantidad, 
-                   p.precio_unitario, p.precio_total, p.metodo_pago
-                   FROM pedidos p 
-                   JOIN relojes r ON p.id_reloj = r.id_reloj 
-                   WHERE p.id_usuario = :clienteId
-                   ORDER BY p.fecha_pedido DESC";
-                
-            $stmt = $conexion->prepare($sql);
-            $stmt->bindParam(':clienteId', $clienteId, PDO::PARAM_INT);
-            $stmt->execute();
-            $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $_SESSION['pedidos'] = $pedidos;
+            // Replace the direct database query with the model function
+            $_SESSION['pedidos'] = Pedidos::obtenerPedidoPorIdUsuario($clienteId);
         }
     } catch(PDOException $e) {
         error_log("Error: " . $e->getMessage());

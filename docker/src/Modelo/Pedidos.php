@@ -289,4 +289,14 @@ class Pedidos {
             return false;
         }
     }
+    public static function obtenerPedidoPorIdUsuario($id_usuario) {
+        $conexion = Db::getConexion();
+        $consulta = "SELECT p.*, dp.precio_base, dp.descuento_porcentaje, dp.impuesto_porcentaje, dp.precio_final, dp.notas 
+                FROM pedidos p
+                LEFT JOIN detalles_pedido dp ON p.id_pedido = dp.id_pedido
+                WHERE p.id_usuario = ?";
+        $stmt = $conexion->prepare($consulta);
+        $stmt->execute([$id_usuario]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
