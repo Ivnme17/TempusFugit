@@ -20,11 +20,12 @@ if(filter_input(INPUT_POST,"finalizar")){
         $clienteId = $row['id_cliente'];
 
         if ($clienteId) {
-            $sql = "SELECT p.id_pedido, p.fecha_pedido, p.cantidad, p.precio_total, r.nombre
-                FROM pedidos p 
-                JOIN relojes r ON p.id_reloj = r.id_reloj 
-                WHERE p.id_usuario = :clienteId
-                ORDER BY p.fecha_pedido DESC";
+            $sql = "SELECT p.id_pedido, p.fecha_pedido, r.nombre, p.cantidad, 
+                   p.precio_unitario, p.precio_total, p.metodo_pago
+                   FROM pedidos p 
+                   JOIN relojes r ON p.id_reloj = r.id_reloj 
+                   WHERE p.id_usuario = :clienteId
+                   ORDER BY p.fecha_pedido DESC";
                 
             $stmt = $conexion->prepare($sql);
             $stmt->bindParam(':clienteId', $clienteId, PDO::PARAM_INT);
@@ -32,10 +33,9 @@ if(filter_input(INPUT_POST,"finalizar")){
             $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $_SESSION['pedidos'] = $pedidos;
         }
-        } catch(PDOException $e) {
+    } catch(PDOException $e) {
         error_log("Error: " . $e->getMessage());
-        }
-
+    }
 }
    
 if(isset($_POST['eliminar'])){
@@ -180,16 +180,16 @@ if(isset($_POST['eliminar'])){
             <tbody>
             <?php if(isset($_SESSION['pedidos']) && !empty($_SESSION['pedidos'])){ ?>
                 <?php foreach($_SESSION['pedidos'] as $pedido){ ?>
-                <tr>
-                    <td><?= $pedido['id_pedido'] ?></td>
-                    <td><?= $pedido['fecha_pedido'] ?></td>
-                    <td><?= $pedido['cantidad'] ?></td>
-                    <td><?= $pedido['precio_total'] ?></td>
-                    <td>
-                        <button class="btn btn-info">Ver detalles</button>
-                        <button class="btn btn-danger">Cancelar</button>
-                    </td>
-                </tr>
+                    <tr>
+                        <td><?= $pedido['id_pedido'] ?></td>
+                        <td><?= $pedido['fecha_pedido'] ?></td>
+                        <td><?= $pedido['nombre'] ?> (<?= $pedido['cantidad'] ?>)</td>
+                        <td>Completado</td>  
+                        <td>
+                            <button class="btn btn-info">Ver detalles</button>
+                            <button class="btn btn-danger">Cancelar</button>
+                        </td>
+                    </tr>
                 <?php }; ?>
             <?php }else{ ?>
                 <tr>
