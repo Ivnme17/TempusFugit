@@ -18,7 +18,7 @@ if (filter_has_var(INPUT_POST, "enviar")) {
         $reloj = Reloj::obtenerPorId($relojId);
         if ($reloj && $reloj->disponible()) {
             $cantidad = filter_input(INPUT_POST, 'cantidad', FILTER_SANITIZE_NUMBER_INT);
-            $cantidad = $cantidad > 0 ? $cantidad : 1;
+            $cantidad = $cantidad > 0 ? $cantidad : 0;
             
             $_SESSION['cesta'][$relojId] = [
                 'nombre' => $reloj->getNombreCompleto(),
