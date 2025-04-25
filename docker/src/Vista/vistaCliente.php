@@ -1,6 +1,7 @@
 <?php
 require_once '../Servicio/Db.php';
 require_once '../Modelo/Pedidos.php';
+require_once '../Modelo/Usuario.php'; 
 session_start();
 if(filter_input(INPUT_POST,"finalizar") && isset($_SESSION['cesta']) && !empty($_SESSION['cesta'])){
     header("Location: pago.php");
@@ -11,21 +12,19 @@ if(filter_input(INPUT_POST,"finalizar")){
            <p style='color: brown; font-size: 18px; margin: 0;'>La cesta está vacía</p>
         </dialog>";
     header("Location: vistaCliente.php");
-    $clienteId = $_SESSION['login'];
-    $conexion = Db::getConexion();
-    try {
-        $stmt = $conexion->prepare("SELECT id_cliente FROM clientes WHERE login = :login");
-        $stmt->bindParam(':login', $_SESSION['login']);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        $clienteId = $row['id_cliente'];
-
+}
+$clienteId = $_SESSION['usuario'];
+try {
+    $usuario = Usuario::verUsuario($_SESSION['usuario']);
+    if ($usuario) {
+        $clienteId = $usuario->getId_usuario();
+        
         if ($clienteId) {
-            $_SESSION['pedidos'] = Pedidos::obtenerPedidoPorIdUsuario($clienteId);
+            $_SESSION['pedidos'] = Pedidos::obtenerPedidosConProductos($clienteId);
         }
-    } catch(PDOException $e) {
-        error_log("Error: " . $e->getMessage());
     }
+} catch(PDOException $e) {
+    error_log("Error: " . $e->getMessage());
 }
    
 if(isset($_POST['eliminar'])){
@@ -168,7 +167,8 @@ if(isset($_POST['eliminar'])){
                 </tr>
             </thead>
             <tbody>
-            <?php if(isset($_SESSION['pedidos']) && !empty($_SESSION['pedidos'])){ ?>
+               <?php var_dump($_SESSION['pedidos']); ?>
+            <?php if(isset($_SESSION['pedidos'])){ ?>
                 <?php foreach($_SESSION['pedidos'] as $pedido){ ?>
                     <tr>
                         <td><?= $pedido['id_pedido'] ?></td>
