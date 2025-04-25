@@ -211,18 +211,6 @@ if(isset($_POST['eliminar'])){
                     seccionCarrito.style.display = 'none';
                 }
             });
-            
-            const botonesAñadir = document.querySelectorAll('.producto button');
-            
-            botonesAñadir.forEach(boton => {
-                boton.addEventListener('click', function() {
-                    const producto = this.closest('.producto');
-                    const nombre = producto.querySelector('legend').textContent;
-                    const precio = producto.querySelector('p').textContent.match(/\d+,\d+/)[0];
-                    
-                    alert(`¡${nombre} añadido al carrito!`);
-                });
-            });
         });
     </script>
 </body>
