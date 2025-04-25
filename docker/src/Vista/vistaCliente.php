@@ -20,21 +20,21 @@ if(filter_input(INPUT_POST,"finalizar")){
         $clienteId = $row['id_cliente'];
 
         if ($clienteId) {
-            $sql = "SELECT p.id_pedido, p.fecha, pr.nombre, p.estado 
-                    FROM pedidos p 
-                    JOIN productos pr ON p.id_producto = pr.id_producto 
-                    WHERE p.id_cliente = :clienteId
-                    ORDER BY p.fecha DESC";
-                    
+            $sql = "SELECT p.id_pedido, p.fecha_pedido, p.cantidad, p.precio_total, r.nombre
+                FROM pedidos p 
+                JOIN relojes r ON p.id_reloj = r.id_reloj 
+                WHERE p.id_usuario = :clienteId
+                ORDER BY p.fecha_pedido DESC";
+                
             $stmt = $conexion->prepare($sql);
             $stmt->bindParam(':clienteId', $clienteId, PDO::PARAM_INT);
             $stmt->execute();
             $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $_SESSION['pedidos'] = $pedidos;
         }
-    } catch(PDOException $e) {
+        } catch(PDOException $e) {
         error_log("Error: " . $e->getMessage());
-    }
+        }
 
 }
    
@@ -182,9 +182,9 @@ if(isset($_POST['eliminar'])){
                 <?php foreach($_SESSION['pedidos'] as $pedido){ ?>
                 <tr>
                     <td><?= $pedido['id_pedido'] ?></td>
-                    <td><?= $pedido['fecha'] ?></td>
-                    <td><?= $pedido['nombre'] ?></td>
-                    <td><?= $pedido['estado'] ?></td>
+                    <td><?= $pedido['fecha_pedido'] ?></td>
+                    <td><?= $pedido['cantidad'] ?></td>
+                    <td><?= $pedido['precio_total'] ?></td>
                     <td>
                         <button class="btn btn-info">Ver detalles</button>
                         <button class="btn btn-danger">Cancelar</button>
