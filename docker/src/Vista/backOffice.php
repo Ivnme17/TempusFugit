@@ -412,16 +412,17 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
             
             function actualizarCamposPorRol(rol) {
                 const campoNSS = document.querySelector('.col-md-6 label[for="nss"]').parentNode;
-                
+                const campoDNI = document.getElementById('dni');
+                //Si se quiere crear un Admin o Empleado el campo NSS aparece en el caso de que sea un Cliente no
                 if (rol == 1 || rol == 2) { 
                     campoNSS.style.display = 'block';
                 } else { 
                     campoNSS.style.display = 'none';
                 }
-                if (rol == 3) {
+                if (rol == 3) {//Si es un cliente el campo DNI es de solo lectura (No hace falta que lo rellene)
                     campoDNI.setAttribute('readonly', true);
                     campoDNI.style.backgroundColor = '#e9ecef';
-                } else {
+                } else {//Si no lo  es entonces tiene que rellenarlo
                     campoDNI.removeAttribute('readonly');
                     campoDNI.style.backgroundColor = '';
                 }
