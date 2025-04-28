@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../Servicio/Db.php';
 require_once __DIR__ . '/../Modelo/Usuario.php';
 require_once __DIR__ . '/../Modelo/Pedidos.php'; 
+require_once __DIR__ . '/../Modelo/Reloj.php';
 
 $clientesObj = Usuario::listarClientes();
 
@@ -52,27 +53,57 @@ if(filter_input(INPUT_POST,'Eliminar')){
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (isset($_POST['action'])) {
     switch ($_POST['action']) {
-      case 'editarReloj':
+      case 'agregarMarcaModelo':
+        // Código para insertar una nueva marca/modelo
         $conexion = Db::getConexion();
-        $consulta = "UPDATE relojes SET 
-                    id_marca_modelo = :id_marca_modelo, 
-                    precio = :precio, 
-                    tipo = :tipo, 
-                    stock = :stock, 
-                    url_imagen = :url_imagen 
-                    WHERE id_reloj = :id_reloj";
-        
+        $consulta = "INSERT INTO marca_modelo (marca, modelo) VALUES (:marca, :modelo)";
         $stmt = $conexion->prepare($consulta);
-        $stmt->execute([
-            ':id_marca_modelo' => $_POST['id_marca_modelo'],
-            ':precio' => $_POST['precio'],
-            ':tipo' => $_POST['tipo'],
-            ':stock' => $_POST['stock'],
-            ':url_imagen' => $_POST['url_imagen'],
-            ':id_reloj' => $_POST['id_reloj']
+        
+        $resultado = $stmt->execute([
+          ':marca' => $_POST['marca'],
+          ':modelo' => $_POST['modelo']
         ]);
-        // Redireccionar a la misma página con un mensaje de éxito
-        header('Location: ' . $_SERVER['PHP_SELF'] . '?success=1&message=Reloj+actualizado+correctamente#gestionInventario');
+        
+        if ($resultado) {
+          header('Location: ' . $_SERVER['PHP_SELF'] . '?success=1&message=Marca+y+modelo+agregados+correctamente#gestionInventario');
+        } else {
+          header('Location: ' . $_SERVER['PHP_SELF'] . '?error=1&message=Error+al+agregar+marca+y+modelo#gestionInventario');
+        }
+        exit;
+        break;
+      case 'agregarReloj':
+        // Crear un nuevo objeto Reloj con los datos del formulario
+        $nuevoReloj = new Reloj([
+          'id_marca_modelo' => $_POST['id_marca_modelo'],
+          'precio' => $_POST['precio'],
+          'tipo' => $_POST['tipo'],
+          'stock' => $_POST['stock'],
+          'url_imagen' => $_POST['url_imagen']
+        ]);
+        // Guardar el nuevo reloj
+        if ($nuevoReloj->guardar()) {
+          header('Location: ' . $_SERVER['PHP_SELF'] . '?success=1&message=Reloj+agregado+correctamente#gestionInventario');
+        } else {
+          header('Location: ' . $_SERVER['PHP_SELF'] . '?error=1&message=Error+al+agregar+el+reloj#gestionInventario');
+        }
+        exit;
+        break;      
+      case 'editarReloj':
+        // Crear un nuevo objeto Reloj con los datos actualizados del formulario
+        $nuevoReloj = new Reloj([
+          'id_marca_modelo' => $_POST['id_marca_modelo'],
+          'precio' => $_POST['precio'],
+          'tipo' => $_POST['tipo'],
+          'stock' => $_POST['stock'],
+          'url_imagen' => $_POST['url_imagen']
+        ]);
+
+        // Actuaslizar el reloj
+        if ($nuevoReloj->guardar()) {
+          header('Location: ' . $_SERVER['PHP_SELF'] . '?success=1&message=Reloj+agregado+correctamente#gestionInventario');
+        } else {
+          header('Location: ' . $_SERVER['PHP_SELF'] . '?error=1&message=Error+al+agregar+el+reloj#gestionInventario');
+        }
         exit;
         break;
         
@@ -207,12 +238,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </nav>
 
     <!-- Mensaje de éxito -->
-    <?php if(isset($_GET['success']) && $_GET['success'] == 1): ?>
+    <?php if(isset($_GET['success']) && $_GET['success'] == 1){ ?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
       <?= htmlspecialchars($_GET['message'] ?? 'Operación realizada con éxito') ?>
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    <?php endif; ?>
+    <?php }; ?>
 
     <div id="header">
         <div id="logoEmpresa">
@@ -263,6 +294,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="mb-3">
             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregarRelojModal">
                 <i class="fa-solid fa-plus"></i> Añadir Nuevo Reloj
+            </button>
+            <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#agregarMarcaModeloModal">
+                <i class="fa-solid fa-plus"></i> Añadir Nueva Marca/Modelo
             </button>
         </div>
         <table class="table table-striped table-bordered table-hover">
@@ -377,6 +411,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <pre>Iván Martínez Estrada - 2ºDAW - Vista Empleado</pre>
         </footer>
     </div>
+    <!-- FORMULARIO PARA AÑADIR NUEVA MARCA/MODELO -->
+    <div class="modal fade" id="agregarMarcaModeloModal" tabindex="-1" aria-labelledby="agregarMarcaModeloModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="agregarMarcaModeloModalLabel">Añadir Nueva Marca/Modelo</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST" id="formAgregarMarcaModelo">
+              <input type="hidden" name="action" value="agregarMarcaModelo">
+              
+              <div class="mb-3">
+                <label for="marca_nueva" class="form-label">Marca</label>
+                <input type="text" class="form-control" id="marca_nueva" name="marca" required>
+              </div>
+              
+              <div class="mb-3">
+                <label for="modelo_nuevo" class="form-label">Modelo</label>
+                <input type="text" class="form-control" id="modelo_nuevo" name="modelo" required>
+              </div>
+              
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-success">Añadir Marca/Modelo</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- FORMULARIO PARA AÑADIR NUEVO RELOJ -->
     <div class="modal fade" id="agregarRelojModal" tabindex="-1" aria-labelledby="agregarRelojModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -403,10 +468,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="tipo_nuevo" class="form-label">Tipo</label>
                 <select class="form-control" id="tipo_nuevo" name="tipo" required>
                   <option value="">Seleccione un tipo</option>
-                  <option value="Analógico">Analógico</option>
-                  <option value="Digital">Digital</option>
-                  <option value="Smart">Smart</option>
-                  <option value="Luxury">Luxury</option>
+                  <option value="analógico">Analógico</option>
+                  <option value="digital">Digital</option>
                 </select>
               </div>
               

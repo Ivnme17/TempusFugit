@@ -6,7 +6,6 @@ class Reloj {
     private $precio;
     private $tipo;
     private $stock;
-    private $id_usuario;
     private $url_imagen;
     
     private $marca;
@@ -19,7 +18,6 @@ class Reloj {
             $this->precio = isset($datos['precio']) ? (float)$datos['precio'] : 0.00;
             $this->tipo = isset($datos['tipo']) ? $datos['tipo'] : 'analógico';
             $this->stock = isset($datos['stock']) ? (int)$datos['stock'] : 0;
-            $this->id_usuario = isset($datos['id_usuario']) ? $datos['id_usuario'] : null;
             $this->url_imagen = isset($datos['url_imagen']) ? $datos['url_imagen'] : 'img/no-image.jpg';
             
             $this->marca = isset($datos['marca']) ? $datos['marca'] : null;
@@ -30,7 +28,6 @@ class Reloj {
             $this->precio = 0.00;
             $this->tipo = 'analógico';
             $this->stock = 0;
-            $this->id_usuario = null;
             $this->url_imagen = 'img/no-image.jpg';
             $this->marca = null;
             $this->modelo = null;
@@ -55,10 +52,6 @@ class Reloj {
     
     public function getStock() {
         return $this->stock;
-    }
-    
-    public function getIdUsuario() { 
-        return $this->id_usuario; 
     }
     
     public function getUrlImagen() { 
@@ -97,9 +90,6 @@ class Reloj {
         $this->stock = $stock; 
     }
     
-    public function setIdUsuario($id_usuario) { 
-        $this->id_usuario = $id_usuario; 
-    }
     
     public function setUrlImagen($url_imagen) { 
         $this->url_imagen = $url_imagen; 
@@ -152,19 +142,20 @@ class Reloj {
         $conexion = Db::getConexion();
         
         if ($this->id_reloj !== null) {
+            // Consulta de actualización
             $consulta = "UPDATE relojes SET 
                     id_marca_modelo = :id_marca_modelo,
                     precio = :precio,
                     tipo = :tipo,
                     stock = :stock,
-                    id_usuario = :id_usuario,
                     url_imagen = :url_imagen
                     WHERE id_reloj = :id_reloj";
         } else {
+            // Consulta de inserción (sin especificar id_reloj)
             $consulta = "INSERT INTO relojes 
-                    (id_marca_modelo, precio, tipo, stock, id_usuario, url_imagen) 
+                    (id_marca_modelo, precio, tipo, stock, url_imagen) 
                     VALUES 
-                    (:id_marca_modelo, :precio, :tipo, :stock, :id_usuario, :url_imagen)";
+                    (:id_marca_modelo, :precio, :tipo, :stock, :url_imagen)";
         }
         
         $stmt = $conexion->prepare($consulta);
@@ -177,11 +168,11 @@ class Reloj {
         $stmt->bindParam(':precio', $this->precio);
         $stmt->bindParam(':tipo', $this->tipo, PDO::PARAM_STR);
         $stmt->bindParam(':stock', $this->stock, PDO::PARAM_INT);
-        $stmt->bindParam(':id_usuario', $this->id_usuario, PDO::PARAM_INT);
         $stmt->bindParam(':url_imagen', $this->url_imagen, PDO::PARAM_STR);
         
         $resultado = $stmt->execute();
         
+        // Si era un nuevo reloj y la consulta fue exitosa, obtén el ID generado
         if ($this->id_reloj === null && $resultado) {
             $this->id_reloj = (int)$conexion->lastInsertId();
         }
