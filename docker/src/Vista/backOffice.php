@@ -412,7 +412,6 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
             
             function actualizarCamposPorRol(rol) {
                 const campoNSS = document.querySelector('.col-md-6 label[for="nss"]').parentNode;
-                const campoDNI = document.getElementById('dni');
                 
                 if (rol == 1 || rol == 2) { 
                     campoNSS.style.display = 'block';
