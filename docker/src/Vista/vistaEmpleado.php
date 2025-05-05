@@ -69,7 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
           header('Location: ' . $_SERVER['PHP_SELF'] . '?error=1&message=Error+al+agregar+marca+y+modelo#gestionInventario');
         }
-        exit;
         break;
       case 'agregarReloj':
         // Crear un nuevo objeto Reloj con los datos del formulario
@@ -86,7 +85,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
           header('Location: ' . $_SERVER['PHP_SELF'] . '?error=1&message=Error+al+agregar+el+reloj#gestionInventario');
         }
-        exit;
         break;      
       case 'editarReloj':
         // Crear un nuevo objeto Reloj con los datos actualizados del formulario
@@ -104,7 +102,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
           header('Location: ' . $_SERVER['PHP_SELF'] . '?error=1&message=Error+al+agregar+el+reloj#gestionInventario');
         }
-        exit;
         break;
         
       case 'editarCliente':
@@ -127,12 +124,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         
         header('Location: ' . $_SERVER['PHP_SELF'] . '?success=1&message=Cliente+actualizado+correctamente#gestionClientes');
-        exit;
         break;
         
       case 'editarPedido':
         header('Location: ' . $_SERVER['PHP_SELF'] . '?success=1&message=Pedido+actualizado+correctamente#informes');
-        exit;
         break;
     }
   }
