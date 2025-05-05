@@ -327,9 +327,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarRelojModal<?= $reloj['id_reloj']; ?>">
                   <i class="fa-solid fa-pen-to-square"></i> Editar
                 </button>
-                <button type="button" class="btn btn-secondary">
-                  Eliminar
-                </button>
+                <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST" style="display:inline;">
+                  <input type="hidden" name="action" value="eliminarReloj">
+                  <input type="hidden" name="id_reloj" value="<?= $reloj['id_reloj']; ?>">
+                  <button type="submit" class="btn btn-secondary" onclick="return confirm('¿Está seguro de eliminar este reloj?');">
+                    <i class="fa-solid fa-trash"></i> Eliminar
+                  </button>
+                </form>
               </td>
           </tr>
             <?php } ?>
@@ -397,9 +401,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarRelojModal<?= $masvendido['id_reloj']; ?>">
                   <i class="fa-solid fa-pen-to-square"></i> Editar
                 </button>
-                <button type="button" class="btn btn-secondary">
-                  Eliminar
-                </button>
+                <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST" style="display:inline;">
+                  <input type="hidden" name="action" value="eliminarReloj">
+                  <input type="hidden" name="id_reloj" value="<?= $masvendido['id_reloj']; ?>">
+                  <button type="submit" class="btn btn-secondary" onclick="return confirm('¿Está seguro de eliminar este reloj?');">
+                    <i class="fa-solid fa-trash"></i> Eliminar
+                  </button>
+                </form>
               </td>
           </tr>
             <?php } ?>
