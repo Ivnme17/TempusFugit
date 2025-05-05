@@ -137,6 +137,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
           }
           break;
+        case 'eliminarCliente':
+          if (isset($_POST['id_usuario'])) {
+            // Llamamos a la función estática para obtener el usuario por su ID
+            $usuario = Usuario::verUsuario($_POST['id_usuario']);
+            
+            // Verificamos si se obtuvo el usuario correctamente
+            if ($usuario) {
+              // Intentamos eliminar el usuario
+              $conexion = Db::getConexion();
+              $consulta = "DELETE FROM usuarios WHERE id_usuario = :id_usuario";
+              $stmt = $conexion->prepare($consulta);
+              $resultado = $stmt->execute([':id_usuario' => $_POST['id_usuario']]);
+              
+              if ($resultado) {
+                header('Location: ' . $_SERVER['PHP_SELF'] . '?success=1&message=Cliente+eliminado+correctamente#gestionClientes');
+              } else {
+                header('Location: ' . $_SERVER['PHP_SELF'] . '?error=1&message=Error+al+eliminar+el+cliente#gestionClientes');
+              }
+            } else {
+              header('Location: ' . $_SERVER['PHP_SELF'] . '?error=1&message=Cliente+no+encontrado#gestionClientes');
+            }
+          }
+          break;
     }
   }
 }
@@ -281,9 +304,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarClienteModal<?= $cliente->getId_usuario() ?>">
                       <i class="fa-solid fa-pen-to-square"></i> Editar
                     </button>
-                    <button type="button" class="btn btn-secondary">
-                      Eliminar
-                    </button>
+                    <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST" style="display:inline;">
+                      <input type="hidden" name="action" value="eliminarCliente">
+                      <input type="hidden" name="id_usuario" value="<?= $cliente->getId_usuario() ?>">
+                      <button type="submit" class="btn btn-secondary" onclick="return confirm('¿Está seguro de eliminar este cliente? Esta acción no se puede deshacer.');">
+                        <i class="fa-solid fa-trash"></i> Eliminar
+                      </button>
+                    </form>
                   </td>
                 </tr>
             <?php }
