@@ -39,9 +39,7 @@ if ($resultado) {
 
 $todosPedidos = Pedidos::obtenerTodosPedidos();
 // Ordenar por fecha_pedido en orden descendente
-usort($todosPedidos, function($a, $b) {
-    return strtotime($b['fecha_pedido']) - strtotime($a['fecha_pedido']);
-});
+usort($todosPedidos, fn($a, $b) => strtotime($b['fecha_pedido']) - strtotime($a['fecha_pedido']));
 // Tomar solo los primeros 5
 $pedidos = array_slice($todosPedidos, 0, 5);
 
@@ -129,6 +127,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       case 'editarPedido':
         header('Location: ' . $_SERVER['PHP_SELF'] . '?success=1&message=Pedido+actualizado+correctamente#informes');
         break;
+        case 'eliminarReloj':
+          if (isset($_POST['id_reloj'])) {
+            $reloj = Reloj::obtenerPorId($_POST['id_reloj']);
+            if ($reloj && $reloj->eliminar()) {
+              header('Location: ' . $_SERVER['PHP_SELF'] . '?success=1&message=Reloj+eliminado+correctamente#gestionInventario');
+            } else {
+              header('Location: ' . $_SERVER['PHP_SELF'] . '?error=1&message=Error+al+eliminar+el+reloj#gestionInventario');
+            }
+          }
+          break;
     }
   }
 }
