@@ -96,14 +96,14 @@ color: #FFD700;
     </style>
     
     <script>
-            function alternarContrasena(inputId) {
+            function alternarContrasena(inputId) {//Función para cambiar la visibilidad de la contraseña
                 const input = document.getElementById(inputId);
                 const icono = document.getElementById(inputId + '-icono');
                 
-                if (input.type === 'password') {
+                if (input.type === 'password') { //Si es de tipo contraseña la cambio a texto
                     input.type = 'text';
                     icono.src = '../botones/ojo-cerrado.png';
-                } else {
+                } else {//Si no es de tipo texto la cambio a contraseña
                     input.type = 'password';
                     icono.src = '../botones/ojo-abierto.png';
                 }

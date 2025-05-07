@@ -204,22 +204,40 @@ if(isset($_POST['eliminar'])){
         </footer>
     </div>
     
+    <!-- Este script es para hacer que el carrito aparezca y desaparezca cuando hago clic -->
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const botonCarrito = document.querySelector('a[href="#carrito"]');
-            
-            const seccionCarrito = document.getElementById('carrito');
-            
-            botonCarrito.addEventListener('click', function(e) {
-                e.preventDefault();
-                if (seccionCarrito.style.display === 'none' || !seccionCarrito.style.display) {
-                    seccionCarrito.style.display = 'block';
-                    seccionCarrito.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    seccionCarrito.style.display = 'none';
-                }
+            // Espero a que se cargue toda la página antes de ejecutar nada
+            document.addEventListener('DOMContentLoaded', function() {
+                // Busco el botón o enlace que tiene el ancla #carrito
+                // Este es el botón que mostrará/ocultará el carrito
+                const botonCarrito = document.querySelector('a[href="#carrito"]');
+                
+                // Aquí busco la sección donde está el carrito
+                // Tiene que tener un id="carrito" en el HTML
+                const seccionCarrito = document.getElementById('carrito');
+                
+                // Le añado un evento al botón para que haga algo cuando lo pulso
+                botonCarrito.addEventListener('click', function(e) {
+                    // Esto es para que no me lleve a otra página cuando pulso el enlace
+                    // Porque por defecto los enlaces con # te llevan a esa parte de la página
+                    e.preventDefault();
+                    
+                    // Compruebo si el carrito está oculto (display:none) o no se ve
+                    // El !seccionCarrito.style.display es por si no tiene estilo definido
+                    if (seccionCarrito.style.display === 'none' || !seccionCarrito.style.display) {
+                        // Si está oculto, lo muestro
+                        seccionCarrito.style.display = 'block';
+                        
+                        // Y hago scroll hasta el carrito para que se vea bien
+                        // El smooth hace que el scroll sea suave y queda más bonito
+                        seccionCarrito.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                        // Si ya está visible, lo oculto
+                        seccionCarrito.style.display = 'none';
+                    }
+                });
             });
-        });
-    </script>
+        </script>
 </body>
 </html>

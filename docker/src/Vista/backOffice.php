@@ -374,73 +374,101 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const modalUsuario = document.getElementById('modalUsuario');
-            modalUsuario.addEventListener('show.bs.modal', function (event) {
-                const button = event.relatedTarget;
-                const id = button.getAttribute('data-id');
-                
-                if (id) {
-                    document.getElementById('modalUsuarioLabel').textContent = 'Editar Usuario';
-                    document.getElementById('id_usuario').value = id;
-                    document.getElementById('login').value = button.getAttribute('data-login');
-                    document.getElementById('id_rol').value = button.getAttribute('data-rol');
-                    document.getElementById('nombre').value = button.getAttribute('data-nombre') || '';
-                    document.getElementById('apellidos').value = button.getAttribute('data-apellidos') || '';
-                    document.getElementById('dni').value = button.getAttribute('data-dni') || '';
-                    document.getElementById('nss').value = button.getAttribute('data-nss') || '';
-                    document.getElementById('telefono').value = button.getAttribute('data-telefono') || '';
-                    document.getElementById('correo').value = button.getAttribute('data-correo') || '';
-                    document.getElementById('direccion').value = button.getAttribute('data-direccion') || '';
-                    document.getElementById('iban').value = button.getAttribute('data-iban') || '';
-                    
-                    document.getElementById('clave').setAttribute('placeholder', 'Dejar en blanco para mantener la actual');
-                    document.getElementById('clave').removeAttribute('required');
-                    
-                    actualizarCamposPorRol(button.getAttribute('data-rol'));
-                } else {
-                    document.getElementById('modalUsuarioLabel').textContent = 'Añadir Usuario';
-                    document.getElementById('formUsuario').reset();
-                    document.getElementById('id_usuario').value = '';
-                    document.getElementById('clave').setAttribute('required', 'required');
-                    document.getElementById('clave').setAttribute('placeholder', 'Contraseña');
-                    
-                    document.getElementById('id_rol').value = '3';
-                    actualizarCamposPorRol(3);
-                }
-            });
+        // Este script se ejecuta cuando cargo la página y controla el modal de usuarios
+document.addEventListener('DOMContentLoaded', function() {
+    // Busco el modal en el HTML
+    const modalUsuario = document.getElementById('modalUsuario');
+    
+    // Este evento se dispara cuando el modal se va a mostrar
+    modalUsuario.addEventListener('show.bs.modal', function (event) {
+        // El botón que abrió el modal tiene los datos del usuario
+        const button = event.relatedTarget;
+        // Cojo el ID para saber si estoy editando o creando
+        const id = button.getAttribute('data-id');
+        
+        // Si tiene ID es que estoy editando un usuario que ya existe
+        if (id) {
+            // Cambio el título del modal
+            document.getElementById('modalUsuarioLabel').textContent = 'Editar Usuario';
+            // Guardo el ID para enviarlo en el form
+            document.getElementById('id_usuario').value = id;
             
-            function actualizarCamposPorRol(rol) {
-                const campoNSS = document.querySelector('.col-md-6 label[for="nss"]').parentNode;
-                const campoDNI = document.getElementById('dni');
-                //Si se quiere crear un Admin o Empleado el campo NSS aparece en el caso de que sea un Cliente no
-                if (rol == 1 || rol == 2) { 
-                    campoNSS.style.display = 'block';
-                } else { 
-                    campoNSS.style.display = 'none';
-                }
-                if (rol == 3) {//Si es un cliente el campo DNI es de solo lectura (No hace falta que lo rellene)
-                    campoDNI.setAttribute('readonly', true);
-                    campoDNI.style.backgroundColor = '#e9ecef';
-                } else {//Si no lo  es entonces tiene que rellenarlo
-                    campoDNI.removeAttribute('readonly');
-                    campoDNI.style.backgroundColor = '';
-                }
-                
-            }
+            // Relleno todos los datos que tenía el usuario
+            document.getElementById('login').value = button.getAttribute('data-login');
+            document.getElementById('id_rol').value = button.getAttribute('data-rol');
+            document.getElementById('nombre').value = button.getAttribute('data-nombre') || '';
+            document.getElementById('apellidos').value = button.getAttribute('data-apellidos') || '';
+            document.getElementById('dni').value = button.getAttribute('data-dni') || '';
+            document.getElementById('nss').value = button.getAttribute('data-nss') || '';
+            document.getElementById('telefono').value = button.getAttribute('data-telefono') || '';
+            document.getElementById('correo').value = button.getAttribute('data-correo') || '';
+            document.getElementById('direccion').value = button.getAttribute('data-direccion') || '';
+            document.getElementById('iban').value = button.getAttribute('data-iban') || '';
             
-            document.getElementById('id_rol').addEventListener('change', function() {
-                actualizarCamposPorRol(this.value);
-            });
+            // La contraseña es opcional, porque igual quiere mantener la misma
+            document.getElementById('clave').setAttribute('placeholder', 'Dejar en blanco para mantener la actual');
+            document.getElementById('clave').removeAttribute('required');
             
-            setTimeout(function() {
-                const alertas = document.querySelectorAll('.alert');
-                alertas.forEach(function(alerta) {
-                    const bsAlert = new bootstrap.Alert(alerta);
-                    bsAlert.close();
-                });
-            }, 5000);
+            // Mostrar/ocultar campos según el rol (esto lo explicaré después)
+            actualizarCamposPorRol(button.getAttribute('data-rol'));
+        } else {
+            // Si no tiene ID es que estoy creando uno nuevo
+            document.getElementById('modalUsuarioLabel').textContent = 'Añadir Usuario';
+            // Limpio el formulario para empezar de cero
+            document.getElementById('formUsuario').reset();
+            document.getElementById('id_usuario').value = '';
+            
+            // Aquí sí que necesito contraseña obligatoria
+            document.getElementById('clave').setAttribute('required', 'required');
+            document.getElementById('clave').setAttribute('placeholder', 'Contraseña');
+            
+            // Por defecto pongo rol 3 (cliente) porque es lo más común
+            document.getElementById('id_rol').value = '3';
+            actualizarCamposPorRol(3);
+        }
+    });
+    
+    // Esta función la creé para mostrar u ocultar campos según el rol
+    // Porque cada tipo de usuario necesita datos diferentes
+    function actualizarCamposPorRol(rol) {
+        // Estos son los campos que cambian según el rol
+        const campoNSS = document.querySelector('.col-md-6 label[for="nss"]').parentNode;
+        const campoDNI = document.getElementById('dni');
+        
+        // Para Admin (1) y Empleado (2) hay que pedir NSS
+        // pero para Cliente (3) no hace falta
+        if (rol == 1 || rol == 2) { 
+            campoNSS.style.display = 'block'; // Lo muestro
+        } else { 
+            campoNSS.style.display = 'none'; // Lo oculto
+        }
+        
+        // Para los clientes el DNI va a ser su login, así que no hace falta que lo rellenen
+        // El usuario lo generará el sistema (eso lo hace en el PHP)
+        if (rol == 3) { // Si es cliente
+            campoDNI.setAttribute('readonly', true);
+            campoDNI.style.backgroundColor = '#e9ecef'; // Este color es el que usa Bootstrap para readonly
+        } else {
+            campoDNI.removeAttribute('readonly');
+            campoDNI.style.backgroundColor = '';
+        }
+    }
+    
+    // Cuando cambio de rol en el select, tengo que actualizar los campos
+    document.getElementById('id_rol').addEventListener('change', function() {
+        actualizarCamposPorRol(this.value);
+    });
+    
+    // Esto es para que los mensajes de error o éxito desaparezcan solos
+    // después de 5 segundos, así no molestan tanto
+    setTimeout(function() {
+        const alertas = document.querySelectorAll('.alert');
+        alertas.forEach(function(alerta) {
+            const bsAlert = new bootstrap.Alert(alerta);
+            bsAlert.close();
         });
+    }, 5000); // 5000 ms = 5 segundos
+});
     </script>
 </body>
 </html>
