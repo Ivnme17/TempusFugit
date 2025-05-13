@@ -95,7 +95,7 @@ color: #FFD700;
 }
 .incorrecto {
     border-color: #dc3545 !important;
-    background-color: #fff8f8 !important;
+    background-color:rgb(249, 173, 173) !important;
 }
     </style>
 </head>
