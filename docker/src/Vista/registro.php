@@ -149,7 +149,7 @@ color: #FFD700;
             <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required>
             
             <label for="telefono">Teléfono:</label>
-            <input type="tel" id="telefono" name="telefono" placeholder="Ej: 612345678">
+            <input type="tel" id="telefono" name="telefono" placeholder="Ej: 612345678" required>
             
             <label for="claveUsuario">Contraseña:</label>
             <div style="position: relative;">
