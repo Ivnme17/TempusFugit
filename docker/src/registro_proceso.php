@@ -19,7 +19,7 @@ if (filter_has_var(INPUT_POST, "registrar")) {
     }
 
     $clave = filter_input(INPUT_POST, "claveUsuario");
-    if (!$clave) {
+    if (!$clave || strlen($clave) < 8) {
         $esSaneado = false;
         $camposInvalidos['claveUsuario'] = true;
     }
