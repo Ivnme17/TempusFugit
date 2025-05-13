@@ -32,6 +32,7 @@ if (filter_has_var(INPUT_POST, "iniciar")) {
                 include_once './Vista/loginIncorrecto.php';
         }
     } else {
+        $_SESSION['camposInvalidos']['loginUsuario'] = true;
         $mensajeError .= "El usuario no existe o las credenciales son incorrectas.";
         include_once './Vista/loginIncorrecto.php';
     }
