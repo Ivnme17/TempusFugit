@@ -93,6 +93,10 @@ input[type="button"] {
 #formulario h2{
 color: #FFD700;
 }
+.incorrecto {
+    border-color: #dc3545 !important;
+    background-color: #fff8f8 !important;
+}
     </style>
 </head>
 <body>
@@ -122,31 +126,39 @@ color: #FFD700;
             <h2>Registro de Usuario</h2>
                            
             <label for="loginUsuario">Nombre de Usuario:</label>
-            <input type="text" id="loginUsuario" name="loginUsuario" required>
+            <input type="text" id="loginUsuario" name="loginUsuario" required 
+                class="<?php echo isset($_SESSION['camposInvalidos']['loginUsuario']) ? 'incorrecto' : ''; ?>">
 
             <label for="nombre">Nombre </label>
-            <input type="text" id="nombre" name="nombre" required>
+            <input type="text" id="nombre" name="nombre" required
+                class="<?php echo isset($_SESSION['camposInvalidos']['nombre']) ? 'incorrecto' : ''; ?>">
 
             <label for="apellidos">Apellidos </label>
-            <input type="text" id="apellido" name="apellido" required>
+            <input type="text" id="apellido" name="apellido" required
+                class="<?php echo isset($_SESSION['camposInvalidos']['apellido']) ? 'incorrecto' : ''; ?>">
             
             <label for="email">Correo Electrónico:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" required
+                class="<?php echo isset($_SESSION['camposInvalidos']['email']) ? 'incorrecto' : ''; ?>">
             
             <label for="telefono">Teléfono:</label>
-            <input type="tel" id="telefono" name="telefono">
+            <input type="tel" id="telefono" name="telefono"
+                class="<?php echo isset($_SESSION['camposInvalidos']['telefono']) ? 'incorrecto' : ''; ?>">
             
             <label for="claveUsuario">Contraseña:</label>
-            <input type="password" id="claveUsuario" name="claveUsuario" required>
+            <input type="password" id="claveUsuario" name="claveUsuario" required
+                class="<?php echo isset($_SESSION['camposInvalidos']['claveUsuario']) ? 'incorrecto' : ''; ?>">
             
             <label for="confirmarClave">Confirmar Contraseña:</label>
             <input type="password" id="confirmarClave" name="confirmarClave" required>
             
             <label for="iban">IBAN:</label>
-            <input type="text" id="iban" name="iban ">
+            <input type="text" id="iban" name="iban"
+                class="<?php echo isset($_SESSION['camposInvalidos']['iban']) ? 'incorrecto' : ''; ?>">
 
             <label for="direccion">Dirección:</label>
-            <textarea id="direccion" name="direccion"></textarea>
+            <textarea id="direccion" name="direccion"
+                class="<?php echo isset($_SESSION['camposInvalidos']['direccion']) ? 'incorrecto' : ''; ?>"></textarea>
             
             <button type="submit" name="registrar">Registrar</button>
             <input type="button" value="Cancelar" onclick="location.href='../index.html'">
@@ -161,4 +173,4 @@ color: #FFD700;
         </footer>
     </div>
 </body>
-</html>
+</html></footer>
