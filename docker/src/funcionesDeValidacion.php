@@ -18,6 +18,9 @@ function validarLogin($login) {
  * 
  */
 function validarClave($clave) {
+    if(strlen($clave) < 8) {
+        return false;
+    }
     $clave = stripslashes(strip_tags(htmlspecialchars(trim($clave))));
     return $clave;
 }
@@ -68,7 +71,11 @@ function validarNSS($nss) {
  * 
  */
 function validarTelefono($telefono) {
-    $telefono = stripslashes(strip_tags(htmlspecialchars(trim($telefono))));
+    if(strlen($telefono) == 9) {
+        $telefono = stripslashes(strip_tags(htmlspecialchars(trim($telefono))));
+    }else {
+        $telefono = false;
+    }
     return $telefono;
 }
 
