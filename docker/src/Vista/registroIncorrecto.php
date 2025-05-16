@@ -98,6 +98,20 @@ color: #FFD700;
     background-color:rgb(249, 173, 173) !important;
 }
     </style>
+    <script>
+            function alternarContrasena(inputId) {//Función para cambiar la visibilidad de la contraseña
+                const input = document.getElementById(inputId);
+                const icono = document.getElementById(inputId + '-icono');
+                
+                if (input.type === 'password') { //Si es de tipo contraseña la cambio a texto
+                    input.type = 'text';
+                    icono.src = '../botones/ojo-cerrado.png';
+                } else {//Si no es de tipo texto la cambio a contraseña
+                    input.type = 'password';
+                    icono.src = '../botones/ojo-abierto.png';
+                }
+            }
+            </script>
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
