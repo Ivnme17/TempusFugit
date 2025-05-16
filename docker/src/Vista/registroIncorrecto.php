@@ -124,41 +124,52 @@ color: #FFD700;
     <div id="formulario">
         <form action="../registro_proceso.php" method="POST">
             <h2>Registro de Usuario</h2>
-                           
+                   
             <label for="loginUsuario">Nombre de Usuario:</label>
-            <input type="text" id="loginUsuario" name="loginUsuario" required 
-                class="<?php echo isset($_SESSION['camposInvalidos']['loginUsuario']) ? 'incorrecto' : ''; ?>">
+            <input type="text" id="loginUsuario" name="loginUsuario" placeholder="Juan.Garcia" required 
+            class="<?php echo isset($_SESSION['camposInvalidos']['loginUsuario']) ? 'incorrecto' : ''; ?>">
 
             <label for="nombre">Nombre </label>
-            <input type="text" id="nombre" name="nombre" required
-                class="<?php echo isset($_SESSION['camposInvalidos']['nombre']) ? 'incorrecto' : ''; ?>">
+            <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan" required
+            class="<?php echo isset($_SESSION['camposInvalidos']['nombre']) ? 'incorrecto' : ''; ?>">
 
             <label for="apellidos">Apellidos </label>
-            <input type="text" id="apellido" name="apellido" required
-                class="<?php echo isset($_SESSION['camposInvalidos']['apellido']) ? 'incorrecto' : ''; ?>">
+            <input type="text" id="apellido" name="apellido" placeholder="Ej: García Pérez" required
+            class="<?php echo isset($_SESSION['camposInvalidos']['apellido']) ? 'incorrecto' : ''; ?>">
             
             <label for="email">Correo Electrónico:</label>
-            <input type="email" id="email" name="email" required
-                class="<?php echo isset($_SESSION['camposInvalidos']['email']) ? 'incorrecto' : ''; ?>">
+            <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required
+            class="<?php echo isset($_SESSION['camposInvalidos']['email']) ? 'incorrecto' : ''; ?>">
             
             <label for="telefono">Teléfono:</label>
-            <input type="tel" id="telefono" name="telefono"
-                class="<?php echo isset($_SESSION['camposInvalidos']['telefono']) ? 'incorrecto' : ''; ?>">
+            <input type="tel" id="telefono" name="telefono" placeholder="Ej: 612345678" required
+            class="<?php echo isset($_SESSION['camposInvalidos']['telefono']) ? 'incorrecto' : ''; ?>">
             
             <label for="claveUsuario">Contraseña:</label>
-            <input type="password" id="claveUsuario" name="claveUsuario" required
+            <div style="position: relative;"></div>
+            <input type="password" id="claveUsuario" name="claveUsuario" placeholder="Longitud mínima 8" required
                 class="<?php echo isset($_SESSION['camposInvalidos']['claveUsuario']) ? 'incorrecto' : ''; ?>">
-            
+            <button type="button" onclick="alternarContrasena('claveUsuario')" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: none; background: none;">
+                <img src="../botones/ojo-abierto.png" id="claveUsuario-icono" alt="Mostrar/Ocultar contraseña" style="width: 20px; height: 20px;">
+            </button>
             <label for="confirmarClave">Confirmar Contraseña:</label>
+            <div style="position: relative;">
             <input type="password" id="confirmarClave" name="confirmarClave" required>
+            <button type="button" onclick="alternarContrasena('confirmarClave')" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: none; background: none;">
+                <img src="../botones/ojo-abierto.png" id="confirmarClave-icono" alt="Mostrar/Ocultar contraseña" style="width: 20px; height: 20px;">
+            </button>
+            </div>
             
             <label for="iban">IBAN:</label>
-            <input type="text" id="iban" name="iban"
-                class="<?php echo isset($_SESSION['camposInvalidos']['iban']) ? 'incorrecto' : ''; ?>">
+            <select id="iban" name="iban" class="form-control <?php echo isset($_SESSION['camposInvalidos']['iban']) ? 'incorrecto' : ''; ?>">
+            <option value="">Seleccione un IBAN</option>
+            <option value="ES6112343456420456323532">España (ES)</option>
+            <option value="PT50000201231234567890154">Portugal (PT)</option>
+            </select>
 
             <label for="direccion">Dirección:</label>
-            <textarea id="direccion" name="direccion"
-                class="<?php echo isset($_SESSION['camposInvalidos']['direccion']) ? 'incorrecto' : ''; ?>"></textarea>
+            <textarea id="direccion" name="direccion" placeholder="Cmno de la Luna 25, Almeria, España"
+            class="<?php echo isset($_SESSION['camposInvalidos']['direccion']) ? 'incorrecto' : ''; ?>"></textarea>
             
             <button type="submit" name="registrar">Registrar</button>
             <input type="button" value="Cancelar" onclick="location.href='../index.html'">
