@@ -1,15 +1,26 @@
 <?php
 header('Content-Type: application/json');
-require_once './Modelo/Usuario.php';  // Esta ruta está correcta porque está al mismo nivel
+require_once './Modelo/Usuario.php';
 
-$datos = json_decode(file_get_contents('php://input'), true);
-$login = $datos['login'] ?? '';
-
-$respuesta = ['existe' => false];
-
-if ($login) {
+try {
+    $datos = json_decode(file_get_contents('php://input'), true);
+    
+    if (!isset($datos['login'])) {
+        throw new Exception('No se proporcionó el login');
+    }
+    
+    $login = $datos['login'];
     $usuario = Usuario::verUsuario($login);
-    $respuesta['existe'] = ($usuario !== null);
+    
+    echo json_encode([
+        'existe' => ($usuario !== null),
+        'status' => 'success'
+    ]);
+    
+} catch (Exception $e) {
+    http_response_code(400);
+    echo json_encode([
+        'error' => $e->getMessage(),
+        'status' => 'error'
+    ]);
 }
-
-echo json_encode($respuesta);
