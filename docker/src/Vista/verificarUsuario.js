@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function verificarUsuario(login) {
-    fetch('../verificar_usuario.php', {
+    fetch('../verificar_usuario.php', {  // Cambiamos la ruta para subir un nivel
         method: 'POST',
         body: JSON.stringify({ login: login }),
         headers: {
