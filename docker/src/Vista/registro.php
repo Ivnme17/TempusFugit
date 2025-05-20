@@ -94,26 +94,8 @@ input[type="button"] {
 color: #FFD700;
 }
     </style>
-    
-    <script>
-            function alternarContrasena(inputId) {//Función para cambiar la visibilidad de la contraseña
-                const input = document.getElementById(inputId);
-                const icono = document.getElementById(inputId + '-icono');
-                
-                if (input.type === 'password') { //Si es de tipo contraseña la cambio a texto
-                    input.type = 'text';
-                    icono.src = '../botones/ojo-cerrado.png';
-                } else {//Si no es de tipo texto la cambio a contraseña
-                    input.type = 'password';
-                    icono.src = '../botones/ojo-abierto.png';
-                }
-            }
-            </script>
 </head>
 <body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="../registro.js"></script>
-
     <nav class="navbar navbar-expand-xl navbar-light" style="background-color: transparent;">
       <div class="container-fluid">
         <div class="collapse navbar-collapse show" id="navbarLight">
@@ -135,10 +117,10 @@ color: #FFD700;
     <div id="formulario">
         <form action="../registro_proceso.php" method="POST">
             <h2>Registro de Usuario</h2>
-                           
+
             <label for="loginUsuario">Nombre de Usuario:</label>
             <input type="text" id="loginUsuario" name="loginUsuario" placeholder="Juan.Garcia" required>
-
+            <div id="mensaje-disponibilidad"></div>
             <label for="nombre">Nombre </label>
             <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan" required>
 
@@ -186,5 +168,22 @@ color: #FFD700;
             <pre>Iván Martínez Estrada - 2ºDAW</pre>
         </footer>
     </div>
+     <script>
+            function alternarContrasena(inputId) {//Función para cambiar la visibilidad de la contraseña
+                const input = document.getElementById(inputId);
+                const icono = document.getElementById(inputId + '-icono');
+                
+                if (input.type === 'password') { //Si es de tipo contraseña la cambio a texto
+                    input.type = 'text';
+                    icono.src = '../botones/ojo-cerrado.png';
+                } else {//Si no es de tipo texto la cambio a contraseña
+                    input.type = 'password';
+                    icono.src = '../botones/ojo-abierto.png';
+                }
+            }
+            </script>
+            <script src="verificarUsuario.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="../registro.js"></script>
 </body>
 </html>
