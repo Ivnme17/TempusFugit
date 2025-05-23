@@ -80,7 +80,7 @@ function validarTelefono($telefono) {
 }
 
 /**
- * Sanitizes and validates address
+ * Sanitizes and validars address
  * @param string $direccion
  * 
  */
@@ -90,7 +90,7 @@ function validarDireccion($direccion) {
 }
 
 /**
- * Sanitizes and validates Spanish IBAN
+ * Sanitizes and validars Spanish IBAN
  * @param string $iban
  * @return string|false Returns sanitized IBAN if valid, false otherwise
  */
