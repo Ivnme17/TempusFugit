@@ -127,20 +127,19 @@ if (isset($_GET['buscar']) && !empty($_GET['criterio']) && !empty($_GET['valor']
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     
     <nav class="navbar navbar-expand-xl navbar-light" style="background-color: transparent;">
-    <div class="collapse navbar-collapse show" id="navbarLight">
-      <ul class="navbar-nav me-0 mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link px-0" href="../Vista/indexAdmin.php" tabindex="-1" aria-disabled="true">
-            <i class="fa-solid fa-building"></i>
-          </a>
-        </li>
-      </ul>
-      <div id="botonesDeRegistro" class="ms-auto">
-        <a href="../cerrarSesion.php" class="btn btn-danger">Cerrar Sesión</a>
-      </div>
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse show d-flex justify-content-between align-items-center" id="navbarLight">
+            <div>
+                <a class="nav-link d-inline-block" href="../Vista/indexAdmin.php">
+                    <i class="fa-solid fa-building" style="color: #FFD700; font-size: 1.5rem;"></i>
+                </a>
+            </div>
+            <div id="botonesDeRegistro">
+                <a href="../cerrarSesion.php" class="btn btn-danger">Cerrar Sesión</a>
+            </div>
+        </div>
     </div>
-  </div>
-    </nav>
+</nav>
 
     <div id="header">
         <div id="logoEmpresa">
