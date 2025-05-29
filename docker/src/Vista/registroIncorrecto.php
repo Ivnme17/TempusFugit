@@ -174,12 +174,9 @@ color: #FFD700;
             </button>
             </div>
             
-            <label for="iban">IBAN:</label>
-            <select id="iban" name="iban" class="form-control <?php echo isset($_SESSION['camposInvalidos']['iban']) ? 'incorrecto' : ''; ?>">
-            <option value="">Seleccione un IBAN</option>
-            <option value="ES6112343456420456323532">España (ES)</option>
-            <option value="PT50000201231234567890154">Portugal (PT)</option>
-            </select>
+            <label for="iban">Introduce un IBAN:</label>
+            <input type="text" id="iban" name="iban" placeholder="ES6112343456420456323532" required 
+            class="<?php echo isset($_SESSION['camposInvalidos']['iban']) ? 'incorrecto' : ''; ?>">
 
             <label for="direccion">Dirección:</label>
             <textarea id="direccion" name="direccion" placeholder="Cmno de la Luna 25, Almeria, España"
