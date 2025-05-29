@@ -106,7 +106,7 @@ INSERT INTO relojes (id_marca_modelo, precio, tipo, stock, url_imagen) VALUES
 (4, 180.00, 'digital', 12, 'https://www.timeshop24.es/media/catalog/product/cache/1bc0b3bc127023c7949db1e873983161/e/f/ef-539d-1avef.webp'),
 
 INSERT INTO pedidos (id_usuario, id_reloj, fecha_pedido, cantidad, precio_unitario, metodo_pago) VALUES
-(3, 1, '2024-04-01 10:00:00', 1, 8500.00, 'tarjeta'),
+(3, 1, '2024-04-01 10:00:00', 1, 8500.00, 'BIZUM'),
 (3, 3, '2024-04-02 15:30:00', 1, 150.00, 'BIZUM');
 
 INSERT INTO detalles_pedido (id_pedido, id_usuario, precio_base, descuento_porcentaje, impuesto_porcentaje, notas) VALUES
