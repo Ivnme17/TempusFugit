@@ -97,13 +97,13 @@ INSERT INTO marca_modelo (marca, modelo) VALUES
 ('Rolex', 'Submariner'),
 ('Rolex', 'Datejust'),
 ('Casio', 'G-Shock'),
-('Casio', 'Edifice'),
+('Casio', 'Edifice');
 
 INSERT INTO relojes (id_marca_modelo, precio, tipo, stock, url_imagen) VALUES
 (1, 8500.00, 'analógico', 5, 'https://www.rabat.net/media/catalog/product/r/o/rolex-submariner-m126610ln-0001.png'),
 (2, 7200.00, 'analógico', 3, 'https://media.rolex.com/image/upload/q_auto:eco/f_auto/t_v7-majesty/c_limit,w_3840/v1/catalogue/2024/upright-c/m126200-0005'),
 (3, 150.00, 'digital', 10, 'https://www.baroli.es/wp-content/uploads/2015/12/GA-120BB-1AER.jpg'),
-(4, 180.00, 'digital', 12, 'https://www.timeshop24.es/media/catalog/product/cache/1bc0b3bc127023c7949db1e873983161/e/f/ef-539d-1avef.webp'),
+(4, 180.00, 'digital', 12, 'https://www.timeshop24.es/media/catalog/product/cache/1bc0b3bc127023c7949db1e873983161/e/f/ef-539d-1avef.webp');
 
 INSERT INTO pedidos (id_usuario, id_reloj, fecha_pedido, cantidad, precio_unitario, metodo_pago) VALUES
 (3, 1, '2024-04-01 10:00:00', 1, 8500.00, 'BIZUM'),
